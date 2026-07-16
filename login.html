@@ -226,11 +226,45 @@
     });
 
     // Login form submit handler
-    const loginForm = document.getElementById('loginForm');
-    loginForm.addEventListener('submit', function(e) {
-      e.preventDefault();
-      const email = loginForm.email.value;
-      const password = loginForm.password.value;
+   // Login form submit handler
+const loginForm = document.getElementById('loginForm');
+
+loginForm.addEventListener('submit', function(e) {
+  e.preventDefault();
+
+  const email = loginForm.email.value;
+  const password = loginForm.password.value;
+
+  fetch('/login', {
+    method: 'POST',
+    headers: { 
+      "Content-Type": "application/json" 
+    },
+    body: JSON.stringify({ email, password })
+  })
+  .then(res => res.json())
+  .then(data => {
+
+    if (data.message === 'Login successful!') {
+
+      // Redirect to home page
+      window.location.href = 'home.html';
+
+    } else {
+
+      alert(data.message);
+
+    }
+
+  })
+  .catch(err => {
+
+    alert('Error connecting to server.');
+    console.error(err);
+
+  });
+
+});
 
   fetch('/login', {
         method: 'POST',
