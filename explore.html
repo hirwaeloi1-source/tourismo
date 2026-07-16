@@ -1,0 +1,1776 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Explore Rwanda | TOURISMO</title>
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial, Helvetica, sans-serif;
+}
+
+
+body{
+background:#eef7f3;
+}
+
+
+
+/* NAVBAR */
+
+header{
+
+background:#0c4b3a;
+color:white;
+
+padding:18px 40px;
+
+display:flex;
+justify-content:space-between;
+align-items:center;
+
+position:sticky;
+top:0;
+z-index:1000;
+
+}
+
+
+.logo{
+
+font-size:32px;
+font-weight:bold;
+
+}
+
+
+.logo span{
+
+color:#ff9800;
+
+}
+
+
+
+.search-box{
+
+background:white;
+
+display:flex;
+
+width:420px;
+
+border-radius:30px;
+
+overflow:hidden;
+
+}
+
+
+
+.search-box input{
+
+flex:1;
+
+border:none;
+
+outline:none;
+
+padding:12px 18px;
+
+font-size:16px;
+
+}
+
+
+
+.search-box button{
+
+background:#ff9800;
+
+border:none;
+
+color:white;
+
+padding:0 20px;
+
+cursor:pointer;
+
+}
+
+
+
+
+.right-icons{
+
+display:flex;
+
+gap:25px;
+
+font-size:25px;
+
+}
+
+
+
+
+/* HERO */
+
+
+.hero{
+
+height:330px;
+
+background:
+
+linear-gradient(
+rgba(0,0,0,.5),
+rgba(0,0,0,.5)
+),
+
+url("images/rwanda-banner.jpg");
+
+
+background-size:cover;
+
+background-position:center;
+
+display:flex;
+
+align-items:center;
+
+justify-content:center;
+
+flex-direction:column;
+
+color:white;
+
+text-align:center;
+
+}
+
+
+
+.hero h1{
+
+font-size:55px;
+
+}
+
+
+
+.hero p{
+
+font-size:22px;
+
+margin-top:15px;
+
+}
+
+
+
+/* FILTERS */
+
+
+.filters{
+
+display:flex;
+
+justify-content:center;
+
+gap:15px;
+
+flex-wrap:wrap;
+
+padding:30px;
+
+}
+
+
+
+.filters button{
+
+background:#0c4b3a;
+
+color:white;
+
+border:none;
+
+padding:14px 25px;
+
+border-radius:30px;
+
+font-size:16px;
+
+cursor:pointer;
+
+transition:.3s;
+
+}
+
+
+
+.filters button:hover{
+
+background:#ff9800;
+
+}
+
+.filters button.active{
+
+background:#ff9800;
+
+transform:scale(1.05);
+
+box-shadow:0 5px 15px rgba(0,0,0,.3);
+
+}
+
+
+/* TITLE */
+
+
+.section-title{
+
+text-align:center;
+
+font-size:38px;
+
+color:#0c4b3a;
+
+margin:20px;
+
+}
+
+
+
+/* CARDS */
+
+
+.destination{
+
+background:white;
+
+width:92%;
+
+margin:35px auto;
+
+padding:30px;
+
+border-radius:20px;
+
+box-shadow:0 10px 25px rgba(0,0,0,.15);
+
+}
+
+
+
+.destination h2{
+
+color:#0c4b3a;
+
+margin-bottom:10px;
+
+}
+
+
+
+.destination p{
+
+line-height:1.6;
+
+margin:8px 0;
+
+}
+
+
+
+/* GALLERY */
+
+
+.gallery{
+
+display:grid;
+
+grid-template-columns:repeat(5,1fr);
+
+gap:12px;
+
+margin:20px 0;
+
+}
+
+
+
+.gallery img{
+
+width:100%;
+
+height:170px;
+
+object-fit:cover;
+
+border-radius:12px;
+
+}
+
+
+
+
+/* BUTTONS */
+
+
+.buttons{
+
+display:flex;
+
+gap:15px;
+
+flex-wrap:wrap;
+
+}
+
+
+
+.btn{
+
+padding:12px 22px;
+
+border-radius:30px;
+
+text-decoration:none;
+
+color:white;
+
+font-weight:bold;
+
+}
+
+
+
+.map{
+
+background:#2196f3;
+
+}
+
+
+
+.book{
+
+background:#28a745;
+
+}
+
+
+
+.guide{
+
+background:#ff9800;
+
+}
+
+
+
+.btn:hover{
+
+opacity:.8;
+
+}
+
+
+
+
+footer{
+
+background:#0c4b3a;
+
+color:white;
+
+text-align:center;
+
+padding:30px;
+
+margin-top:50px;
+
+}
+
+
+
+
+@media(max-width:1000px){
+
+header{
+
+flex-direction:column;
+
+gap:20px;
+
+}
+
+
+.search-box{
+
+width:280px;
+
+}
+
+
+.gallery{
+
+grid-template-columns:repeat(2,1fr);
+
+}
+
+}
+
+
+
+</style>
+
+
+</head>
+
+
+
+<body>
+
+
+
+<header>
+
+
+<div class="logo">
+
+TOUR<span>ISMO</span>
+
+</div>
+
+
+
+<div class="search-box">
+
+<input 
+type="text"
+id="search"
+placeholder="Search destinations..."
+oninput="searchPlaces()">
+
+
+<button>
+
+<i class="fas fa-search"></i>
+
+</button>
+
+</div>
+
+
+
+<div class="right-icons">
+
+<i class="far fa-bell"></i>
+
+<i class="far fa-message"></i>
+
+<i class="fas fa-user-circle"></i>
+
+</div>
+
+
+</header>
+
+
+
+
+
+<section class="hero">
+
+
+<h1>
+
+Explore Rwanda
+
+</h1>
+
+
+<p>
+
+Discover beautiful places, culture and unforgettable adventures.
+
+</p>
+
+
+</section>
+
+
+
+
+
+<div class="filters">
+
+<button onclick="filterPlaces('all', this)">
+🌍 All
+</button>
+
+<button onclick="filterPlaces('parks', this)">
+🌳 National Parks
+</button>
+
+<button onclick="filterPlaces('lakes', this)">
+🌊 Lakes
+</button>
+
+<button onclick="filterPlaces('museums', this)">
+🏛 Museums
+</button>
+
+<button onclick="filterPlaces('adventure', this)">
+🎯 Adventure
+</button>
+
+<button onclick="filterPlaces('hotels', this)">
+🏨 Hotels
+</button>
+
+</div>
+
+
+
+
+<h1 class="section-title">
+
+Popular Rwanda Destinations
+
+</h1>
+
+
+
+
+
+
+<!-- NATIONAL PARKS -->
+
+
+
+
+
+<div class="destination parks">
+
+
+<h2>
+
+🌋 Volcanoes National Park
+
+</h2>
+
+
+<p>
+<b>Location:</b> Musanze District, Northern Province
+</p>
+
+
+<p>
+
+Home of Rwanda's famous mountain gorillas and one of Africa's greatest wildlife destinations.
+
+</p>
+
+
+
+<div class="gallery">
+
+
+<img src="images/volcanoes1.jpg">
+
+<img src="images/volcanoes2.jpg">
+
+<img src="images/volcanoes3.jpg">
+
+<img src="images/volcanoes4.jpg">
+
+<img src="images/volcanoes5.jpg">
+
+
+</div>
+
+
+
+<div class="buttons">
+
+
+<a class="btn map"
+href="https://maps.google.com/?q=Volcanoes+National+Park">
+
+📍 Maps
+
+</a>
+
+
+
+<a class="btn book"
+href="booking.html">
+
+📅 Book Visit
+
+</a>
+
+
+
+<a class="btn guide"
+href="chat.html">
+
+💬 Guide
+
+</a>
+
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+
+<div class="destination parks">
+
+
+<h2>
+
+🦁 Akagera National Park
+
+</h2>
+
+
+<p>
+<b>Location:</b> Eastern Province
+</p>
+
+
+<p>
+
+Experience Rwanda's Big Five safari, lakes and wildlife.
+
+</p>
+
+
+
+<div class="gallery">
+
+
+<img src="images/akagera1.jpg">
+
+<img src="images/akagera2.jpg">
+
+<img src="images/akagera3.jpg">
+
+<img src="images/akagera4.jpg">
+
+<img src="images/akagera5.jpg">
+
+
+</div>
+
+
+
+<div class="buttons">
+
+
+<a class="btn map"
+href="https://maps.google.com/?q=Akagera+National+Park">
+
+📍 Maps
+
+</a>
+
+
+
+<a class="btn book"
+href="booking.html">
+
+📅 Book Visit
+
+</a>
+
+
+
+<a class="btn guide"
+href="chat.html">
+
+💬 Guide
+
+</a>
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+
+<div class="destination parks">
+
+
+<h2>
+
+🌳 Nyungwe National Park
+
+</h2>
+
+
+<p>
+<b>Location:</b> Southern Province
+</p>
+
+
+<p>
+
+Rainforest adventures, chimpanzees, waterfalls and canopy walks.
+
+</p>
+
+
+
+<div class="gallery">
+
+
+<img src="images/nyungwe1.jpg">
+
+<img src="images/nyungwe2.jpg">
+
+<img src="images/nyungwe3.jpg">
+
+<img src="images/nyungwe4.jpg">
+
+<img src="images/nyungwe5.jpg">
+
+
+</div>
+
+
+
+<div class="buttons">
+
+
+<a class="btn map"
+href="https://maps.google.com/?q=Nyungwe+National+Park">
+
+📍 Maps
+
+</a>
+
+
+<a class="btn book"
+href="booking.html">
+
+📅 Book Visit
+
+</a>
+
+
+<a class="btn guide"
+href="chat.html">
+
+💬 Guide
+
+</a>
+
+
+</div>
+
+
+</div>
+
+
+
+<script>
+
+function filterPlaces(category, button){
+
+    let places = document.querySelectorAll(".destination");
+
+    // remove active button
+    document.querySelectorAll(".filters button").forEach(btn=>{
+        btn.classList.remove("active");
+    });
+
+    // highlight clicked button
+    button.classList.add("active");
+
+
+    places.forEach(place=>{
+
+        if(category === "all" || place.classList.contains(category)){
+            place.style.display="block";
+        }
+        else{
+            place.style.display="none";
+        }
+
+    });
+
+
+    // clear search when changing category
+    document.getElementById("search").value="";
+
+}
+
+
+
+
+
+function searchPlaces(){
+
+    let input = document
+    .getElementById("search")
+    .value
+    .toLowerCase();
+
+
+    let places = document.querySelectorAll(".destination");
+
+
+    places.forEach(place=>{
+
+
+        let content = place.innerText.toLowerCase();
+
+
+        if(content.includes(input)){
+
+            place.style.display="block";
+
+        }
+        else{
+
+            place.style.display="none";
+
+        }
+
+
+    });
+
+
+}
+
+</script>
+<!-- ================= LAKES ================= -->
+
+
+<div class="destination lakes">
+
+<h2>🌊 Lake Kivu</h2>
+
+<p><b>Location:</b> Western Province</p>
+
+<p>
+One of Rwanda's largest lakes famous for beaches, boat trips, kayaking and beautiful sunsets.
+</p>
+
+
+<div class="gallery">
+
+<img src="images/lakekivu1.jpg">
+<img src="images/lakekivu2.jpg">
+<img src="images/lakekivu3.jpg">
+<img src="images/lakekivu4.jpg">
+<img src="images/lakekivu5.jpg">
+
+</div>
+
+
+<div class="buttons">
+
+<a class="btn map"
+href="https://maps.google.com/?q=Lake+Kivu+Rwanda">
+📍 Maps
+</a>
+
+<a class="btn book" href="booking.html">
+📅 Book Visit
+</a>
+
+<a class="btn guide" href="chat.html">
+💬 Guide
+</a>
+
+</div>
+
+</div>
+
+
+
+
+<div class="destination lakes">
+
+<h2>🌊 Lake Muhazi</h2>
+
+<p><b>Location:</b> Eastern Province</p>
+
+<p>
+A peaceful lake destination popular for boat rides, fishing and relaxing weekends.
+</p>
+
+
+<div class="gallery">
+
+<img src="images/muhazi1.jpg">
+<img src="images/muhazi2.jpg">
+<img src="images/muhazi3.jpg">
+<img src="images/muhazi4.jpg">
+<img src="images/muhazi5.jpg">
+
+</div>
+
+
+<div class="buttons">
+
+<a class="btn map"
+href="https://maps.google.com/?q=Lake+Muhazi">
+📍 Maps
+</a>
+
+<a class="btn book" href="booking.html">
+📅 Book Visit
+</a>
+
+<a class="btn guide" href="chat.html">
+💬 Guide
+</a>
+
+</div>
+
+</div>
+
+
+
+
+
+<div class="destination lakes">
+
+<h2>🐘 Lake Ihema</h2>
+
+<p><b>Location:</b> Akagera National Park</p>
+
+<p>
+Famous for boat safaris where visitors can see hippos, crocodiles and birds.
+</p>
+
+
+<div class="gallery">
+
+<img src="images/ihema1.jpg">
+<img src="images/ihema2.jpg">
+<img src="images/ihema3.jpg">
+<img src="images/ihema4.jpg">
+<img src="images/ihema5.jpg">
+
+</div>
+
+
+<div class="buttons">
+
+<a class="btn map"
+href="https://maps.google.com/?q=Lake+Ihema">
+📍 Maps
+</a>
+
+<a class="btn book" href="booking.html">
+📅 Book Visit
+</a>
+
+<a class="btn guide" href="chat.html">
+💬 Guide
+</a>
+
+</div>
+
+</div>
+
+
+
+
+
+<div class="destination lakes">
+
+<h2>🌊 Lakes Burera & Ruhondo</h2>
+
+<p><b>Location:</b> Musanze District</p>
+
+<p>
+Twin lakes surrounded by mountains with amazing views of Volcanoes National Park.
+</p>
+
+
+<div class="gallery">
+
+<img src="images/burera1.jpg">
+<img src="images/burera2.jpg">
+<img src="images/ruhondo1.jpg">
+<img src="images/ruhondo2.jpg">
+<img src="images/ruhondo3.jpg">
+
+</div>
+
+
+<div class="buttons">
+
+<a class="btn map"
+href="https://maps.google.com/?q=Lake+Burera+Rwanda">
+📍 Maps
+</a>
+
+<a class="btn book" href="booking.html">
+📅 Book Visit
+</a>
+
+<a class="btn guide" href="chat.html">
+💬 Guide
+</a>
+
+</div>
+
+</div>
+
+
+
+
+
+<!-- ================= MUSEUMS ================= -->
+
+
+<div class="destination museums">
+
+<h2>🕊 Kigali Genocide Memorial</h2>
+
+<p><b>Location:</b> Gisozi, Kigali</p>
+
+<p>
+A place of remembrance, education and promoting peace and unity.
+</p>
+
+
+<div class="gallery">
+
+<img src="images/memorial1.jpg">
+<img src="images/memorial2.jpg">
+<img src="images/memorial3.jpg">
+<img src="images/memorial4.jpg">
+<img src="images/memorial5.jpg">
+
+</div>
+
+
+<div class="buttons">
+
+<a class="btn map"
+href="https://maps.google.com/?q=Kigali+Genocide+Memorial">
+📍 Maps
+</a>
+
+<a class="btn book" href="booking.html">
+📅 Book Visit
+</a>
+
+<a class="btn guide" href="chat.html">
+💬 Guide
+</a>
+
+</div>
+
+</div>
+
+
+
+
+
+<div class="destination museums">
+
+<h2>👑 King's Palace Museum</h2>
+
+<p><b>Location:</b> Nyanza District</p>
+
+<p>
+Discover Rwanda's royal history, traditional houses and cultural heritage.
+</p>
+
+
+<div class="gallery">
+
+<img src="images/palace1.jpg">
+<img src="images/palace2.jpg">
+<img src="images/palace3.jpg">
+<img src="images/palace4.jpg">
+<img src="images/palace5.jpg">
+
+</div>
+
+
+<div class="buttons">
+
+<a class="btn map"
+href="https://maps.google.com/?q=King's+Palace+Museum">
+📍 Maps
+</a>
+
+<a class="btn book" href="booking.html">
+📅 Book Visit
+</a>
+
+<a class="btn guide" href="chat.html">
+💬 Guide
+</a>
+
+</div>
+
+</div>
+
+
+
+
+
+<div class="destination museums">
+
+<h2>🎨 Inema Arts Center</h2>
+
+<p><b>Location:</b> Kacyiru, Kigali</p>
+
+<p>
+A famous art center displaying modern African paintings, sculptures and cultural performances.
+</p>
+
+
+<div class="gallery">
+
+<img src="images/inema1.jpg">
+<img src="images/inema2.jpg">
+<img src="images/inema3.jpg">
+<img src="images/inema4.jpg">
+<img src="images/inema5.jpg">
+
+</div>
+
+
+<div class="buttons">
+
+<a class="btn map"
+href="https://maps.google.com/?q=Inema+Arts+Center">
+📍 Maps
+</a>
+
+<a class="btn book" href="booking.html">
+📅 Book Visit
+</a>
+
+<a class="btn guide" href="chat.html">
+💬 Guide
+</a>
+
+</div>
+
+</div>
+
+
+
+
+
+<div class="destination museums">
+
+<h2>🏛 Rwanda Art Museum</h2>
+
+<p><b>Location:</b> Kanombe, Kigali</p>
+
+<p>
+A museum showcasing Rwanda's artistic creativity and cultural history.
+</p>
+
+
+<div class="gallery">
+
+<img src="images/artmuseum1.jpg">
+<img src="images/artmuseum2.jpg">
+<img src="images/artmuseum3.jpg">
+<img src="images/artmuseum4.jpg">
+<img src="images/artmuseum5.jpg">
+
+</div>
+
+
+<div class="buttons">
+
+<a class="btn map"
+href="https://maps.google.com/?q=Rwanda+Art+Museum">
+📍 Maps
+</a>
+
+<a class="btn book" href="booking.html">
+📅 Book Visit
+</a>
+
+<a class="btn guide" href="chat.html">
+💬 Guide
+</a>
+
+</div>
+
+</div>
+<!-- ================= ADVENTURE ================= -->
+
+
+<div class="destination adventure">
+
+<h2>🏟️ Amahoro Stadium</h2>
+
+<p><b>Location:</b> Remera, Kigali</p>
+
+<p>
+Rwanda's national stadium hosting football matches, concerts, athletics and major events.
+</p>
+
+
+<div class="gallery">
+
+<img src="images/amahoro1.jpg">
+<img src="images/amahoro2.jpg">
+<img src="images/amahoro3.jpg">
+<img src="images/amahoro4.jpg">
+<img src="images/amahoro5.jpg">
+
+</div>
+
+
+<div class="buttons">
+
+<a class="btn map"
+href="https://maps.google.com/?q=Amahoro+Stadium+Kigali">
+📍 Maps
+</a>
+
+<a class="btn book" href="booking.html">
+📅 Book Visit
+</a>
+
+<a class="btn guide" href="chat.html">
+💬 Guide
+</a>
+
+</div>
+
+</div>
+
+
+
+
+
+
+<div class="destination adventure">
+
+
+<h2>🏙 Kigali Convention Centre</h2>
+
+
+<p><b>Location:</b> Kimihurura, Kigali</p>
+
+
+<p>
+An iconic landmark famous for international conferences, hotels and its beautiful dome lights.
+</p>
+
+
+<div class="gallery">
+
+
+<img src="images/kcc1.jpg">
+
+<img src="images/kcc2.jpg">
+
+<img src="images/kcc3.jpg">
+
+<img src="images/kcc4.jpg">
+
+<img src="images/kcc5.jpg">
+
+
+</div>
+
+
+
+<div class="buttons">
+
+
+<a class="btn map"
+href="https://maps.google.com/?q=Kigali+Convention+Centre">
+
+📍 Maps
+
+</a>
+
+
+<a class="btn book" href="booking.html">
+
+📅 Book Visit
+
+</a>
+
+
+<a class="btn guide" href="chat.html">
+
+💬 Guide
+
+</a>
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+
+
+<div class="destination adventure">
+
+
+<h2>🎬 Canal Olympia Kigali</h2>
+
+
+<p><b>Location:</b> Rebero, Kigali</p>
+
+
+<p>
+A modern cinema and entertainment center where visitors enjoy movies and events.
+</p>
+
+
+<div class="gallery">
+
+
+<img src="images/canal1.jpg">
+
+<img src="images/canal2.jpg">
+
+<img src="images/canal3.jpg">
+
+<img src="images/canal4.jpg">
+
+<img src="images/canal5.jpg">
+
+
+</div>
+
+
+
+<div class="buttons">
+
+
+<a class="btn map"
+href="https://maps.google.com/?q=Canal+Olympia+Kigali">
+
+📍 Maps
+
+</a>
+
+
+<a class="btn book" href="booking.html">
+
+📅 Book Visit
+
+</a>
+
+
+<a class="btn guide" href="chat.html">
+
+💬 Guide
+
+</a>
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+
+
+<div class="destination adventure">
+
+
+<h2>🦇 Musanze Caves</h2>
+
+
+<p><b>Location:</b> Musanze District</p>
+
+
+<p>
+Explore underground lava tunnels and unique volcanic rock formations.
+</p>
+
+
+<div class="gallery">
+
+
+<img src="images/cave1.jpg">
+
+<img src="images/cave2.jpg">
+
+<img src="images/cave3.jpg">
+
+<img src="images/cave4.jpg">
+
+<img src="images/cave5.jpg">
+
+
+</div>
+
+
+
+<div class="buttons">
+
+
+<a class="btn map"
+href="https://maps.google.com/?q=Musanze+Caves">
+
+📍 Maps
+
+</a>
+
+
+<a class="btn book" href="booking.html">
+
+📅 Book Visit
+
+</a>
+
+
+<a class="btn guide" href="chat.html">
+
+💬 Guide
+
+</a>
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+
+<!-- ================= HOTELS ================= -->
+
+
+
+<div class="destination hotels">
+
+
+<h2>🏨 Kigali Serena Hotel</h2>
+
+
+<p><b>Location:</b> Kigali City Centre</p>
+
+
+<p>
+A luxury hotel offering comfortable rooms, restaurants, swimming pool and conference facilities.
+</p>
+
+
+<div class="gallery">
+
+
+<img src="images/serena1.jpg">
+
+<img src="images/serena2.jpg">
+
+<img src="images/serena3.jpg">
+
+<img src="images/serena4.jpg">
+
+<img src="images/serena5.jpg">
+
+
+</div>
+
+
+
+<div class="buttons">
+
+
+<a class="btn map"
+href="https://maps.google.com/?q=Kigali+Serena+Hotel">
+
+📍 Maps
+
+</a>
+
+
+<a class="btn book" href="booking.html">
+
+📅 Book Room
+
+</a>
+
+
+<a class="btn guide" href="chat.html">
+
+💬 Contact
+
+</a>
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+
+
+<div class="destination hotels">
+
+
+<h2>🏨 Kigali Marriott Hotel</h2>
+
+
+<p><b>Location:</b> Kigali City</p>
+
+
+<p>
+A five-star hotel providing luxury accommodation, restaurants, spa and meeting spaces.
+</p>
+
+
+<div class="gallery">
+
+
+<img src="images/marriott1.jpg">
+
+<img src="images/marriott2.jpg">
+
+<img src="images/marriott3.jpg">
+
+<img src="images/marriott4.jpg">
+
+<img src="images/marriott5.jpg">
+
+
+</div>
+
+
+
+<div class="buttons">
+
+
+<a class="btn map"
+href="https://maps.google.com/?q=Kigali+Marriott+Hotel">
+
+📍 Maps
+
+</a>
+
+
+<a class="btn book" href="booking.html">
+
+📅 Book Room
+
+</a>
+
+
+<a class="btn guide" href="chat.html">
+
+💬 Contact
+
+</a>
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+
+<div class="destination hotels">
+
+
+<h2>🏨 Lake Kivu Serena Hotel</h2>
+
+
+<p><b>Location:</b> Gisenyi, Rubavu</p>
+
+
+<p>
+A lakeside resort offering beaches, restaurants and relaxing views of Lake Kivu.
+</p>
+
+
+<div class="gallery">
+
+
+<img src="images/kivuserena1.jpg">
+
+<img src="images/kivuserena2.jpg">
+
+<img src="images/kivuserena3.jpg">
+
+<img src="images/kivuserena4.jpg">
+
+<img src="images/kivuserena5.jpg">
+
+
+</div>
+
+
+
+<div class="buttons">
+
+
+<a class="btn map"
+href="https://maps.google.com/?q=Lake+Kivu+Serena+Hotel">
+
+📍 Maps
+
+</a>
+
+
+<a class="btn book" href="booking.html">
+
+📅 Book Room
+
+</a>
+
+
+<a class="btn guide" href="chat.html">
+
+💬 Contact
+
+</a>
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+
+
+<div class="destination hotels">
+
+
+<h2>🏨 One&Only Nyungwe House</h2>
+
+
+<p><b>Location:</b> Nyungwe Forest</p>
+
+
+<p>
+A luxury forest lodge surrounded by nature and wildlife.
+</p>
+
+
+<div class="gallery">
+
+
+<img src="images/nyungwehouse1.jpg">
+
+<img src="images/nyungwehouse2.jpg">
+
+<img src="images/nyungwehouse3.jpg">
+
+<img src="images/nyungwehouse4.jpg">
+
+<img src="images/nyungwehouse5.jpg">
+
+
+</div>
+
+
+
+<div class="buttons">
+
+
+<a class="btn map"
+href="https://maps.google.com/?q=One+Only+Nyungwe+House">
+
+📍 Maps
+
+</a>
+
+
+<a class="btn book" href="booking.html">
+
+📅 Book Room
+
+</a>
+
+
+<a class="btn guide" href="chat.html">
+
+💬 Contact
+
+</a>
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+
+<footer>
+
+
+© 2026 TOURISMO | Discover the Beauty of Rwanda 🇷🇼
+
+
+</footer>
+
+
+
+
+</body>
+
+</html>
