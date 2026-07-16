@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Login</title>
+  <style>
+    /* Background containers */
+    .bg-image {
+      position: fixed;
+      inset-block-start: 0; inset-inline-start: 0;
+      inline-size: 100vw;
+      block-size: 100vh;
+      background-position: center;
+      background-size: cover;
+      background-repeat: no-repeat;
+      opacity: 0;
+      transition: opacity 1s ease-in-out;
+      z-index: -1;  /* Behind everything */
+    }
+
+    #bg1 {
+      opacity: 1; /* Show first bg initially */
+    }
+
+    /* Make sure page content is above backgrounds */
+    #pageContent {
+      position: relative;
+      z-index: 2;
+      font-family: Arial, sans-serif;
+      color: white;
+      min-block-size: 100vh;
+      background-color: transparent;
+      overflow-y: auto;
+    }
+
+    #welcome {
+      background-color: rgba(18, 143, 18, 0.7);
+      color: beige;
+      block-size: 70px;
+      position: relative;
+      z-index: 2;
+    }
+
+    #logo {
+      position: absolute;
+      inset-block-start: 4px;
+      inset-inline-start: 10px;
+      inline-size: 50px;
+      block-size: 50px;
+      border-radius: 100%;
+      object-fit: cover;
+      border: 2px solid beige;
+      background-color: #126f12;
+    }
+
+    .center-heading {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      block-size: 100%;
+    }
+
+    .center-heading h2 {
+      margin: 0;
+      font-size: 1.4em;
+    }
+
+    #container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-block-start: 40px;
+      position: relative;
+      z-index: 2;
+    }
+
+    form {
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(10px);
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+      inline-size: 350px;
+      color: white;
+      position: relative;
+    }
+
+    h2 {
+      text-align: center;
+      margin-block-end: 15px;
+      font-size: 1.4em;
+      color: #fff;
+    }
+
+    label {
+      font-weight: bold;
+      margin-block-start: 8px;
+      font-size: 0.9em;
+      display: block;
+    }
+
+    input[type="email"],
+    input[type="password"] {
+      inline-size: 100%;
+      padding: 8px 35px 8px 8px; /* space for eye icon */
+      margin-block-start: 5px;
+      box-sizing: border-box;
+      border-radius: 4px;
+      border: none;
+      outline: none;
+      font-size: 1em;
+      position: relative;
+    }
+
+    .password-wrapper {
+      position: relative;
+      inline-size: 100%;
+    }
+
+    .toggle-password {
+      position: absolute;
+      inset-block-start: 50%;
+      inset-inline-end: 8px;
+      transform: translateY(-50%);
+      cursor: pointer;
+      inline-size: 20px;
+      block-size: 20px;
+      fill: black;
+      opacity: 0.8;
+      user-select: none;
+    }
+
+    button {
+      margin-block-start: 12px;
+      inline-size: 100%;
+      padding: 10px;
+      background: rgba(255, 165, 0, 0.9);
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 1em;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    button:hover {
+      background: rgba(255, 140, 0, 1);
+    }
+
+    #signupLink {
+      margin-block-start: 15px;
+      text-align: center;
+      font-size: 0.9em;
+    }
+
+    #signupLink a {
+      color: #ffa500;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    #signupLink a:hover {
+      text-decoration: underline;
+    }
+    body {
+  margin: 0;
+  padding: 0;
+}
+
+  </style>
+</head>
+<body>
+  <!-- Background divs for smooth fade -->
+  <div id="bg1" class="bg-image"></div>
+  <div id="bg2" class="bg-image"></div>
+
+  <!-- Page content wrapper -->
+  <div id="pageContent">
+    <div id="welcome">
+      <img src="logo.jpeg" alt="Tourismo Logo" id="logo" />
+      <div class="center-heading">
+        <h2>WELCOME TO TOURISMO</h2>
+      </div>
+    </div>
+
+    <div id="container">
+      <form id="loginForm" novalidate>
+        <h2>Login</h2>
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required autocomplete="username" />
+
+        <label for="password">Password:</label>
+        <div class="password-wrapper">
+          <input type="password" id="password" name="password" required autocomplete="current-password" />
+          <svg class="toggle-password" data-target="password" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M12 5c-7 0-11 7-11 7s4 7 11 7 11-7 11-7-4-7-11-7zm0 12c-3 0-5-2.5-5-5s2-5 5-5 5 2.5 5 5-2 5-5 5z"/>
+            <circle cx="12" cy="12" r="2.5"/>
+          </svg>
+        </div>
+
+        <button type="submit">Login</button>
+
+        <div id="signupLink">
+          Don't have an account? <a href="signup.html">Sign up here</a>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    // Password visibility toggle
+    document.querySelectorAll('.toggle-password').forEach(function(toggle) {
+      toggle.addEventListener('click', function() {
+        const targetId = this.getAttribute('data-target');
+        const input = document.getElementById(targetId);
+        if (input.type === 'password') {
+          input.type = 'text';
+          this.style.fill = '#ffa500';
+        } else {
+          input.type = 'password';
+          this.style.fill = 'black';
+        }
+      });
+    });
+
+    // Login form submit handler
+    const loginForm = document.getElementById('loginForm');
+    loginForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      const email = loginForm.email.value;
+      const password = loginForm.password.value;
+
+      fetch('http://localhost:3000/login', {
+        method: 'POST',
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password })
+      })
+      .then(res => res.json())
+     .then(data => {
+  if (data.message === 'Login successful!') {
+    // Redirect immediately to the home page
+    window.location.href = 'home.html';
+  } else {
+    alert(data.message);
+  }
+})
+      .catch(err => {
+        alert('Error connecting to server.');
+        console.error(err);
+      });
+    });
+
+    // Background slideshow crossfade
+    const images = [
+      "https://visitakagera.org/wp-content/uploads/2022/11/our_work_hero2.jpg",
+      "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/15/26/6d/0c/views-from-the-western.jpg?h=-1&s=1&w=1200",
+      "https://www.arcadiasafaris.com/wp-content/uploads/2023/08/akagera-1.jpg",
+      "https://english.news.cn/20230328/f758fd9a2f3c42b1a13f73b6301f70c2/20230328f758fd9a2f3c42b1a13f73b6301f70c2_b6e3ce7a-29c7-4f07-b102-bca1414453cb.jpg",
+      "https://i.natgeofe.com/n/6bc5f904-553a-48b3-8d82-8fd5e9d20776/MM8382_05-31-15_03819.jpg"
+    ];
+
+    let currentIndex = 0;
+    let nextIndex = 1;
+    const bg1 = document.getElementById('bg1');
+    const bg2 = document.getElementById('bg2');
+    let showingBg1 = true;
+
+    function crossfadeBackground() {
+      if (showingBg1) {
+        bg2.style.backgroundImage = `url('${images[nextIndex]}')`;
+        bg2.style.opacity = '1';
+        bg1.style.opacity = '0';
+      } else {
+        bg1.style.backgroundImage = `url('${images[nextIndex]}')`;
+        bg1.style.opacity = '1';
+        bg2.style.opacity = '0';
+      }
+
+      showingBg1 = !showingBg1;
+      currentIndex = nextIndex;
+      nextIndex = (nextIndex + 1) % images.length;
+    }
+
+    // Initialize
+    bg1.style.backgroundImage = `url('${images[0]}')`;
+    bg2.style.backgroundImage = `url('${images[1]}')`;
+    bg1.style.opacity = '1';
+    bg2.style.opacity = '0';
+
+    setInterval(crossfadeBackground, 8000);
+  </script>
+</body>
+</html>

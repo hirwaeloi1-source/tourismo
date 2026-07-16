@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sign Up</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      min-block-size: 100vh;
+      padding: 0;
+      overflow-y: auto;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      transition: background-image 1s ease-in-out;
+      background-color: #1a1a1a; /* fallback color */
+    }
+    #welcome {
+      background-color: rgba(18, 143, 18, 0.7);
+      color: beige;
+      block-size: 70px;
+      position: relative;
+      z-index: 2;
+    }
+
+    #logo {
+      position: absolute;
+      inset-block-start: 4px;
+      inset-inline-start: 10px;
+      inline-size: 50px;
+      block-size:50px;
+      border-radius: 100%;
+      object-fit: cover;
+      border: 2px solid beige;
+      background-color: #126f12;
+    }
+
+    .center-heading {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      block-size: 100%;
+    }
+
+    .center-heading h2 {
+      margin: 0;
+      font-size: 1.4em;
+    }
+
+    #container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-block-start: 40px;
+      position: relative;
+      z-index: 2;
+    }
+
+    form {
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(10px);
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+      inline-size: 400px;
+      color: white;
+      position: relative;
+    }
+
+    .form-content {
+      display: flex;
+      flex-direction: column;
+    }
+
+    h2 {
+      text-align: center;
+      margin-block-end: 15px;
+      font-size: 1.4em;
+      color: #fff;
+    }
+
+    label {
+      font-weight: bold;
+      margin-block-start: 8px;
+      font-size: 0.9em;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"],
+    input[type="password"] {
+      inline-size: 100%;
+      padding: 8px 35px 8px 8px; /* extra right padding for eye icon */
+      margin-block-start: 3px;
+      box-sizing: border-box;
+      border-radius: 4px;
+      border: none;
+      outline: none;
+      position: relative;
+      font-size: 1em;
+    }
+
+    .password-wrapper {
+      position: relative;
+      inline-size: 100%;
+    }
+
+    .toggle-password {
+      position: absolute;
+      inset-block-start: 50%;
+      inset-inline-end: 8px;
+      transform: translateY(-50%);
+      cursor: pointer;
+      inline-size: 20px;
+      block-size: 20px;
+      fill: black;
+      opacity: 0.8;
+      user-select: none;
+    }
+
+    .error {
+      color: #ff6666;
+      font-size: 0.8em;
+      margin-block-end: 3px;
+    }
+
+    button {
+      margin-block-start: 12px;
+      inline-size: 100%;
+      padding: 10px;
+      background: rgba(255, 165, 0, 0.9);
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 1em;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    button:hover {
+      background: rgba(255, 140, 0, 1);
+    }
+
+    .country-selector {
+      position: relative;
+      inline-size: 100%;
+      font-size: 0.9em;
+    }
+
+    #countrySearch {
+      inline-size: 100%;
+      padding: 8px;
+      border: none;
+      border-radius: 4px;
+      margin-block-end: 5px;
+    }
+
+    .dropdown {
+      max-block-size: 150px;
+      overflow-y: auto;
+      background: white;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+      position: absolute;
+      inline-size: 100%;
+      display: none;
+      z-index: 10;
+      color: black;
+    }
+
+    .dropdown-item {
+      display: flex;
+      align-items: center;
+      padding: 5px;
+      cursor: pointer;
+      color: black;
+    }
+
+    .dropdown-item:hover {
+      background: bisque;
+    }
+
+    .dropdown-item img {
+      inline-size: 18px;
+      block-size: 12px;
+      margin-inline-end: 8px;
+    }
+
+    /* Link for login */
+    #loginLink {
+      margin-block-start: 15px;
+      text-align: center;
+      font-size: 0.9em;
+    }
+
+    #loginLink a {
+      color: #ffa500;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    #loginLink a:hover {
+      text-decoration: underline;
+    }
+    .bg-image {
+  position: fixed;
+  inset-block-start: 0; inset-inline-start: 0; inset-inline-end: 0; inset-block-end: 0;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
+  z-index: -1;
+}
+
+.bg-image.visible {
+  opacity: 1;
+}
+
+  </style>
+</head>
+<body>
+  <div id="bg1" class="bg-image"></div>
+<div id="bg2" class="bg-image"></div>
+
+  <div id="welcome">
+    <img src="logo.jpeg" alt="Tourismo Logo" id="logo" />
+    <div class="center-heading">
+      <h2>WELCOME TO TOURISMO</h2>
+    </div>
+  </div>
+
+  <div id="container">
+    <div id="sign-up1">
+      <form id="signupForm" novalidate>
+        <h2>Sign Up</h2>
+        <div class="form-content">
+          <label for="firstName">First Name</label>
+          <input type="text" id="firstName" name="firstName" required />
+          <div class="error" id="firstNameError"></div>
+
+          <label for="secondName">Second Name</label>
+          <input type="text" id="secondName" name="secondName" required />
+          <div class="error" id="secondNameError"></div>
+
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" required />
+          <div class="error" id="emailError"></div>
+
+          <label for="phone">Phone Number</label>
+          <input type="tel" id="phone" name="phone" pattern="^\+?\d{7,15}$" placeholder="+1234567890" required />
+          <div class="error" id="phoneError"></div>
+
+          <label for="dob">Date of Birth</label>
+          <input type="text" id="dob" name="dob" placeholder="dd/mm/yyyy" required />
+          <div class="error" id="dobError"></div>
+
+          <label for="nationality">Nationality</label>
+          <div class="country-selector">
+            <input type="text" id="countrySearch" placeholder="Search country..." autocomplete="off" />
+            <div id="countryDropdown" class="dropdown"></div>
+            <input type="hidden" id="nationality" name="nationality" required />
+            <div class="error" id="nationalityError"></div>
+          </div>
+
+          <label for="password">Password</label>
+          <div class="password-wrapper">
+            <input type="password" id="password" name="password" minlength="8" required autocomplete="off" />
+            <svg class="toggle-password" data-target="password" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+              <path d="M12 5c-7 0-11 7-11 7s4 7 11 7 11-7 11-7-4-7-11-7zm0 12c-3 0-5-2.5-5-5s2-5 5-5 5 2.5 5 5-2 5-5 5z"/>
+              <circle cx="12" cy="12" r="2.5"/>
+            </svg>
+          </div>
+          <div class="error" id="passwordError"></div>
+
+          <label for="confirmPassword">Confirm Password</label>
+          <div class="password-wrapper">
+            <input type="password" id="confirmPassword" name="confirmPassword" minlength="8" required autocomplete="off" />
+            <svg class="toggle-password" data-target="confirmPassword" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+              <path d="M12 5c-7 0-11 7-11 7s4 7 11 7 11-7 11-7-4-7-11-7zm0 12c-3 0-5-2.5-5-5s2-5 5-5 5 2.5 5 5-2 5-5 5z"/>
+              <circle cx="12" cy="12" r="2.5"/>
+            </svg>
+          </div>
+          <div class="error" id="confirmPasswordError"></div>
+
+          <button type="submit">Sign Up</button>
+
+          <div id="loginLink">
+            Already have an account? <a href="login.html">Login here</a>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    // Country dropdown code (same as you had)
+    const countries = [
+      { name: "Afghanistan", code: "af" },
+      { name: "Albania", code: "al" },
+      { name: "Algeria", code: "dz" },
+      { name: "Andorra", code: "ad" },
+      { name: "Angola", code: "ao" },
+      { name: "Antigua and Barbuda", code: "ag" },
+      { name: "Argentina", code: "ar" },
+      { name: "Armenia", code: "am" },
+      { name: "Australia", code: "au" },
+      { name: "Austria", code: "at" },
+      { name: "Azerbaijan", code: "az" },
+      { name: "Bahamas", code: "bs" },
+      { name: "Bahrain", code: "bh" },
+      { name: "Bangladesh", code: "bd" },
+      { name: "Barbados", code: "bb" },
+      { name: "Belarus", code: "by" },
+      { name: "Belgium", code: "be" },
+      { name: "Belize", code: "bz" },
+      { name: "Benin", code: "bj" },
+      { name: "Bhutan", code: "bt" },
+      { name: "Bolivia", code: "bo" },
+      { name: "Bosnia and Herzegovina", code: "ba" },
+      { name: "Botswana", code: "bw" },
+      { name: "Brazil", code: "br" },
+      { name: "Brunei", code: "bn" },
+      { name: "Bulgaria", code: "bg" },
+      { name: "Burkina Faso", code: "bf" },
+      { name: "Burundi", code: "bi" },
+      { name: "Cabo Verde", code: "cv" },
+      { name: "Cambodia", code: "kh" },
+      { name: "Cameroon", code: "cm" },
+      { name: "Canada", code: "ca" },
+      { name: "Central African Republic", code: "cf" },
+      { name: "Chad", code: "td" },
+      { name: "Chile", code: "cl" },
+      { name: "China", code: "cn" },
+      { name: "Colombia", code: "co" },
+      { name: "Comoros", code: "km" },
+      { name: "Congo (Brazzaville)", code: "cg" },
+      { name: "Congo (Kinshasa)", code: "cd" },
+      { name: "Costa Rica", code: "cr" },
+      { name: "Croatia", code: "hr" },
+      { name: "Cuba", code: "cu" },
+      { name: "Cyprus", code: "cy" },
+      { name: "Czechia", code: "cz" },
+      { name: "Denmark", code: "dk" },
+      { name: "Djibouti", code: "dj" },
+      { name: "Dominica", code: "dm" },
+      { name: "Dominican Republic", code: "do" },
+      { name: "Ecuador", code: "ec" },
+      { name: "Egypt", code: "eg" },
+      { name: "El Salvador", code: "sv" },
+      { name: "Equatorial Guinea", code: "gq" },
+      { name: "Eritrea", code: "er" },
+      { name: "Estonia", code: "ee" },
+      { name: "Eswatini", code: "sz" },
+      { name: "Ethiopia", code: "et" },
+      { name: "Fiji", code: "fj" },
+      { name: "Finland", code: "fi" },
+      { name: "France", code: "fr" },
+      { name: "Gabon", code: "ga" },
+      { name: "Gambia", code: "gm" },
+      { name: "Georgia", code: "ge" },
+      { name: "Germany", code: "de" },
+      { name: "Ghana", code: "gh" },
+      { name: "Greece", code: "gr" },
+      { name: "Grenada", code: "gd" },
+      { name: "Guatemala", code: "gt" },
+      { name: "Guinea", code: "gn" },
+      { name: "Guinea-Bissau", code: "gw" },
+      { name: "Guyana", code: "gy" },
+      { name: "Haiti", code: "ht" },
+      { name: "Honduras", code: "hn" },
+      { name: "Hungary", code: "hu" },
+      { name: "Iceland", code: "is" },
+      { name: "India", code: "in" },
+      { name: "Indonesia", code: "id" },
+      { name: "Iran", code: "ir" },
+      { name: "Iraq", code: "iq" },
+      { name: "Ireland", code: "ie" },
+      { name: "Israel", code: "il" },
+      { name: "Italy", code: "it" },
+      { name: "Jamaica", code: "jm" },
+      { name: "Japan", code: "jp" },
+      { name: "Jordan", code: "jo" },
+      { name: "Kazakhstan", code: "kz" },
+      { name: "Kenya", code: "ke" },
+      { name: "Kiribati", code: "ki" },
+      { name: "Kuwait", code: "kw" },
+      { name: "Kyrgyzstan", code: "kg" },
+      { name: "Laos", code: "la" },
+      { name: "Latvia", code: "lv" },
+      { name: "Lebanon", code: "lb" },
+      { name: "Lesotho", code: "ls" },
+      { name: "Liberia", code: "lr" },
+      { name: "Libya", code: "ly" },
+      { name: "Lithuania", code: "lt" },
+      { name: "Luxembourg", code: "lu" },
+      { name: "Madagascar", code: "mg" },
+      { name: "Malawi", code: "mw" },
+      { name: "Malaysia", code: "my" },
+      { name: "Maldives", code: "mv" },
+      { name: "Mali", code: "ml" },
+      { name: "Malta", code: "mt" },
+      { name: "Marshall Islands", code: "mh" },
+      { name: "Mauritania", code: "mr" },
+      { name: "Mauritius", code: "mu" },
+      { name: "Mexico", code: "mx" },
+      { name: "Micronesia", code: "fm" },
+      { name: "Moldova", code: "md" },
+      { name: "Monaco", code: "mc" },
+      { name: "Mongolia", code: "mn" },
+      { name: "Montenegro", code: "me" },
+      { name: "Morocco", code: "ma" },
+      { name: "Mozambique", code: "mz" },
+      { name: "Myanmar", code: "mm" },
+      { name: "Namibia", code: "na" },
+      { name: "Nauru", code: "nr" },
+      { name: "Nepal", code: "np" },
+      { name: "Netherlands", code: "nl" },
+      { name: "New Zealand", code: "nz" },
+      { name: "Nicaragua", code: "ni" },
+      { name: "Niger", code: "ne" },
+      { name: "Nigeria", code: "ng" },
+      { name: "North Korea", code: "kp" },
+      { name: "North Macedonia", code: "mk" },
+      { name: "Norway", code: "no" },
+      { name: "Oman", code: "om" },
+      { name: "Pakistan", code: "pk" },
+      { name: "Palau", code: "pw" },
+      { name: "Palestine", code: "ps" },
+      { name: "Panama", code: "pa" },
+    
+      { name: "Peru", code: "pe" },
+      { name: "Philippines", code: "ph" },
+      { name: "Poland", code: "pl" },
+      { name: "Portugal", code: "pt" },
+      { name: "Qatar", code: "qa" },
+      { name: "Romania", code: "ro" },
+      { name: "Russia", code: "ru" },
+      { name: "Rwanda", code: "rw" },
+      { name: "Saint Kitts and Nevis", code: "kn" },
+      { name: "Saint Lucia", code: "lc" },
+      { name: "Saint Vincent and the Grenadines", code: "vc" },
+      { name: "Samoa", code: "ws" },
+      { name: "San Marino", code: "sm" },
+      { name: "Saudi Arabia", code: "sa" },
+      { name: "Senegal", code: "sn" },
+      { name: "Serbia", code: "rs" },
+      { name: "Seychelles", code: "sc" },
+      { name: "Sierra Leone", code: "sl" },
+      { name: "Singapore", code: "sg" },
+      { name: "Slovakia", code: "sk" },
+      { name: "Slovenia", code: "si" },
+      { name: "Solomon Islands", code: "sb" },
+      { name: "Somalia", code: "so" },
+      { name: "South Africa", code: "za" },
+      { name: "South Korea", code: "kr" },
+      { name: "South Sudan", code: "ss" },
+      { name: "Spain", code: "es" },
+      { name: "Sri Lanka", code: "lk" },
+      { name: "Sudan", code: "sd" },
+      { name: "Suriname", code: "sr" },
+      { name: "Sweden", code: "se" },
+      { name: "Switzerland", code: "ch" },
+      { name: "Syria", code: "sy" },
+      { name: "Taiwan", code: "tw" },
+      { name: "Tajikistan", code: "tj" },
+      { name: "Tanzania", code: "tz" },
+      { name: "Thailand", code: "th" },
+      { name: "Timor-Leste", code: "tl" },
+      { name: "Togo", code: "tg" },
+      { name: "Tonga", code: "to" },
+      { name: "Trinidad and Tobago", code: "tt" },
+      { name: "Tunisia", code: "tn" },
+      { name: "Turkey", code: "tr" },
+      { name: "Turkmenistan", code: "tm" },
+      { name: "Tuvalu", code: "tv" },
+      { name: "Uganda", code: "ug" },
+      { name: "Ukraine", code: "ua" },
+      { name: "United Arab Emirates", code: "ae" },
+      { name: "United Kingdom", code: "gb" },
+      { name: "United States", code: "us" },
+      { name: "Uruguay", code: "uy" },
+      { name: "Uzbekistan", code: "uz" },
+      { name: "Vanuatu", code: "vu" },
+      { name: "Vatican City", code: "va" },
+      { name: "Venezuela", code: "ve" },
+      { name: "Vietnam", code: "vn" },
+      { name: "Yemen", code: "ye" },
+      { name: "Zambia", code: "zm" },
+      { name: "Zimbabwe", code: "zw" }
+    ];
+
+    // Country dropdown logic
+    const countrySearch = document.getElementById('countrySearch');
+    const countryDropdown = document.getElementById('countryDropdown');
+    const nationalityInput = document.getElementById('nationality');
+
+    function populateCountries(filter = '') {
+      countryDropdown.innerHTML = '';
+      const filtered = countries.filter(c =>
+        c.name.toLowerCase().includes(filter.toLowerCase())
+      );
+      filtered.forEach(country => {
+        const div = document.createElement('div');
+        div.classList.add('dropdown-item');
+        div.innerHTML = `<img src="https://flagcdn.com/w20/${country.code}.png" alt="${country.name} flag" /> ${country.name}`;
+        div.addEventListener('click', () => {
+          countrySearch.value = country.name;
+          nationalityInput.value = country.name;
+          countryDropdown.style.display = 'none';
+        });
+        countryDropdown.appendChild(div);
+      });
+      countryDropdown.style.display = filtered.length ? 'block' : 'none';
+    }
+
+    countrySearch.addEventListener('input', () => {
+      populateCountries(countrySearch.value);
+    });
+
+    countrySearch.addEventListener('focus', () => {
+      populateCountries(countrySearch.value);
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!countrySearch.contains(e.target) && !countryDropdown.contains(e.target)) {
+        countryDropdown.style.display = 'none';
+      }
+    });
+
+    // Password toggle logic
+    document.querySelectorAll('.toggle-password').forEach(icon => {
+      icon.addEventListener('click', () => {
+        const targetId = icon.getAttribute('data-target');
+        const input = document.getElementById(targetId);
+        if (input.type === 'password') {
+          input.type = 'text';
+          icon.style.fill = '#555'; // Slightly lighter on eye open
+        } else {
+          input.type = 'password';
+          icon.style.fill = 'black';
+        }
+      });
+    });
+
+    // Basic form validation on submit
+    const signupForm = document.getElementById('signupForm');
+
+    signupForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      // Clear all errors
+      ['firstName', 'secondName', 'email', 'phone', 'dob', 'nationality', 'password', 'confirmPassword'].forEach(field => {
+        document.getElementById(field + 'Error').textContent = '';
+      });
+
+      let hasError = false;
+
+      if (!signupForm.firstName.value.trim()) {
+        document.getElementById('firstNameError').textContent = 'First name is required.';
+        hasError = true;
+      }
+      if (!signupForm.secondName.value.trim()) {
+        document.getElementById('secondNameError').textContent = 'Second name is required.';
+        hasError = true;
+      }
+      if (!signupForm.email.value.trim()) {
+        document.getElementById('emailError').textContent = 'Email is required.';
+        hasError = true;
+      } else if (!/\S+@\S+\.\S+/.test(signupForm.email.value)) {
+        document.getElementById('emailError').textContent = 'Email is invalid.';
+        hasError = true;
+      }
+      if (!signupForm.phone.value.trim()) {
+        document.getElementById('phoneError').textContent = 'Phone number is required.';
+        hasError = true;
+      } else if (!/^\+?\d{7,15}$/.test(signupForm.phone.value.trim())) {
+        document.getElementById('phoneError').textContent = 'Phone number is invalid.';
+        hasError = true;
+      }
+      if (!signupForm.dob.value.trim()) {
+        document.getElementById('dobError').textContent = 'Date of birth is required.';
+        hasError = true;
+      } else if (!/^\d{2}\/\d{2}\/\d{4}$/.test(signupForm.dob.value.trim())) {
+        document.getElementById('dobError').textContent = 'Date of birth must be in dd/mm/yyyy format.';
+        hasError = true;
+      }
+      if (!signupForm.nationality.value.trim()) {
+        document.getElementById('nationalityError').textContent = 'Please select your nationality.';
+        hasError = true;
+      }
+      if (!signupForm.password.value.trim()) {
+        document.getElementById('passwordError').textContent = 'Password is required.';
+        hasError = true;
+      } else if (signupForm.password.value.length < 8) {
+        document.getElementById('passwordError').textContent = 'Password must be at least 8 characters.';
+        hasError = true;
+      }
+      if (!signupForm.confirmPassword.value.trim()) {
+        document.getElementById('confirmPasswordError').textContent = 'Please confirm your password.';
+        hasError = true;
+      } else if (signupForm.password.value !== signupForm.confirmPassword.value) {
+        document.getElementById('confirmPasswordError').textContent = 'Passwords do not match.';
+        hasError = true;
+      }
+
+      if (hasError) return;
+
+      // Submit form data to server here (example fetch)
+      const signupData = {
+        firstName: signupForm.firstName.value.trim(),
+        secondName: signupForm.secondName.value.trim(),
+        email: signupForm.email.value.trim(),
+        phone: signupForm.phone.value.trim(),
+        dob: signupForm.dob.value.trim(),
+        nationality: signupForm.nationality.value.trim(),
+        password: signupForm.password.value,
+      };
+
+      fetch('http://localhost:3000/signup', {
+        method: 'POST',
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(signupData),
+      })
+      .then(res => res.json())
+      .then(data => {
+        alert(data.message);
+        if (data.message.toLowerCase().includes('verification email sent')) {
+          signupForm.reset();
+          nationalityInput.value = '';
+          countrySearch.value = '';
+        }
+      })
+      .catch(err => {
+        alert('Error connecting to server.');
+        console.error(err);
+      });
+    });
+
+    // Background slideshow
+    const images = [
+        "https://visitakagera.org/wp-content/uploads/2022/11/our_work_hero2.jpg",
+    "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/15/26/6d/0c/views-from-the-western.jpg?h=-1&s=1&w=1200",
+    "https://www.arcadiasafaris.com/wp-content/uploads/2023/08/akagera-1.jpg",
+    "https://english.news.cn/20230328/f758fd9a2f3c42b1a13f73b6301f70c2/20230328f758fd9a2f3c42b1a13f73b6301f70c2_b6e3ce7a-29c7-4f07-b102-bca1414453cb.jpg",
+    "https://i.natgeofe.com/n/6bc5f904-553a-48b3-8d82-8fd5e9d20776/MM8382_05-31-15_03819.jpg"];
+ 
+let current = 0;
+const bg1 = document.getElementById('bg1');
+const bg2 = document.getElementById('bg2');
+let showingFirst = true;
+
+function changeBackground() {
+  const nextImage = images[current];
+  const fadeOutDiv = showingFirst ? bg1 : bg2;
+  const fadeInDiv = showingFirst ? bg2 : bg1;
+
+  fadeInDiv.style.backgroundImage = `url('${nextImage}')`;
+  fadeInDiv.classList.add('visible');
+  fadeOutDiv.classList.remove('visible');
+
+  showingFirst = !showingFirst;
+  current = (current + 1) % images.length;
+}
+
+changeBackground();
+setInterval(changeBackground, 8000);
+
+  </script>
+</body>
+</html>

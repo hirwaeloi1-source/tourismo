@@ -1,0 +1,19 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "pwa-chrome",
+      "request": "launch",
+      "name": "Open TOURISMO (Login)",
+      "url": "http://localhost:3000/login.html",
+      "webRoot": "${workspaceFolder}"
+    },
+    {
+      "type": "pwa-chrome",
+      "request": "launch",
+      "name": "Open TOURISMO (Signup)",
+      "url": "http://localhost:3000/signup.html",
+      "webRoot": "${workspaceFolder}"
+    }
+  ]
+}
