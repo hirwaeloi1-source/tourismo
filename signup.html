@@ -619,25 +619,31 @@
         password: signupForm.password.value,
       };
 
-      fetch('http://localhost:3000/signup', {
-        method: 'POST',
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(signupData),
-      })
-      .then(res => res.json())
-      .then(data => {
-        alert(data.message);
-        if (data.message.toLowerCase().includes('verification email sent')) {
-          signupForm.reset();
-          nationalityInput.value = '';
-          countrySearch.value = '';
-        }
-      })
-      .catch(err => {
-        alert('Error connecting to server.');
-        console.error(err);
-      });
-    });
+ fetch('/signup', {
+  method: 'POST',
+  headers: { 
+    "Content-Type": "application/json" 
+  },
+  body: JSON.stringify(signupData),
+})
+.then(res => res.json())
+.then(data => {
+
+  alert(data.message);
+
+  if (data.message.toLowerCase().includes("verification")) {
+    signupForm.reset();
+    nationalityInput.value = '';
+    countrySearch.value = '';
+  }
+
+})
+.catch(err => {
+
+  alert("Error connecting to server.");
+  console.error(err);
+
+});
 
     // Background slideshow
     const images = [
