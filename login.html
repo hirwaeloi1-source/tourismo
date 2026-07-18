@@ -210,120 +210,81 @@
   </div>
 
   <script>
-    // Password visibility toggle
-    document.querySelectorAll('.toggle-password').forEach(function(toggle) {
-      toggle.addEventListener('click', function() {
-        const targetId = this.getAttribute('data-target');
-        const input = document.getElementById(targetId);
-        if (input.type === 'password') {
-          input.type = 'text';
-          this.style.fill = '#ffa500';
-        } else {
-          input.type = 'password';
-          this.style.fill = 'black';
-        }
-      });
-    });
-
-    // Login form submit handler
-   // Login form submit handler
-const loginForm = document.getElementById('loginForm');
-
-loginForm.addEventListener('submit', function(e) {
-  e.preventDefault();
-
-  const email = loginForm.email.value;
-  const password = loginForm.password.value;
-
-  fetch('/login', {
-    method: 'POST',
-    headers: { 
-      "Content-Type": "application/json" 
-    },
-    body: JSON.stringify({ email, password })
-  })
-  .then(res => res.json())
-  .then(data => {
-
-    if (data.message === 'Login successful!') {
-
-      // Redirect to home page
-      window.location.href = 'home.html';
-
+   
+document.querySelectorAll('.toggle-password').forEach(icon => {
+  icon.addEventListener('click', () => {
+    const input = document.getElementById(icon.dataset.target);
+    if (input.type === 'password') {
+      input.type = 'text';
+      icon.style.fill = '#ffa500';
     } else {
-
-      alert(data.message);
-
+      input.type = 'password';
+      icon.style.fill = 'black';
     }
-
-  })
-  .catch(err => {
-
-    alert('Error connecting to server.');
-    console.error(err);
-
   });
-
 });
 
-  fetch('/login', {
-        method: 'POST',
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password })
-      })
-      .then(res => res.json())
-     .then(data => {
-  if (data.message === 'Login successful!') {
-    // Redirect immediately to the home page
-    window.location.href = 'home.html';
-  } else {
-    alert(data.message);
-  }
-})
-      .catch(err => {
-        alert('Error connecting to server.');
-        console.error(err);
-      });
+const images = [
+  'https://visitakagera.org/wp-content/uploads/2022/11/our_work_hero2.jpg',
+  'https://dynamic-media-cdn.tripadvisor.com/media/photo-o/15/26/6d/0c/views-from-the-western.jpg?h=-1&s=1&w=1200',
+  'https://www.arcadiasafaris.com/wp-content/uploads/2023/08/akagera-1.jpg',
+  'https://english.news.cn/20230328/f758fd9a2f3c42b1a13f73b6301f70c2/20230328f758fd9a2f3c42b1a13f73b6301f70c2_b6e3ce7a-29c7-4f07-b102-bca1414453cb.jpg',
+  'https://i.natgeofe.com/n/6bc5f904-553a-48b3-8d82-8fd5e9d20776/MM8382_05-31-15_03819.jpg'
+];
+
+// Preload images
+images.forEach(src => {
+  const img = new Image();
+  img.src = src;
+});
+
+let current = 1;
+const bg1 = document.getElementById('bg1');
+const bg2 = document.getElementById('bg2');
+bg1.style.backgroundImage = `url('${images[0]}')`;
+bg2.style.backgroundImage = `url('${images[1]}')`;
+bg1.style.opacity = '1';
+
+let showFirst = true;
+
+setInterval(() => {
+  const nextImage = images[current % images.length];
+  const fadeIn = showFirst ? bg2 : bg1;
+  const fadeOut = showFirst ? bg1 : bg2;
+
+  fadeIn.style.backgroundImage = `url('${nextImage}')`;
+  fadeIn.style.opacity = '1';
+  fadeOut.style.opacity = '0';
+
+  showFirst = !showFirst;
+  current++;
+}, 8000);
+
+document.getElementById('loginForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+
+  const email = e.target.email.value;
+  const password = e.target.password.value;
+
+  try {
+    const res = await fetch('/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password })
     });
 
-    // Background slideshow crossfade
-    const images = [
-      "https://visitakagera.org/wp-content/uploads/2022/11/our_work_hero2.jpg",
-      "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/15/26/6d/0c/views-from-the-western.jpg?h=-1&s=1&w=1200",
-      "https://www.arcadiasafaris.com/wp-content/uploads/2023/08/akagera-1.jpg",
-      "https://english.news.cn/20230328/f758fd9a2f3c42b1a13f73b6301f70c2/20230328f758fd9a2f3c42b1a13f73b6301f70c2_b6e3ce7a-29c7-4f07-b102-bca1414453cb.jpg",
-      "https://i.natgeofe.com/n/6bc5f904-553a-48b3-8d82-8fd5e9d20776/MM8382_05-31-15_03819.jpg"
-    ];
+    const data = await res.json();
 
-    let currentIndex = 0;
-    let nextIndex = 1;
-    const bg1 = document.getElementById('bg1');
-    const bg2 = document.getElementById('bg2');
-    let showingBg1 = true;
-
-    function crossfadeBackground() {
-      if (showingBg1) {
-        bg2.style.backgroundImage = `url('${images[nextIndex]}')`;
-        bg2.style.opacity = '1';
-        bg1.style.opacity = '0';
-      } else {
-        bg1.style.backgroundImage = `url('${images[nextIndex]}')`;
-        bg1.style.opacity = '1';
-        bg2.style.opacity = '0';
-      }
-
-      showingBg1 = !showingBg1;
-      currentIndex = nextIndex;
-      nextIndex = (nextIndex + 1) % images.length;
+    if (res.ok) {
+      window.location.href = '/home';
+    } else {
+      alert(data.message);
     }
-
-    // Initialize
-    bg1.style.backgroundImage = `url('${images[0]}')`;
-    bg2.style.backgroundImage = `url('${images[1]}')`;
-    bg1.style.opacity = '1';
-    bg2.style.opacity = '0';
-
-    setInterval(crossfadeBackground, 8000);
-  </script>
+  } catch (err) {
+    alert('Error connecting to server.');
+    console.error(err);
+  }
+});
+</script>
 </body>
 </html>

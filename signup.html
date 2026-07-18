@@ -204,17 +204,23 @@
     #loginLink a:hover {
       text-decoration: underline;
     }
-    .bg-image {
+.bg-image {
   position: fixed;
-  inset-block-start: 0; inset-inline-start: 0; inset-inline-end: 0; inset-block-end: 0;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   opacity: 0;
-  transition: opacity 1s ease-in-out;
-  z-index: -1;
+  transition: opacity 1.5s ease-in-out;
+  z-index: -2;
 }
 
+#bg1 {
+  opacity: 1;
+}
 .bg-image.visible {
   opacity: 1;
 }
@@ -618,26 +624,30 @@
         nationality: signupForm.nationality.value.trim(),
         password: signupForm.password.value,
       };
-
- fetch('/signup', {
+fetch('/signup', {
   method: 'POST',
-  headers: { 
-    "Content-Type": "application/json" 
+  headers: {
+    'Content-Type': 'application/json'
   },
-  body: JSON.stringify(signupData),
+  body: JSON.stringify(signupData)
 })
-.then(res => res.json())
-.then(data => {
+.then(async res => {
+  const data = await res.json();
 
-  alert(data.message);
-
-  if (data.message.toLowerCase().includes("verification")) {
+  if (res.ok) {
+    alert(data.message);
     signupForm.reset();
     nationalityInput.value = '';
     countrySearch.value = '';
+  } else {
+    alert(data.message);
   }
-
 })
+.catch(err => {
+  console.error(err);
+  alert('Error connecting to server.');
+});
+
 .catch(err => {
 
   alert("Error connecting to server.");
