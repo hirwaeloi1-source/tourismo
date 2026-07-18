@@ -167,7 +167,29 @@
   margin: 0;
   padding: 0;
 }
+#message{
+    display:none;
+    margin-bottom:15px;
+    padding:12px;
+    border-radius:8px;
+    text-align:center;
+    font-size:15px;
+}
 
+.success{
+    background:#d4edda;
+    color:#155724;
+}
+
+.failure{
+    background:#f8d7da;
+    color:#721c24;
+}
+
+button:disabled{
+    opacity:.7;
+    cursor:not-allowed;
+}
   </style>
 </head>
 <body>
@@ -187,7 +209,7 @@
     <div id="container">
       <form id="loginForm" novalidate>
         <h2>Login</h2>
-
+<div id="message" style="display:none;"></div>
         <label for="email">Email:</label>
         <input type="email" id="email" name="email" required autocomplete="username" />
 
@@ -200,90 +222,207 @@
           </svg>
         </div>
 
-        <button type="submit">Login</button>
+        <button type="submit" id="loginBtn">Login</button>
+        <div style="margin-top:12px;text-align:center;">
+    <a href="forgot-password.html"
+       style="color:#ffd54f;text-decoration:none;">
+        Forgot Password?
+    </a>
+</div>
 
-        <div id="signupLink">
-          Don't have an account? <a href="signup.html">Sign up here</a>
-        </div>
+      <div id="signupLink">
+    Don't have an account?
+    <a href="signup.html">Create an account</a>
+</div>
       </form>
     </div>
   </div>
 
   <script>
    
-document.querySelectorAll('.toggle-password').forEach(icon => {
-  icon.addEventListener('click', () => {
-    const input = document.getElementById(icon.dataset.target);
-    if (input.type === 'password') {
-      input.type = 'text';
-      icon.style.fill = '#ffa500';
-    } else {
-      input.type = 'password';
-      icon.style.fill = 'black';
-    }
-  });
-});
+// ===============================
+// PASSWORD SHOW / HIDE
+// ===============================
 
-const images = [
-  'https://visitakagera.org/wp-content/uploads/2022/11/our_work_hero2.jpg',
-  'https://dynamic-media-cdn.tripadvisor.com/media/photo-o/15/26/6d/0c/views-from-the-western.jpg?h=-1&s=1&w=1200',
-  'https://www.arcadiasafaris.com/wp-content/uploads/2023/08/akagera-1.jpg',
-  'https://english.news.cn/20230328/f758fd9a2f3c42b1a13f73b6301f70c2/20230328f758fd9a2f3c42b1a13f73b6301f70c2_b6e3ce7a-29c7-4f07-b102-bca1414453cb.jpg',
-  'https://i.natgeofe.com/n/6bc5f904-553a-48b3-8d82-8fd5e9d20776/MM8382_05-31-15_03819.jpg'
-];
+document.querySelectorAll(".toggle-password").forEach(icon => {
 
-// Preload images
-images.forEach(src => {
-  const img = new Image();
-  img.src = src;
-});
+    icon.addEventListener("click", () => {
 
-let current = 1;
-const bg1 = document.getElementById('bg1');
-const bg2 = document.getElementById('bg2');
-bg1.style.backgroundImage = `url('${images[0]}')`;
-bg2.style.backgroundImage = `url('${images[1]}')`;
-bg1.style.opacity = '1';
+        const input = document.getElementById(icon.dataset.target);
 
-let showFirst = true;
+        if (input.type === "password") {
 
-setInterval(() => {
-  const nextImage = images[current % images.length];
-  const fadeIn = showFirst ? bg2 : bg1;
-  const fadeOut = showFirst ? bg1 : bg2;
+            input.type = "text";
+            icon.style.fill = "#ffa500";
 
-  fadeIn.style.backgroundImage = `url('${nextImage}')`;
-  fadeIn.style.opacity = '1';
-  fadeOut.style.opacity = '0';
+        } else {
 
-  showFirst = !showFirst;
-  current++;
-}, 8000);
+            input.type = "password";
+            icon.style.fill = "black";
 
-document.getElementById('loginForm').addEventListener('submit', async (e) => {
-  e.preventDefault();
+        }
 
-  const email = e.target.email.value;
-  const password = e.target.password.value;
-
-  try {
-    const res = await fetch('/login', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, password })
     });
 
-    const data = await res.json();
+});
 
-    if (res.ok) {
-      window.location.href = '/home';
-    } else {
-      alert(data.message);
+
+// ===============================
+// BACKGROUND SLIDESHOW
+// ===============================
+
+const images = [
+
+"https://visitakagera.org/wp-content/uploads/2022/11/our_work_hero2.jpg",
+
+"https://dynamic-media-cdn.tripadvisor.com/media/photo-o/15/26/6d/0c/views-from-the-western.jpg?h=-1&s=1&w=1200",
+
+"https://www.arcadiasafaris.com/wp-content/uploads/2023/08/akagera-1.jpg",
+
+"https://english.news.cn/20230328/f758fd9a2f3c42b1a13f73b6301f70c2/20230328f758fd9a2f3c42b1a13f73b6301f70c2_b6e3ce7a-29c7-4f07-b102-bca1414453cb.jpg",
+
+"https://i.natgeofe.com/n/6bc5f904-553a-48b3-8d82-8fd5e9d20776/MM8382_05-31-15_03819.jpg"
+
+];
+
+images.forEach(src=>{
+    const img=new Image();
+    img.src=src;
+});
+
+const bg1=document.getElementById("bg1");
+const bg2=document.getElementById("bg2");
+
+let active=bg1;
+let inactive=bg2;
+
+let currentImage=0;
+
+bg1.style.backgroundImage=`url("${images[0]}")`;
+bg1.style.opacity=1;
+
+currentImage=1;
+
+setInterval(()=>{
+
+    inactive.style.backgroundImage=
+        `url("${images[currentImage]}")`;
+
+    inactive.style.opacity=1;
+
+    active.style.opacity=0;
+
+    const temp=active;
+    active=inactive;
+    inactive=temp;
+
+    currentImage++;
+
+    if(currentImage>=images.length){
+
+        currentImage=0;
+
     }
-  } catch (err) {
-    alert('Error connecting to server.');
-    console.error(err);
-  }
+
+},6000);
+
+
+// ===============================
+// LOGIN
+// ===============================
+
+const loginForm=document.getElementById("loginForm");
+
+const loginBtn=document.getElementById("loginBtn");
+
+const message=document.getElementById("message");
+
+loginForm.addEventListener("submit",async(e)=>{
+
+    e.preventDefault();
+
+    message.style.display="none";
+    message.className="";
+    message.innerHTML="";
+
+    loginBtn.disabled=true;
+    loginBtn.textContent="Logging in...";
+
+    const email=document.getElementById("email").value.trim();
+
+    const password=document.getElementById("password").value;
+
+    try{
+
+        const response=await fetch("/login",{
+
+            method:"POST",
+
+            headers:{
+                "Content-Type":"application/json"
+            },
+
+            credentials:"include",
+
+            body:JSON.stringify({
+                email,
+                password
+            })
+
+        });
+
+        const data=await response.json();
+
+        if(response.ok && data.success){
+
+            message.className="success";
+
+            message.style.display="block";
+
+            message.innerHTML=
+            "✅ Login successful.<br>Redirecting...";
+
+            setTimeout(()=>{
+
+                window.location.href="/home";
+
+            },1000);
+
+        }
+
+        else{
+
+            message.className="failure";
+
+            message.style.display="block";
+
+            message.innerHTML=data.message;
+
+        }
+
+    }
+
+    catch(err){
+
+        console.error(err);
+
+        message.className="failure";
+
+        message.style.display="block";
+
+        message.innerHTML=
+        "Unable to connect to the server.";
+
+    }
+
+    finally{
+
+        loginBtn.disabled=false;
+
+        loginBtn.textContent="Login";
+
+    }
+
 });
 </script>
 </body>
