@@ -11,7 +11,7 @@ const crypto = require("crypto");
 const bodyParser = require("body-parser");
 const nodemailer = require("nodemailer");
 const session = require("express-session");
-const MongoStore = require("connect-mongo");
+const MongoStore = require("connect-mongo").default;
 const path = require("path");
 
 const app = express();
