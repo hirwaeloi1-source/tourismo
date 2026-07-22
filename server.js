@@ -1766,23 +1766,3 @@ res.status(404).send(
 
 
 // ======================================
-// START SERVER
-// ======================================
-
-
-const PORT =
-process.env.PORT || 3000;
-
-
-
-app.listen(PORT,()=>{
-
-
-console.log(
-
-`✅ Tourismo Server running on port ${PORT}`
-
-);
-
-
-});
