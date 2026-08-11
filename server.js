@@ -232,21 +232,10 @@ function requireLogin(req,res,next){
 // ======================================
 
 
-app.get("/",(req,res)=>{
-
-
-    if(req.session.userId){
-
-        return res.redirect("/home");
-
-    }
-
-
+app.get("/", (req, res) => {
     res.sendFile(
-        path.join(__dirname,"login.html")
+        path.join(__dirname, "home.html")
     );
-
-
 });
 
 
@@ -273,16 +262,10 @@ app.get("/signup",(req,res)=>{
 
 
 
-app.get("/home",
-requireLogin,
-(req,res)=>{
-
-
+app.get("/home", (req, res) => {
     res.sendFile(
-        path.join(__dirname,"home.html")
+        path.join(__dirname, "home.html")
     );
-
-
 });
 
 

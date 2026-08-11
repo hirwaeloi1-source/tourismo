@@ -469,13 +469,16 @@ Logout
 
 <div class="icons">
 
+    <i class="fa-regular fa-bell"></i>
 
-<i class="fa-regular fa-bell"></i>
+    <i class="fa-solid fa-robot"></i>
 
+    <i class="fa-solid fa-user-circle"></i>
 
-<i class="fa-solid fa-robot"></i>
-
-<i class="fa-solid fa-user-circle"></i>
+    <a href="/login.html" class="login-btn">
+        
+        Login
+    </a>
 
 </div>
 
@@ -541,43 +544,39 @@ and let AI plan your perfect adventure.
 <script>
 
 
+
+
 async function loadUser(){
 
     try{
 
-        const response=await fetch("/me",{
-
-            credentials:"include"
-
+        const response = await fetch("/me", {
+            credentials: "include"
         });
 
-        if(!response.ok){
+        if(response.ok){
 
-            window.location.href="/login.html";
+            const user = await response.json();
 
-            return;
+            const welcomeUser =
+                document.getElementById("welcomeUser");
+
+            if(welcomeUser){
+                welcomeUser.innerHTML =
+                    `Welcome, ${user.firstName}!`;
+            }
 
         }
 
-        const user=await response.json();
+    } catch(err){
 
-        document.getElementById("welcomeUser").innerHTML=
-        `Welcome, ${user.firstName}!`;
-
-    }
-
-    catch(err){
-
-        console.log(err);
-
-        window.location.href="/login.html";
+        console.log("User is not logged in.");
 
     }
 
 }
 
 loadUser();
-
 
 
 // LOGOUT
