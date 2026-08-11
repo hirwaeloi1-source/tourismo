@@ -1,1751 +1,985 @@
-// ======================================
-// TOURISMO SERVER
-// ======================================
-
-require("dotenv").config();
-
+```javascript
 const express = require("express");
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
-const crypto = require("crypto");
-const bodyParser = require("body-parser");
 const nodemailer = require("nodemailer");
+const cors = require("cors");
+const dotenv = require("dotenv");
+const crypto = require("crypto");
 const session = require("express-session");
-const MongoStore = require("connect-mongo").default;
 const path = require("path");
+
+dotenv.config();
 
 const app = express();
 
+// ======================================
+// BASIC SETUP
+// ======================================
 
-// ======================================
-// MIDDLEWARE
-// ======================================
+app.use(cors());
 
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-app.use(bodyParser.urlencoded({
-    extended:true
-}));
+app.use(
+    session({
+        secret: process.env.SESSION_SECRET || "tourismo-secret",
+        resave: false,
+        saveUninitialized: false,
+        cookie: {
+            secure: false,
+            httpOnly: true
+        }
+    })
+);
 
+// Serve frontend files
 app.use(express.static(__dirname));
 
 
 // ======================================
-// DATABASE
+// PORT
 // ======================================
 
-mongoose.connect(process.env.MONGO_URI)
-
-.then(()=>{
-
-    console.log("✅ MongoDB connected");
-
-})
-
-.catch(err=>{
-
-    console.error("❌ MongoDB Error:",err);
-
-});
+const PORT = process.env.PORT || 3000;
 
 
 // ======================================
-// SESSION
+// MONGODB CONNECTION
 // ======================================
 
-app.use(
-session({
-
-    secret: process.env.SESSION_SECRET || "tourismo_secret",
-
-    resave:false,
-
-    saveUninitialized:false,
-
-
-    store:MongoStore.create({
-
-        mongoUrl:process.env.MONGO_URI
-
-    }),
-
-
-    cookie:{
-
-        httpOnly:true,
-
-        maxAge:1000*60*60*24,
-
-        secure:false,
-
-        sameSite:"lax"
-
-    }
-
-
-})
-);
-
+mongoose
+    .connect(process.env.MONGO_URI)
+    .then(() => {
+        console.log("✅ MongoDB connected");
+    })
+    .catch((error) => {
+        console.error("❌ MongoDB connection error:", error);
+    });
 
 
 // ======================================
-// USER MODEL
+// USER SCHEMA
 // ======================================
 
 const userSchema = new mongoose.Schema({
 
-    firstName:{
-        type:String,
-        required:true
+    firstName: {
+        type: String,
+        required: true
     },
 
-
-    secondName:{
-        type:String,
-        required:true
+    secondName: {
+        type: String,
+        required: true
     },
 
-
-    email:{
-        type:String,
-        required:true,
-        unique:true
+    email: {
+        type: String,
+        required: true,
+        unique: true
     },
 
-
-    phone:{
-        type:String,
-        required:true
+    phone: {
+        type: String,
+        required: true
     },
 
-
-    dob:{
-        type:String,
-        required:true
+    dob: {
+        type: String,
+        required: true
     },
 
-
-    nationality:{
-        type:String,
-        required:true
+    nationality: {
+        type: String,
+        required: true
     },
 
-
-    password:{
-        type:String,
-        required:true
+    password: {
+        type: String,
+        required: true
     },
 
-
-    verified:{
-        type:Boolean,
-        default:false
+    verified: {
+        type: Boolean,
+        default: false
     },
 
-
-    verificationToken:{
-        type:String,
-        default:""
+    verificationToken: {
+        type: String,
+        default: null
     }
 
-
-},
-
-{
-    timestamps:true
 });
 
 
-const User = mongoose.model(
-    "User",
-    userSchema
-);
-
+const User = mongoose.model("User", userSchema);
 
 
 // ======================================
-// EMAIL SETUP (WORKING VERSION)
+// EMAIL SETUP
 // ======================================
+
+// IMPORTANT:
+// EMAIL_PASS must be a Gmail APP PASSWORD,
+// NOT your normal Gmail password.
 
 const transporter = nodemailer.createTransport({
 
-    service:"gmail",
+    host: "smtp.gmail.com",
 
-    auth:{
+    port: 465,
 
-        user:process.env.EMAIL_USER,
+    secure: true,
 
-        pass:process.env.EMAIL_PASS
+    auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS
+    },
 
-    }
+    // Prevent signup from hanging forever
+    connectionTimeout: 15000,
+
+    greetingTimeout: 15000,
+
+    socketTimeout: 20000
 
 });
 
 
-transporter.verify((error)=>{
+// Check SMTP connection when server starts
 
-    if(error){
+transporter.verify()
 
-        console.log("❌ SMTP ERROR:",error);
-
-    }
-
-    else{
+    .then(() => {
 
         console.log("✅ Email server ready");
 
-    }
+    })
 
-});
+    .catch((error) => {
 
+        console.error(
+            "❌ SMTP ERROR:",
+            error.message
+        );
+
+        console.error(
+            "❌ SMTP CODE:",
+            error.code || "unknown"
+        );
+
+        console.error(
+            "❌ Check EMAIL_USER and EMAIL_PASS on Render."
+        );
+
+    });
 
 
 // ======================================
 // LOGIN CHECK
 // ======================================
 
-function requireLogin(req,res,next){
+function requireLogin(req, res, next) {
 
-
-    if(!req.session.userId){
-
+    if (!req.session.userId) {
 
         return res.status(401).json({
 
-            success:false,
+            success: false,
 
-            message:"Please login first"
+            message: "Please login first"
 
         });
 
     }
-
 
     next();
 
 }
 
 
-
 // ======================================
 // PAGES
 // ======================================
 
-
 app.get("/", (req, res) => {
+
     res.sendFile(
         path.join(__dirname, "home.html")
     );
+
 });
 
 
-
-app.get("/login",(req,res)=>{
-
+app.get("/login", (req, res) => {
 
     res.sendFile(
-        path.join(__dirname,"login.html")
+        path.join(__dirname, "login.html")
     );
 
 });
 
 
-
-app.get("/signup",(req,res)=>{
-
+app.get("/signup", (req, res) => {
 
     res.sendFile(
-        path.join(__dirname,"signup.html")
+        path.join(__dirname, "signup.html")
     );
 
 });
-
 
 
 app.get("/home", (req, res) => {
+
     res.sendFile(
         path.join(__dirname, "home.html")
     );
+
 });
-
-
-
+```
+```javascript
 // ======================================
 // SIGNUP
 // ======================================
 
+app.post("/signup", async (req, res) => {
 
-app.post("/signup",async(req,res)=>{
+    console.log("📥 SIGNUP REQUEST RECEIVED");
 
+    try {
 
-console.log("📥 SIGNUP REQUEST RECEIVED");
-
-
-try{
-
-
-const {
-
-firstName,
-
-secondName,
-
-email,
-
-phone,
-
-dob,
-
-nationality,
-
-password
+        const {
+            firstName,
+            secondName,
+            email,
+            phone,
+            dob,
+            nationality,
+            password
+        } = req.body;
 
 
-}=req.body;
+        // ======================================
+        // CHECK REQUIRED FIELDS
+        // ======================================
+
+        if (
+            !firstName ||
+            !secondName ||
+            !email ||
+            !phone ||
+            !dob ||
+            !nationality ||
+            !password
+        ) {
+
+            return res.status(400).json({
+
+                success: false,
+
+                message: "All fields are required"
+
+            });
+
+        }
 
 
+        // ======================================
+        // CHECK IF EMAIL ALREADY EXISTS
+        // ======================================
 
-if(
-!firstName ||
-!secondName ||
-!email ||
-!phone ||
-!dob ||
-!nationality ||
-!password
-
-){
+        const existingUser =
+            await User.findOne({ email });
 
 
-return res.status(400).json({
+        if (existingUser) {
 
-success:false,
+            return res.status(400).json({
 
-message:"All fields are required"
+                success: false,
+
+                message: "Email already exists"
+
+            });
+
+        }
+
+
+        // ======================================
+        // HASH PASSWORD
+        // ======================================
+
+        const hashedPassword =
+            await bcrypt.hash(password, 12);
+
+
+        // ======================================
+        // CREATE VERIFICATION TOKEN
+        // ======================================
+
+        const verificationToken =
+            crypto
+                .randomBytes(32)
+                .toString("hex");
+
+
+        // ======================================
+        // CREATE USER
+        // ======================================
+
+        const user = new User({
+
+            firstName,
+
+            secondName,
+
+            email,
+
+            phone,
+
+            dob,
+
+            nationality,
+
+            password: hashedPassword,
+
+            verified: false,
+
+            verificationToken
+
+        });
+
+
+        await user.save();
+
+
+        console.log(
+            "✅ USER SAVED:",
+            email
+        );
+
+
+        // ======================================
+        // VERIFICATION LINK
+        // ======================================
+
+        const verificationLink =
+            `${process.env.SERVER_URL}/verify/${verificationToken}`;
+
+
+        console.log(
+            "🔗 VERIFICATION LINK:",
+            verificationLink
+        );
+
+
+        // ======================================
+        // EMAIL
+        // ======================================
+
+        const mailOptions = {
+
+            from: process.env.EMAIL_USER,
+
+            to: email,
+
+            subject: "Verify your Tourismo Account",
+
+            html: `
+
+                <h2>Welcome to Tourismo</h2>
+
+                <p>Hello ${firstName},</p>
+
+                <p>
+                    Thank you for creating a Tourismo account.
+                </p>
+
+                <p>
+                    Click the button below to verify your email:
+                </p>
+
+                <p>
+
+                    <a
+                        href="${verificationLink}"
+                        style="
+                            display:inline-block;
+                            padding:12px 20px;
+                            background:#007bff;
+                            color:white;
+                            text-decoration:none;
+                            border-radius:6px;
+                        "
+                    >
+                        Verify My Account
+                    </a>
+
+                </p>
+
+                <p>
+                    If the button doesn't work, copy and paste
+                    this link into your browser:
+                </p>
+
+                <p>
+                    ${verificationLink}
+                </p>
+
+            `
+
+        };
+
+
+        // ======================================
+        // SEND EMAIL
+        // ======================================
+
+        try {
+
+            await transporter.sendMail(mailOptions);
+
+
+            console.log(
+                "✅ VERIFICATION EMAIL SENT:",
+                email
+            );
+
+
+            return res.json({
+
+                success: true,
+
+                message:
+                    "Verification email sent. Check your inbox."
+
+            });
+
+        }
+
+
+        catch (emailError) {
+
+            console.error(
+                "❌ EMAIL ERROR:",
+                emailError
+            );
+
+
+            console.error(
+                "❌ EMAIL MESSAGE:",
+                emailError.message
+            );
+
+
+            console.error(
+                "❌ EMAIL CODE:",
+                emailError.code || "unknown"
+            );
+
+
+            // ======================================
+            // DELETE USER IF EMAIL FAILED
+            // ======================================
+
+            try {
+
+                await User.deleteOne({
+                    _id: user._id
+                });
+
+                console.log(
+                    "🗑️ Unverified user removed."
+                );
+
+            }
+
+            catch (deleteError) {
+
+                console.error(
+                    "❌ FAILED TO CLEAN UP USER:",
+                    deleteError
+                );
+
+            }
+
+
+            return res.status(500).json({
+
+                success: false,
+
+                message:
+                    "Verification email could not be sent. Please try again later."
+
+            });
+
+        }
+
+    }
+
+
+    catch (err) {
+
+        console.error(
+            "❌ SIGNUP ERROR:",
+            err
+        );
+
+
+        return res.status(500).json({
+
+            success: false,
+
+            message:
+                "Server error. Please try again."
+
+        });
+
+    }
 
 });
 
 
-}
-
-
-
-const existingUser =
-await User.findOne({email});
-
-
-
-if(existingUser){
-
-
-return res.status(400).json({
-
-success:false,
-
-message:"Email already exists"
-
-});
-
-
-}
-
-
-
-const hashedPassword =
-await bcrypt.hash(password,12);
-
-
-
-const verificationToken =
-crypto.randomBytes(32)
-.toString("hex");
-
-
-
-const user = new User({
-
-firstName,
-
-secondName,
-
-email,
-
-phone,
-
-dob,
-
-nationality,
-
-password:hashedPassword,
-
-verified:false,
-
-verificationToken
-
-
-});
-
-
-
-await user.save();
-
-
-
-console.log(
-"✅ USER SAVED:",
-email
-);
-
-
-
-const verificationLink =
-
-`${process.env.SERVER_URL}/verify/${verificationToken}`;
-
-
-
-const mailOptions={
-
-
-from:process.env.EMAIL_USER,
-
-
-to:email,
-
-
-subject:"Verify your Tourismo Account",
-
-
-html:`
-
-<h2>Welcome to Tourismo</h2>
-
-<p>Hello ${firstName}</p>
-
-<p>Click the link below to verify your account:</p>
-
-<a href="${verificationLink}">
-${verificationLink}
-</a>
-
-`
-
-};
-
-
-
-transporter.sendMail(
-mailOptions,
-(err)=>{
-
-
-if(err){
-
-console.log(
-"❌ EMAIL ERROR:",
-err
-);
-
-
-return res.status(500).json({
-
-success:false,
-
-message:"Failed to send verification email"
-
-});
-
-
-}
-
-
-
-res.json({
-
-success:true,
-
-message:"Verification email sent. Check your inbox."
-
-});
-
-
-});
-
-
-}
-
-
-catch(err){
-
-
-console.error(
-"❌ SIGNUP ERROR:",
-err
-);
-
-
-
-res.status(500).json({
-
-success:false,
-
-message:"Server Error"
-
-});
-
-
-}
-
-
-});
 // ======================================
-// VERIFY EMAIL
+// EMAIL VERIFICATION
 // ======================================
 
+app.get("/verify/:token", async (req, res) => {
 
-app.get("/verify/:token", async(req,res)=>{
+    try {
+
+        const token = req.params.token;
 
 
-try{
+        const user =
+            await User.findOne({
+                verificationToken: token
+            });
 
 
-const user = await User.findOne({
+        if (!user) {
 
-verificationToken:req.params.token
+            return res.status(400).send(`
+
+                <h2>Invalid or expired verification link.</h2>
+
+                <p>
+                    Please create a new account or contact support.
+                </p>
+
+            `);
+
+        }
+
+
+        user.verified = true;
+
+        user.verificationToken = null;
+
+        await user.save();
+
+
+        console.log(
+            "✅ EMAIL VERIFIED:",
+            user.email
+        );
+
+
+        // Send user to login page
+
+        return res.redirect("/login");
+
+
+    }
+
+
+    catch (error) {
+
+        console.error(
+            "❌ VERIFICATION ERROR:",
+            error
+        );
+
+
+        return res.status(500).send(`
+
+            <h2>Verification failed.</h2>
+
+            <p>
+                Please try again later.
+            </p>
+
+        `);
+
+    }
 
 });
-
-
-
-if(!user){
-
-
-return res.send(`
-
-<h2>Invalid or expired verification link.</h2>
-
-`);
-
-}
-
-
-
-user.verified=true;
-
-user.verificationToken="";
-
-
-await user.save();
-
-
-
-res.redirect("/login.html?verified=true");
-
-
-
-}
-
-
-catch(err){
-
-
-console.error(
-"❌ VERIFY ERROR:",
-err
-);
-
-
-res.status(500).send(
-
-"Server Error"
-
-);
-
-
-}
-
-
-});
-
-
-
-
+```
+```javascript
 // ======================================
 // LOGIN
 // ======================================
 
+app.post("/login", async (req, res) => {
 
-app.post("/login",async(req,res)=>{
+    console.log("📥 LOGIN REQUEST RECEIVED");
 
+    try {
 
-try{
-
-
-const {
-
-email,
-
-password
-
-}=req.body;
+        const {
+            email,
+            password
+        } = req.body;
 
 
+        // ======================================
+        // CHECK FIELDS
+        // ======================================
 
-console.log(
-"🔑 LOGIN:",
-email
-);
+        if (!email || !password) {
+
+            return res.status(400).json({
+
+                success: false,
+
+                message: "Email and password are required"
+
+            });
+
+        }
 
 
+        // ======================================
+        // FIND USER
+        // ======================================
 
-const user =
-await User.findOne({email});
+        const user =
+            await User.findOne({ email });
 
 
+        if (!user) {
 
-if(!user){
+            return res.status(401).json({
+
+                success: false,
+
+                message: "Invalid email or password"
+
+            });
+
+        }
 
 
-return res.status(404).json({
+        // ======================================
+        // CHECK PASSWORD
+        // ======================================
 
-success:false,
+        const passwordMatch =
+            await bcrypt.compare(
+                password,
+                user.password
+            );
 
-message:"Account not found"
+
+        if (!passwordMatch) {
+
+            return res.status(401).json({
+
+                success: false,
+
+                message: "Invalid email or password"
+
+            });
+
+        }
+
+
+        // ======================================
+        // CHECK EMAIL VERIFICATION
+        // ======================================
+
+        if (!user.verified) {
+
+            return res.status(403).json({
+
+                success: false,
+
+                message:
+                    "Please verify your email before logging in."
+
+            });
+
+        }
+
+
+        // ======================================
+        // CREATE LOGIN SESSION
+        // ======================================
+
+        req.session.userId = user._id.toString();
+
+
+        console.log(
+            "✅ LOGIN SUCCESS:",
+            user.email
+        );
+
+
+        return res.json({
+
+            success: true,
+
+            message: "Login successful",
+
+            user: {
+
+                id: user._id,
+
+                firstName: user.firstName,
+
+                secondName: user.secondName,
+
+                email: user.email
+
+            }
+
+        });
+
+    }
+
+
+    catch (error) {
+
+        console.error(
+            "❌ LOGIN ERROR:",
+            error
+        );
+
+
+        return res.status(500).json({
+
+            success: false,
+
+            message:
+                "Server error. Please try again."
+
+        });
+
+    }
 
 });
-
-
-}
-
-
-
-if(!user.verified){
-
-
-return res.status(403).json({
-
-success:false,
-
-message:"Please verify your email first"
-
-});
-
-
-}
-
-
-
-const passwordCorrect =
-
-await bcrypt.compare(
-
-password,
-
-user.password
-
-);
-
-
-
-if(!passwordCorrect){
-
-
-return res.status(401).json({
-
-success:false,
-
-message:"Incorrect email or password"
-
-});
-
-
-}
-
-
-
-
-req.session.userId=user._id;
-
-req.session.userName=user.firstName;
-
-req.session.email=user.email;
-
-
-
-res.json({
-
-success:true,
-
-message:"Login successful",
-
-redirect:"/home"
-
-});
-
-
-}
-
-
-
-catch(err){
-
-
-console.error(
-"❌ LOGIN ERROR:",
-err
-);
-
-
-
-res.status(500).json({
-
-success:false,
-
-message:"Server Error"
-
-});
-
-
-}
-
-
-});
-
-
-
-
-
-// ======================================
-// CURRENT USER
-// ======================================
-
-
-app.get("/me",
-requireLogin,
-async(req,res)=>{
-
-
-try{
-
-
-const user = await User.findById(
-
-req.session.userId
-
-)
-
-.select("-password -verificationToken");
-
-
-
-if(!user){
-
-
-return res.status(404).json({
-
-success:false,
-
-message:"User not found"
-
-});
-
-
-}
-
-
-
-res.json(user);
-
-
-
-}
-
-
-
-catch(err){
-
-
-console.error(err);
-
-
-res.status(500).json({
-
-success:false,
-
-message:"Server Error"
-
-});
-
-
-}
-
-
-});
-
-
-
 
 
 // ======================================
 // LOGOUT
 // ======================================
 
+app.post("/logout", (req, res) => {
 
-app.post("/logout",
-(req,res)=>{
+    req.session.destroy((error) => {
 
+        if (error) {
 
-req.session.destroy(err=>{
+            console.error(
+                "❌ LOGOUT ERROR:",
+                error
+            );
 
+            return res.status(500).json({
 
-if(err){
+                success: false,
 
+                message: "Could not log out"
 
-return res.status(500).json({
+            });
 
-success:false,
-
-message:"Logout failed"
-
-});
-
-
-}
-
+        }
 
 
-res.clearCookie(
-"connect.sid"
-);
+        res.clearCookie("connect.sid");
 
 
+        return res.json({
 
-res.json({
+            success: true,
 
-success:true,
+            message: "Logged out successfully"
 
-message:"Logged out"
+        });
 
-});
-
+    });
 
 });
-
-
-});
-
-
-
 
 
 // ======================================
-// PROFILE
+// CHECK CURRENT LOGIN
 // ======================================
 
+app.get("/me", async (req, res) => {
 
-app.get("/profile",
-requireLogin,
-async(req,res)=>{
+    try {
 
+        if (!req.session.userId) {
 
-try{
+            return res.status(401).json({
 
+                success: false,
 
-const user =
-await User.findById(
+                message: "Not logged in"
 
-req.session.userId
+            });
 
-)
-
-.select("-password -verificationToken");
+        }
 
 
-
-res.json({
-
-success:true,
-
-user
-
-});
+        const user =
+            await User.findById(
+                req.session.userId
+            ).select("-password");
 
 
-}
+        if (!user) {
+
+            req.session.destroy(() => {});
 
 
+            return res.status(401).json({
 
-catch(err){
+                success: false,
 
+                message: "User not found"
 
-console.error(err);
+            });
 
-
-res.status(500).json({
-
-success:false,
-
-message:"Server Error"
-
-});
+        }
 
 
-}
+        return res.json({
+
+            success: true,
+
+            user
+
+        });
+
+    }
 
 
-});
+    catch (error) {
+
+        console.error(
+            "❌ /me ERROR:",
+            error
+        );
 
 
+        return res.status(500).json({
 
+            success: false,
 
+            message:
+                "Server error"
 
-// ======================================
-// UPDATE PROFILE
-// ======================================
+        });
 
-
-app.put("/profile",
-requireLogin,
-async(req,res)=>{
-
-
-try{
-
-
-const {
-
-firstName,
-
-secondName,
-
-phone,
-
-dob,
-
-nationality
-
-
-}=req.body;
-
-
-
-const user =
-await User.findById(
-
-req.session.userId
-
-);
-
-
-
-if(!user){
-
-
-return res.status(404).json({
-
-success:false,
-
-message:"User not found"
+    }
 
 });
-
-
-}
-
-
-
-user.firstName=firstName;
-
-user.secondName=secondName;
-
-user.phone=phone;
-
-user.dob=dob;
-
-user.nationality=nationality;
-
-
-
-await user.save();
-
-
-
-res.json({
-
-success:true,
-
-message:"Profile updated",
-
-user
-
-});
-
-
-}
-
-
-
-catch(err){
-
-
-console.error(err);
-
-
-res.status(500).json({
-
-success:false,
-
-message:"Server Error"
-
-});
-
-
-}
-
-
-});
-
-
-
 
 
 // ======================================
-// PROTECTED PAGES
+// SERVER TEST
 // ======================================
 
+app.get("/api/test", (req, res) => {
 
-app.get("/explore",
-requireLogin,
-(req,res)=>{
+    res.json({
 
+        success: true,
 
-res.sendFile(
+        message: "Tourismo server is working 🚀"
 
-path.join(
-__dirname,
-"explore.html"
-)
-
-);
-
+    });
 
 });
+```javascript
+// ======================================
+// 404 HANDLER
+// ======================================
+
+app.use((req, res) => {
+
+    // API requests get JSON
+    if (req.path.startsWith("/api/") || req.path === "/signup" || req.path === "/login") {
+
+        return res.status(404).json({
+
+            success: false,
+
+            message: "Route not found"
+
+        });
+
+    }
 
 
-
-app.get("/messages",
-requireLogin,
-(req,res)=>{
-
-
-res.sendFile(
-
-path.join(
-__dirname,
-"messages.html"
-)
-
-);
-
-
-});
-
-
-
-app.get("/bookings",
-requireLogin,
-(req,res)=>{
-
-
-res.sendFile(
-
-path.join(
-__dirname,
-"bookings.html"
-)
-
-);
-
+    // Other unknown routes
+    res.status(404).send("Page not found");
 
 });
-
-
-
-app.get("/profile-page",
-requireLogin,
-(req,res)=>{
-
-
-res.sendFile(
-
-path.join(
-__dirname,
-"profile.html"
-)
-
-);
-
-
-});
-
-
-
 
 
 // ======================================
-// 404
+// SERVER ERROR HANDLER
 // ======================================
 
+app.use((error, req, res, next) => {
 
-app.use((req,res)=>{
+    console.error(
+        "❌ SERVER ERROR:",
+        error
+    );
 
 
-res.status(404).send(
+    if (res.headersSent) {
 
-"<h2>404 - Page Not Found</h2>"
+        return next(error);
 
-);
+    }
 
+
+    res.status(500).json({
+
+        success: false,
+
+        message: "Internal server error"
+
+    });
 
 });
-
-
-
 
 
 // ======================================
 // START SERVER
 // ======================================
 
+app.listen(PORT, () => {
 
-const PORT =
-process.env.PORT || 3000;
+    console.log(
+        `🚀 Tourismo Server running on port ${PORT}`
+    );
 
+    console.log(
+        `🌍 SERVER_URL: ${process.env.SERVER_URL || "not set"}`
+    );
 
-
-app.listen(PORT,()=>{
-
-
-console.log(
-
-`✅ Tourismo Server running on port ${PORT}`
-
-);
-
-
-});// ======================================
-// VERIFY EMAIL
-// ======================================
-
-
-app.get("/verify/:token", async(req,res)=>{
-
-
-try{
-
-
-const user = await User.findOne({
-
-verificationToken:req.params.token
+    console.log(
+        `📧 EMAIL_USER: ${process.env.EMAIL_USER || "not set"}`
+    );
 
 });
+```
 
-
-
-if(!user){
-
-
-return res.send(`
-
-<h2>Invalid or expired verification link.</h2>
-
-`);
-
-}
-
-
-
-user.verified=true;
-
-user.verificationToken="";
-
-
-await user.save();
-
-
-
-res.redirect("/login.html?verified=true");
-
-
-
-}
-
-
-catch(err){
-
-
-console.error(
-"❌ VERIFY ERROR:",
-err
-);
-
-
-res.status(500).send(
-
-"Server Error"
-
-);
-
-
-}
-
-
-});
-
-
-
-
-// ======================================
-// LOGIN
-// ======================================
-
-
-app.post("/login",async(req,res)=>{
-
-
-try{
-
-
-const {
-
-email,
-
-password
-
-}=req.body;
-
-
-
-console.log(
-"🔑 LOGIN:",
-email
-);
-
-
-
-const user =
-await User.findOne({email});
-
-
-
-if(!user){
-
-
-return res.status(404).json({
-
-success:false,
-
-message:"Account not found"
-
-});
-
-
-}
-
-
-
-if(!user.verified){
-
-
-return res.status(403).json({
-
-success:false,
-
-message:"Please verify your email first"
-
-});
-
-
-}
-
-
-
-const passwordCorrect =
-
-await bcrypt.compare(
-
-password,
-
-user.password
-
-);
-
-
-
-if(!passwordCorrect){
-
-
-return res.status(401).json({
-
-success:false,
-
-message:"Incorrect email or password"
-
-});
-
-
-}
-
-
-
-
-req.session.userId=user._id;
-
-req.session.userName=user.firstName;
-
-req.session.email=user.email;
-
-
-
-res.json({
-
-success:true,
-
-message:"Login successful",
-
-redirect:"/home"
-
-});
-
-
-}
-
-
-
-catch(err){
-
-
-console.error(
-"❌ LOGIN ERROR:",
-err
-);
-
-
-
-res.status(500).json({
-
-success:false,
-
-message:"Server Error"
-
-});
-
-
-}
-
-
-});
-
-
-
-
-
-// ======================================
-// CURRENT USER
-// ======================================
-
-
-app.get("/me",
-requireLogin,
-async(req,res)=>{
-
-
-try{
-
-
-const user = await User.findById(
-
-req.session.userId
-
-)
-
-.select("-password -verificationToken");
-
-
-
-if(!user){
-
-
-return res.status(404).json({
-
-success:false,
-
-message:"User not found"
-
-});
-
-
-}
-
-
-
-res.json(user);
-
-
-
-}
-
-
-
-catch(err){
-
-
-console.error(err);
-
-
-res.status(500).json({
-
-success:false,
-
-message:"Server Error"
-
-});
-
-
-}
-
-
-});
-
-
-
-
-
-// ======================================
-// LOGOUT
-// ======================================
-
-
-app.post("/logout",
-(req,res)=>{
-
-
-req.session.destroy(err=>{
-
-
-if(err){
-
-
-return res.status(500).json({
-
-success:false,
-
-message:"Logout failed"
-
-});
-
-
-}
-
-
-
-res.clearCookie(
-"connect.sid"
-);
-
-
-
-res.json({
-
-success:true,
-
-message:"Logged out"
-
-});
-
-
-});
-
-
-});
-
-
-
-
-
-// ======================================
-// PROFILE
-// ======================================
-
-
-app.get("/profile",
-requireLogin,
-async(req,res)=>{
-
-
-try{
-
-
-const user =
-await User.findById(
-
-req.session.userId
-
-)
-
-.select("-password -verificationToken");
-
-
-
-res.json({
-
-success:true,
-
-user
-
-});
-
-
-}
-
-
-
-catch(err){
-
-
-console.error(err);
-
-
-res.status(500).json({
-
-success:false,
-
-message:"Server Error"
-
-});
-
-
-}
-
-
-});
-
-
-
-
-
-// ======================================
-// UPDATE PROFILE
-// ======================================
-
-
-app.put("/profile",
-requireLogin,
-async(req,res)=>{
-
-
-try{
-
-
-const {
-
-firstName,
-
-secondName,
-
-phone,
-
-dob,
-
-nationality
-
-
-}=req.body;
-
-
-
-const user =
-await User.findById(
-
-req.session.userId
-
-);
-
-
-
-if(!user){
-
-
-return res.status(404).json({
-
-success:false,
-
-message:"User not found"
-
-});
-
-
-}
-
-
-
-user.firstName=firstName;
-
-user.secondName=secondName;
-
-user.phone=phone;
-
-user.dob=dob;
-
-user.nationality=nationality;
-
-
-
-await user.save();
-
-
-
-res.json({
-
-success:true,
-
-message:"Profile updated",
-
-user
-
-});
-
-
-}
-
-
-
-catch(err){
-
-
-console.error(err);
-
-
-res.status(500).json({
-
-success:false,
-
-message:"Server Error"
-
-});
-
-
-}
-
-
-});
-
-
-
-
-
-// ======================================
-// PROTECTED PAGES
-// ======================================
-
-
-app.get("/explore",
-requireLogin,
-(req,res)=>{
-
-
-res.sendFile(
-
-path.join(
-__dirname,
-"explore.html"
-)
-
-);
-
-
-});
-
-
-
-app.get("/messages",
-requireLogin,
-(req,res)=>{
-
-
-res.sendFile(
-
-path.join(
-__dirname,
-"messages.html"
-)
-
-);
-
-
-});
-
-
-
-app.get("/bookings",
-requireLogin,
-(req,res)=>{
-
-
-res.sendFile(
-
-path.join(
-__dirname,
-"bookings.html"
-)
-
-);
-
-
-});
-
-
-
-app.get("/profile-page",
-requireLogin,
-(req,res)=>{
-
-
-res.sendFile(
-
-path.join(
-__dirname,
-"profile.html"
-)
-
-);
-
-
-});
-
-
-
-
-
-// ======================================
-// 404
-// ======================================
-
-
-app.use((req,res)=>{
-
-
-res.status(404).send(
-
-"<h2>404 - Page Not Found</h2>"
-
-);
-
-
-});
-
-
-
-
-
-// ======================================
