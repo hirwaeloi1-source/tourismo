@@ -364,9 +364,10 @@ app.post("/signup", async (req, res) => {
         // ======================================
         // VERIFICATION LINK
         // ======================================
+        
 
-        const verificationLink =
-            `${process.env.SERVER_URL}/verify/${verificationToken}`;
+const verificationLink = `${process.env.SERVER_URL}/verify/${verificationToken}`;
+
 
 
         console.log(
