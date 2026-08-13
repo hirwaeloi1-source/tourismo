@@ -1,7 +1,6 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
-const nodemailer = require("nodemailer");
 const cors = require("cors");
 const dotenv = require("dotenv");
 const crypto = require("crypto");
@@ -137,60 +136,60 @@ const User = mongoose.model("User", userSchema);
 
 
 // ======================================
-// EMAIL SETUP
+// RESEND HTTPS EMAIL API
 // ======================================
 
-const transporter = nodemailer.createTransport({
+// IMPORTANT:
+// RESEND_API_KEY must be added to Render Environment Variables.
+//
+// Example:
+// RESEND_API_KEY=re_xxxxxxxxx
+//
+// RESEND_FROM must be a sender/domain
+// authorized by your Resend account.
 
-    host: "smtp.gmail.com",
+const RESEND_API_KEY =
+    process.env.RESEND_API_KEY;
 
-    port: 465,
-
-    secure: true,
-
-    auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS
-    },
-
-    connectionTimeout: 15000,
-
-    greetingTimeout: 15000,
-
-    socketTimeout: 20000
-
-});
+const RESEND_FROM =
+    process.env.RESEND_FROM;
 
 
 // ======================================
-// CHECK EMAIL CONNECTION
+// CHECK RESEND CONFIGURATION
 // ======================================
 
-transporter.verify()
+if (!RESEND_API_KEY) {
 
-    .then(() => {
+    console.error(
+        "❌ RESEND_API_KEY is not set."
+    );
 
-        console.log("✅ Email server ready");
+}
+else {
 
-    })
+    console.log(
+        "✅ Resend API key configured"
+    );
 
-    .catch((error) => {
+}
 
-        console.error(
-            "❌ SMTP ERROR:",
-            error.message
-        );
 
-        console.error(
-            "❌ SMTP CODE:",
-            error.code || "unknown"
-        );
+if (!RESEND_FROM) {
 
-        console.error(
-            "❌ Check EMAIL_USER and EMAIL_PASS on Render."
-        );
+    console.error(
+        "❌ RESEND_FROM is not set."
+    );
 
-    });
+}
+else {
+
+    console.log(
+        "📧 RESEND_FROM:",
+        RESEND_FROM
+    );
+
+}
 
 
 // ======================================
@@ -305,7 +304,9 @@ app.post("/signup", async (req, res) => {
         // ======================================
 
         const existingUser =
-            await User.findOne({ email });
+            await User.findOne({
+                email: email
+            });
 
 
         if (existingUser) {
@@ -390,24 +391,60 @@ app.post("/signup", async (req, res) => {
 
 
         // ======================================
-        // EMAIL OPTIONS
+        // CHECK RESEND SETTINGS
         // ======================================
 
-        const mailOptions = {
+        if (!RESEND_API_KEY || !RESEND_FROM) {
 
-            from: process.env.EMAIL_USER,
+            console.error(
+                "❌ Resend environment variables are missing."
+            );
 
-            to: email,
 
-            subject: "Verify your Tourismo Account",
+            // Remove unverified account
+            await User.deleteOne({
+                _id: user._id
+            });
 
-            html: `
-                <h2>Welcome to Tourismo</h2>
 
-                <p>Hello ${firstName},</p>
+            return res.status(500).json({
+
+                success: false,
+
+                message:
+                    "Email service is not configured."
+
+            });
+
+        }
+
+
+        // ======================================
+        // EMAIL HTML
+        // ======================================
+
+        const emailHtml = `
+
+            <div
+                style="
+                    font-family: Arial, sans-serif;
+                    max-width: 600px;
+                    margin: auto;
+                    padding: 30px;
+                "
+            >
+
+                <h2>
+                    Welcome to Tourismo
+                </h2>
 
                 <p>
-                    Thank you for creating a Tourismo account.
+                    Hello ${firstName},
+                </p>
+
+                <p>
+                    Thank you for creating your
+                    Tourismo account.
                 </p>
 
                 <p>
@@ -416,6 +453,7 @@ app.post("/signup", async (req, res) => {
                 </p>
 
                 <p>
+
                     <a
                         href="${verificationLink}"
                         style="
@@ -429,33 +467,135 @@ app.post("/signup", async (req, res) => {
                     >
                         Verify My Account
                     </a>
+
                 </p>
 
                 <p>
-                    If the button doesn't work,
-                    copy and paste this link into your browser:
+                    If the button does not work,
+                    copy and paste this link into
+                    your browser:
                 </p>
 
                 <p>
                     ${verificationLink}
                 </p>
-            `
 
-        };
+                <p>
+                    Thank you,<br>
+                    Tourismo Team
+                </p>
+
+            </div>
+
+        `;
 
 
         // ======================================
-        // SEND VERIFICATION EMAIL
+        // SEND EMAIL USING RESEND HTTPS API
         // ======================================
 
         try {
 
-            await transporter.sendMail(mailOptions);
+            const emailResponse =
+                await fetch(
+                    "https://api.resend.com/emails",
+                    {
+                        method: "POST",
 
+                        headers: {
+                            "Authorization":
+                                `Bearer ${RESEND_API_KEY}`,
+
+                            "Content-Type":
+                                "application/json"
+                        },
+
+                        body: JSON.stringify({
+
+                            from: RESEND_FROM,
+
+                            to: [email],
+
+                            subject:
+                                "Verify your Tourismo Account",
+
+                            html: emailHtml
+
+                        })
+
+                    }
+                );
+
+
+            // ======================================
+            // READ RESEND RESPONSE
+            // ======================================
+
+            const responseText =
+                await emailResponse.text();
+
+
+            let responseData;
+
+            try {
+
+                responseData =
+                    JSON.parse(responseText);
+
+            }
+
+            catch {
+
+                responseData = {
+                    raw: responseText
+                };
+
+            }
+
+
+            // ======================================
+            // RESEND ERROR
+            // ======================================
+
+            if (!emailResponse.ok) {
+
+                console.error(
+                    "❌ RESEND ERROR:",
+                    responseData
+                );
+
+
+                // Remove unverified user
+                await User.deleteOne({
+                    _id: user._id
+                });
+
+
+                return res.status(500).json({
+
+                    success: false,
+
+                    message:
+                        "Verification email could not be sent."
+
+                });
+
+            }
+
+
+            // ======================================
+            // EMAIL SENT
+            // ======================================
 
             console.log(
                 "✅ VERIFICATION EMAIL SENT:",
                 email
+            );
+
+
+            console.log(
+                "📨 RESEND RESPONSE:",
+                responseData
             );
 
 
@@ -474,40 +614,19 @@ app.post("/signup", async (req, res) => {
         catch (emailError) {
 
             console.error(
-                "❌ EMAIL ERROR:",
+                "❌ RESEND CONNECTION ERROR:",
                 emailError
             );
 
 
-            console.error(
-                "❌ EMAIL MESSAGE:",
-                emailError.message
-            );
-
-
-            console.error(
-                "❌ EMAIL CODE:",
-                emailError.code || "unknown"
-            );
-
-
-            // ======================================
-            // DELETE USER IF EMAIL FAILED
-            // ======================================
-
+            // Remove unverified user
             try {
 
                 await User.deleteOne({
                     _id: user._id
                 });
 
-
-                console.log(
-                    "🗑️ Unverified user removed."
-                );
-
             }
-
 
             catch (deleteError) {
 
@@ -524,7 +643,7 @@ app.post("/signup", async (req, res) => {
                 success: false,
 
                 message:
-                    "Verification email could not be sent. Please try again later."
+                    "Verification email could not be sent."
 
             });
 
@@ -559,82 +678,100 @@ app.post("/signup", async (req, res) => {
 // EMAIL VERIFICATION
 // ======================================
 
-app.get("/verify/:token", async (req, res) => {
+app.get(
+    "/verify/:token",
+    async (req, res) => {
 
-    try {
+        try {
 
-        const token = req.params.token;
-
-
-        const user =
-            await User.findOne({
-                verificationToken: token
-            });
+            const token =
+                req.params.token;
 
 
-        if (!user) {
+            const user =
+                await User.findOne({
 
-            return res.status(400).send(`
+                    verificationToken:
+                        token
 
-                <h2>Invalid or expired verification link.</h2>
+                });
 
-                <p>
-                    Please create a new account
-                    and request another verification email.
-                </p>
 
-            `);
+            if (!user) {
+
+                return res
+                    .status(400)
+                    .send(`
+
+                        <h2>
+                            Invalid or expired
+                            verification link.
+                        </h2>
+
+                        <p>
+                            Please create a new
+                            account and try again.
+                        </p>
+
+                    `);
+
+            }
+
+
+            // ======================================
+            // VERIFY USER
+            // ======================================
+
+            user.verified = true;
+
+            user.verificationToken = null;
+
+            await user.save();
+
+
+            console.log(
+                "✅ EMAIL VERIFIED:",
+                user.email
+            );
+
+
+            // ======================================
+            // REDIRECT TO LOGIN
+            // ======================================
+
+            return res.redirect(
+                "/login"
+            );
 
         }
 
 
-        // ======================================
-        // VERIFY USER
-        // ======================================
+        catch (error) {
 
-        user.verified = true;
-
-        user.verificationToken = null;
-
-        await user.save();
+            console.error(
+                "❌ VERIFICATION ERROR:",
+                error
+            );
 
 
-        console.log(
-            "✅ EMAIL VERIFIED:",
-            user.email
-        );
+            return res
+                .status(500)
+                .send(`
 
+                    <h2>
+                        Verification failed.
+                    </h2>
 
-        // ======================================
-        // SEND USER TO LOGIN
-        // ======================================
+                    <p>
+                        Please try again later.
+                    </p>
 
-        return res.redirect("/login");
+                `);
 
-    }
-
-
-    catch (error) {
-
-        console.error(
-            "❌ VERIFICATION ERROR:",
-            error
-        );
-
-
-        return res.status(500).send(`
-
-            <h2>Verification failed.</h2>
-
-            <p>
-                Please try again later.
-            </p>
-
-        `);
+        }
 
     }
-
-});
+);
 // ======================================
 // LOGIN
 // ======================================
@@ -827,7 +964,9 @@ app.post("/logout", (req, res) => {
         }
 
 
-        res.clearCookie("connect.sid");
+        res.clearCookie(
+            "connect.sid"
+        );
 
 
         return res.json({
@@ -882,7 +1021,9 @@ app.get("/me", async (req, res) => {
 
         if (!user) {
 
-            req.session.destroy(() => {});
+            req.session.destroy(
+                () => {}
+            );
 
 
             return res.status(401).json({
@@ -970,7 +1111,7 @@ app.use((req, res) => {
     }
 
 
-    // Other pages
+    // Other unknown pages
     return res.status(404).send(
         "Page not found"
     );
@@ -990,7 +1131,6 @@ app.use((error, req, res, next) => {
     );
 
 
-    // If headers were already sent
     if (res.headersSent) {
 
         return next(error);
@@ -1027,8 +1167,8 @@ app.listen(PORT, () => {
     );
 
     console.log(
-        `📧 EMAIL_USER: ${
-            process.env.EMAIL_USER || "not set"
+        `📧 RESEND_FROM: ${
+            process.env.RESEND_FROM || "not set"
         }`
     );
 
