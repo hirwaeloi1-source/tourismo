@@ -1,4 +1,3 @@
-```javascript
 const express = require("express");
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
@@ -13,6 +12,7 @@ dotenv.config();
 
 const app = express();
 
+
 // ======================================
 // BASIC SETUP
 // ======================================
@@ -20,7 +20,15 @@ const app = express();
 app.use(cors());
 
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+
+app.use(express.urlencoded({
+    extended: true
+}));
+
+
+// ======================================
+// SESSION
+// ======================================
 
 app.use(
     session({
@@ -34,7 +42,11 @@ app.use(
     })
 );
 
-// Serve frontend files
+
+// ======================================
+// SERVE FRONTEND
+// ======================================
+
 app.use(express.static(__dirname));
 
 
@@ -52,10 +64,17 @@ const PORT = process.env.PORT || 3000;
 mongoose
     .connect(process.env.MONGO_URI)
     .then(() => {
+
         console.log("✅ MongoDB connected");
+
     })
     .catch((error) => {
-        console.error("❌ MongoDB connection error:", error);
+
+        console.error(
+            "❌ MongoDB connection error:",
+            error
+        );
+
     });
 
 
@@ -121,10 +140,6 @@ const User = mongoose.model("User", userSchema);
 // EMAIL SETUP
 // ======================================
 
-// IMPORTANT:
-// EMAIL_PASS must be a Gmail APP PASSWORD,
-// NOT your normal Gmail password.
-
 const transporter = nodemailer.createTransport({
 
     host: "smtp.gmail.com",
@@ -138,7 +153,6 @@ const transporter = nodemailer.createTransport({
         pass: process.env.EMAIL_PASS
     },
 
-    // Prevent signup from hanging forever
     connectionTimeout: 15000,
 
     greetingTimeout: 15000,
@@ -148,7 +162,9 @@ const transporter = nodemailer.createTransport({
 });
 
 
-// Check SMTP connection when server starts
+// ======================================
+// CHECK EMAIL CONNECTION
+// ======================================
 
 transporter.verify()
 
@@ -238,8 +254,6 @@ app.get("/home", (req, res) => {
     );
 
 });
-```
-```javascript
 // ======================================
 // SIGNUP
 // ======================================
@@ -287,7 +301,7 @@ app.post("/signup", async (req, res) => {
 
 
         // ======================================
-        // CHECK IF EMAIL ALREADY EXISTS
+        // CHECK EMAIL
         // ======================================
 
         const existingUser =
@@ -331,23 +345,23 @@ app.post("/signup", async (req, res) => {
 
         const user = new User({
 
-            firstName,
+            firstName: firstName,
 
-            secondName,
+            secondName: secondName,
 
-            email,
+            email: email,
 
-            phone,
+            phone: phone,
 
-            dob,
+            dob: dob,
 
-            nationality,
+            nationality: nationality,
 
             password: hashedPassword,
 
             verified: false,
 
-            verificationToken
+            verificationToken: verificationToken
 
         });
 
@@ -364,10 +378,9 @@ app.post("/signup", async (req, res) => {
         // ======================================
         // VERIFICATION LINK
         // ======================================
-        
 
-const verificationLink = `${process.env.SERVER_URL}/verify/${verificationToken}`;
-
+        const verificationLink =
+            `${process.env.SERVER_URL}/verify/${verificationToken}`;
 
 
         console.log(
@@ -377,7 +390,7 @@ const verificationLink = `${process.env.SERVER_URL}/verify/${verificationToken}`
 
 
         // ======================================
-        // EMAIL
+        // EMAIL OPTIONS
         // ======================================
 
         const mailOptions = {
@@ -389,7 +402,6 @@ const verificationLink = `${process.env.SERVER_URL}/verify/${verificationToken}`
             subject: "Verify your Tourismo Account",
 
             html: `
-
                 <h2>Welcome to Tourismo</h2>
 
                 <p>Hello ${firstName},</p>
@@ -399,11 +411,11 @@ const verificationLink = `${process.env.SERVER_URL}/verify/${verificationToken}`
                 </p>
 
                 <p>
-                    Click the button below to verify your email:
+                    Please click the button below
+                    to verify your email address.
                 </p>
 
                 <p>
-
                     <a
                         href="${verificationLink}"
                         style="
@@ -417,25 +429,23 @@ const verificationLink = `${process.env.SERVER_URL}/verify/${verificationToken}`
                     >
                         Verify My Account
                     </a>
-
                 </p>
 
                 <p>
-                    If the button doesn't work, copy and paste
-                    this link into your browser:
+                    If the button doesn't work,
+                    copy and paste this link into your browser:
                 </p>
 
                 <p>
                     ${verificationLink}
                 </p>
-
             `
 
         };
 
 
         // ======================================
-        // SEND EMAIL
+        // SEND VERIFICATION EMAIL
         // ======================================
 
         try {
@@ -491,16 +501,18 @@ const verificationLink = `${process.env.SERVER_URL}/verify/${verificationToken}`
                     _id: user._id
                 });
 
+
                 console.log(
                     "🗑️ Unverified user removed."
                 );
 
             }
 
+
             catch (deleteError) {
 
                 console.error(
-                    "❌ FAILED TO CLEAN UP USER:",
+                    "❌ FAILED TO DELETE USER:",
                     deleteError
                 );
 
@@ -521,11 +533,11 @@ const verificationLink = `${process.env.SERVER_URL}/verify/${verificationToken}`
     }
 
 
-    catch (err) {
+    catch (error) {
 
         console.error(
             "❌ SIGNUP ERROR:",
-            err
+            error
         );
 
 
@@ -567,13 +579,18 @@ app.get("/verify/:token", async (req, res) => {
                 <h2>Invalid or expired verification link.</h2>
 
                 <p>
-                    Please create a new account or contact support.
+                    Please create a new account
+                    and request another verification email.
                 </p>
 
             `);
 
         }
 
+
+        // ======================================
+        // VERIFY USER
+        // ======================================
 
         user.verified = true;
 
@@ -588,10 +605,11 @@ app.get("/verify/:token", async (req, res) => {
         );
 
 
-        // Send user to login page
+        // ======================================
+        // SEND USER TO LOGIN
+        // ======================================
 
         return res.redirect("/login");
-
 
     }
 
@@ -617,8 +635,6 @@ app.get("/verify/:token", async (req, res) => {
     }
 
 });
-```
-```javascript
 // ======================================
 // LOGIN
 // ======================================
@@ -636,7 +652,7 @@ app.post("/login", async (req, res) => {
 
 
         // ======================================
-        // CHECK FIELDS
+        // CHECK REQUIRED FIELDS
         // ======================================
 
         if (!email || !password) {
@@ -645,7 +661,8 @@ app.post("/login", async (req, res) => {
 
                 success: false,
 
-                message: "Email and password are required"
+                message:
+                    "Email and password are required"
 
             });
 
@@ -657,7 +674,9 @@ app.post("/login", async (req, res) => {
         // ======================================
 
         const user =
-            await User.findOne({ email });
+            await User.findOne({
+                email: email
+            });
 
 
         if (!user) {
@@ -666,7 +685,8 @@ app.post("/login", async (req, res) => {
 
                 success: false,
 
-                message: "Invalid email or password"
+                message:
+                    "Invalid email or password"
 
             });
 
@@ -690,7 +710,8 @@ app.post("/login", async (req, res) => {
 
                 success: false,
 
-                message: "Invalid email or password"
+                message:
+                    "Invalid email or password"
 
             });
 
@@ -716,10 +737,11 @@ app.post("/login", async (req, res) => {
 
 
         // ======================================
-        // CREATE LOGIN SESSION
+        // CREATE SESSION
         // ======================================
 
-        req.session.userId = user._id.toString();
+        req.session.userId =
+            user._id.toString();
 
 
         console.log(
@@ -732,17 +754,21 @@ app.post("/login", async (req, res) => {
 
             success: true,
 
-            message: "Login successful",
+            message:
+                "Login successful",
 
             user: {
 
                 id: user._id,
 
-                firstName: user.firstName,
+                firstName:
+                    user.firstName,
 
-                secondName: user.secondName,
+                secondName:
+                    user.secondName,
 
-                email: user.email
+                email:
+                    user.email
 
             }
 
@@ -788,11 +814,13 @@ app.post("/logout", (req, res) => {
                 error
             );
 
+
             return res.status(500).json({
 
                 success: false,
 
-                message: "Could not log out"
+                message:
+                    "Could not log out"
 
             });
 
@@ -806,7 +834,8 @@ app.post("/logout", (req, res) => {
 
             success: true,
 
-            message: "Logged out successfully"
+            message:
+                "Logged out successfully"
 
         });
 
@@ -816,12 +845,16 @@ app.post("/logout", (req, res) => {
 
 
 // ======================================
-// CHECK CURRENT LOGIN
+// CURRENT USER
 // ======================================
 
 app.get("/me", async (req, res) => {
 
     try {
+
+        // ======================================
+        // CHECK SESSION
+        // ======================================
 
         if (!req.session.userId) {
 
@@ -829,12 +862,17 @@ app.get("/me", async (req, res) => {
 
                 success: false,
 
-                message: "Not logged in"
+                message:
+                    "Not logged in"
 
             });
 
         }
 
+
+        // ======================================
+        // FIND USER
+        // ======================================
 
         const user =
             await User.findById(
@@ -851,7 +889,8 @@ app.get("/me", async (req, res) => {
 
                 success: false,
 
-                message: "User not found"
+                message:
+                    "User not found"
 
             });
 
@@ -862,7 +901,7 @@ app.get("/me", async (req, res) => {
 
             success: true,
 
-            user
+            user: user
 
         });
 
@@ -897,24 +936,28 @@ app.get("/me", async (req, res) => {
 
 app.get("/api/test", (req, res) => {
 
-    res.json({
+    return res.json({
 
         success: true,
 
-        message: "Tourismo server is working 🚀"
+        message:
+            "Tourismo server is working 🚀"
 
     });
 
 });
-```javascript
 // ======================================
 // 404 HANDLER
 // ======================================
 
 app.use((req, res) => {
 
-    // API requests get JSON
-    if (req.path.startsWith("/api/") || req.path === "/signup" || req.path === "/login") {
+    // API routes
+    if (
+        req.path.startsWith("/api/") ||
+        req.path === "/signup" ||
+        req.path === "/login"
+    ) {
 
         return res.status(404).json({
 
@@ -927,8 +970,10 @@ app.use((req, res) => {
     }
 
 
-    // Other unknown routes
-    res.status(404).send("Page not found");
+    // Other pages
+    return res.status(404).send(
+        "Page not found"
+    );
 
 });
 
@@ -945,6 +990,7 @@ app.use((error, req, res, next) => {
     );
 
 
+    // If headers were already sent
     if (res.headersSent) {
 
         return next(error);
@@ -952,11 +998,12 @@ app.use((error, req, res, next) => {
     }
 
 
-    res.status(500).json({
+    return res.status(500).json({
 
         success: false,
 
-        message: "Internal server error"
+        message:
+            "Internal server error"
 
     });
 
@@ -974,13 +1021,15 @@ app.listen(PORT, () => {
     );
 
     console.log(
-        `🌍 SERVER_URL: ${process.env.SERVER_URL || "not set"}`
+        `🌍 SERVER_URL: ${
+            process.env.SERVER_URL || "not set"
+        }`
     );
 
     console.log(
-        `📧 EMAIL_USER: ${process.env.EMAIL_USER || "not set"}`
+        `📧 EMAIL_USER: ${
+            process.env.EMAIL_USER || "not set"
+        }`
     );
 
 });
-```
-
