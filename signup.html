@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -16,13 +18,9 @@
 }
 
 body{
-
     min-height:100vh;
-
     overflow-x:hidden;
-
     background:#111;
-
 }
 
 /*=========================
@@ -48,19 +46,14 @@ BACKGROUND
     transition:opacity 2s ease-in-out;
 
     z-index:-2;
-
 }
 
 #bg1{
-
     opacity:1;
-
 }
 
 .visible{
-
     opacity:1;
-
 }
 
 /* Dark Overlay */
@@ -80,8 +73,8 @@ body::before{
     background:rgba(0,0,0,.45);
 
     z-index:-1;
-
 }
+
 
 /*=========================
 HEADER
@@ -90,7 +83,6 @@ HEADER
 #welcome{
 
     width:100%;
-
     height:70px;
 
     background:rgba(21,122,31,.85);
@@ -100,11 +92,9 @@ HEADER
     display:flex;
 
     align-items:center;
-
     justify-content:center;
 
     position:relative;
-
 }
 
 #logo{
@@ -114,7 +104,6 @@ HEADER
     left:15px;
 
     width:52px;
-
     height:52px;
 
     border-radius:50%;
@@ -122,7 +111,6 @@ HEADER
     border:2px solid white;
 
     object-fit:cover;
-
 }
 
 #welcome h2{
@@ -130,8 +118,8 @@ HEADER
     color:white;
 
     letter-spacing:1px;
-
 }
+
 
 /*=========================
 CONTAINER
@@ -146,8 +134,8 @@ CONTAINER
     align-items:center;
 
     padding:40px 20px;
-
 }
+
 
 /*=========================
 FORM
@@ -168,7 +156,6 @@ form{
     color:white;
 
     box-shadow:0 10px 30px rgba(0,0,0,.35);
-
 }
 
 form h2{
@@ -176,7 +163,6 @@ form h2{
     text-align:center;
 
     margin-bottom:20px;
-
 }
 
 label{
@@ -184,11 +170,9 @@ label{
     display:block;
 
     margin-top:10px;
-
     margin-bottom:5px;
 
     font-weight:bold;
-
 }
 
 input{
@@ -204,13 +188,16 @@ input{
     outline:none;
 
     font-size:15px;
-
 }
+
+
+/*=========================
+PASSWORD
+==========================*/
 
 .password-wrapper{
 
     position:relative;
-
 }
 
 .toggle-password{
@@ -218,20 +205,18 @@ input{
     position:absolute;
 
     top:50%;
-
     right:10px;
 
     transform:translateY(-50%);
 
     width:22px;
-
     height:22px;
 
     cursor:pointer;
 
     fill:#444;
-
 }
+
 
 /*=========================
 COUNTRY SELECTOR
@@ -240,13 +225,11 @@ COUNTRY SELECTOR
 .country-selector{
 
     position:relative;
-
 }
 
 #countrySearch{
 
     width:100%;
-
 }
 
 .dropdown{
@@ -268,7 +251,6 @@ COUNTRY SELECTOR
     display:none;
 
     z-index:999;
-
 }
 
 .dropdown-item{
@@ -280,13 +262,11 @@ COUNTRY SELECTOR
     padding:8px;
 
     cursor:pointer;
-
 }
 
 .dropdown-item:hover{
 
     background:#eee;
-
 }
 
 .dropdown-item img{
@@ -294,8 +274,8 @@ COUNTRY SELECTOR
     width:20px;
 
     margin-right:10px;
-
 }
+
 
 /*=========================
 ERRORS
@@ -308,8 +288,8 @@ ERRORS
     font-size:13px;
 
     margin-top:3px;
-
 }
+
 
 /*=========================
 SUCCESS MESSAGE
@@ -328,7 +308,6 @@ SUCCESS MESSAGE
     font-weight:bold;
 
     text-align:center;
-
 }
 
 .success{
@@ -338,7 +317,6 @@ SUCCESS MESSAGE
     background:#d4edda;
 
     color:#155724;
-
 }
 
 .failure{
@@ -348,8 +326,8 @@ SUCCESS MESSAGE
     background:#f8d7da;
 
     color:#721c24;
-
 }
+
 
 /*=========================
 BUTTON
@@ -376,13 +354,11 @@ button{
     cursor:pointer;
 
     transition:.3s;
-
 }
 
 button:hover{
 
     background:#f57c00;
-
 }
 
 button:disabled{
@@ -390,8 +366,8 @@ button:disabled{
     opacity:.7;
 
     cursor:not-allowed;
-
 }
+
 
 /*=========================
 LOGIN LINK
@@ -402,7 +378,6 @@ LOGIN LINK
     text-align:center;
 
     margin-top:20px;
-
 }
 
 #loginLink a{
@@ -412,14 +387,13 @@ LOGIN LINK
     text-decoration:none;
 
     font-weight:bold;
-
 }
 
 #loginLink a:hover{
 
     text-decoration:underline;
-
 }
+
 
 /*=========================
 RESPONSIVE
@@ -427,12 +401,10 @@ RESPONSIVE
 
 @media(max-width:600px){
 
-form{
+    form{
 
-    width:100%;
-
-}
-
+        width:100%;
+    }
 }
 
 </style>
@@ -442,509 +414,638 @@ form{
 <body>
 
 <div id="bg1" class="bg-image"></div>
+
 <div id="bg2" class="bg-image"></div>
+
 
 <div id="welcome">
 
-<img src="logo.jpeg" id="logo">
+    <img
+        src="logo.jpeg"
+        id="logo"
+        alt="Tourismo Logo"
+    >
 
-<h2>WELCOME TO TOURISMO</h2>
+    <h2>WELCOME TO TOURISMO</h2>
 
 </div>
+
 
 <div id="container">
-  <form id="signupForm" novalidate>
 
-<h2>Create Your Account</h2>
+<form id="signupForm" novalidate>
 
-<div id="message"></div>
+    <h2>Create Your Account</h2>
 
-<label for="firstName">First Name</label>
-
-<input
-type="text"
-id="firstName"
-name="firstName"
-placeholder="Enter your first name"
-required>
-
-<div class="error" id="firstNameError"></div>
+    <div id="message"></div>
 
 
-<label for="secondName">Second Name</label>
+    <label for="firstName">
+        First Name
+    </label>
 
-<input
-type="text"
-id="secondName"
-name="secondName"
-placeholder="Enter your second name"
-required>
+    <input
+        type="text"
+        id="firstName"
+        name="firstName"
+        placeholder="Enter your first name"
+        required
+    >
 
-<div class="error" id="secondNameError"></div>
-
-
-<label for="email">Email Address</label>
-
-<input
-type="email"
-id="email"
-name="email"
-placeholder="example@gmail.com"
-required>
-
-<div class="error" id="emailError"></div>
+    <div
+        class="error"
+        id="firstNameError">
+    </div>
 
 
-<label for="phone">Phone Number</label>
+    <label for="secondName">
+        Second Name
+    </label>
 
-<input
-type="tel"
-id="phone"
-name="phone"
-placeholder="+2507XXXXXXXX"
-required>
+    <input
+        type="text"
+        id="secondName"
+        name="secondName"
+        placeholder="Enter your second name"
+        required
+    >
 
-<div class="error" id="phoneError"></div>
-
-
-<label for="dob">Date of Birth</label>
-
-<input
-type="text"
-id="dob"
-name="dob"
-placeholder="dd/mm/yyyy"
-required>
-
-<div class="error" id="dobError"></div>
+    <div
+        class="error"
+        id="secondNameError">
+    </div>
 
 
-<label>Nationality</label>
+    <label for="email">
+        Email Address
+    </label>
 
-<div class="country-selector">
+    <input
+        type="email"
+        id="email"
+        name="email"
+        placeholder="example@gmail.com"
+        required
+    >
 
-<input
-type="text"
-id="countrySearch"
-placeholder="Search your country..."
-autocomplete="off">
-
-<div
-id="countryDropdown"
-class="dropdown">
-</div>
-
-<input
-type="hidden"
-id="nationality"
-name="nationality">
-
-<div class="error"
-id="nationalityError">
-</div>
-
-</div>
+    <div
+        class="error"
+        id="emailError">
+    </div>
 
 
-<label>Password</label>
+    <label for="phone">
+        Phone Number
+    </label>
 
-<div class="password-wrapper">
+    <input
+        type="tel"
+        id="phone"
+        name="phone"
+        placeholder="+2507XXXXXXXX"
+        required
+    >
 
-<input
-type="password"
-id="password"
-name="password"
-placeholder="Create a password"
-autocomplete="new-password"
-required>
-
-<svg
-class="toggle-password"
-data-target="password"
-xmlns="http://www.w3.org/2000/svg"
-viewBox="0 0 24 24">
-
-<path d="M12 5c-7 0-11 7-11 7s4 7 11 7 11-7 11-7-4-7-11-7zm0 12c-3 0-5-2.5-5-5s2-5 5-5 5 2.5 5 5-2 5-5 5z"/>
-
-<circle
-cx="12"
-cy="12"
-r="2.5"/>
-
-</svg>
-
-</div>
-
-<div
-class="error"
-id="passwordError">
-</div>
+    <div
+        class="error"
+        id="phoneError">
+    </div>
 
 
-<label>Confirm Password</label>
+    <label for="dob">
+        Date of Birth
+    </label>
 
-<div class="password-wrapper">
+    <input
+        type="text"
+        id="dob"
+        name="dob"
+        placeholder="dd/mm/yyyy"
+        required
+    >
 
-<input
-type="password"
-id="confirmPassword"
-name="confirmPassword"
-placeholder="Confirm password"
-autocomplete="new-password"
-required>
-
-<svg
-class="toggle-password"
-data-target="confirmPassword"
-xmlns="http://www.w3.org/2000/svg"
-viewBox="0 0 24 24">
-
-<path d="M12 5c-7 0-11 7-11 7s4 7 11 7 11-7 11-7-4-7-11-7zm0 12c-3 0-5-2.5-5-5s2-5 5-5 5 2.5 5 5-2 5-5 5z"/>
-
-<circle
-cx="12"
-cy="12"
-r="2.5"/>
-
-</svg>
-
-</div>
-
-<div
-class="error"
-id="confirmPasswordError">
-</div>
+    <div
+        class="error"
+        id="dobError">
+    </div>
 
 
-<button
-id="signupBtn"
-type="submit">
+    <label>
+        Nationality
+    </label>
 
-Sign Up
+    <div class="country-selector">
 
-</button>
+        <input
+            type="text"
+            id="countrySearch"
+            placeholder="Search your country..."
+            autocomplete="off"
+        >
 
-<div id="loginLink">
+        <div
+            id="countryDropdown"
+            class="dropdown">
+        </div>
 
-Already have an account?
+        <input
+            type="hidden"
+            id="nationality"
+            name="nationality"
+        >
 
-<a href="login.html">
+        <div
+            class="error"
+            id="nationalityError">
+        </div>
 
-Login here
+    </div>
 
-</a>
 
-</div>
+    <label>
+        Password
+    </label>
+
+    <div class="password-wrapper">
+
+        <input
+            type="password"
+            id="password"
+            name="password"
+            placeholder="Create a password"
+            autocomplete="new-password"
+            required
+        >
+
+        <svg
+            class="toggle-password"
+            data-target="password"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24">
+
+            <path d="M12 5c-7 0-11 7-11 7s4 7 11 7 11-7 11-7-4-7-11-7zm0 12c-3 0-5-2.5-5-5s2-5 5-5 5 2.5 5 5-2 5-5 5z"/>
+
+            <circle
+                cx="12"
+                cy="12"
+                r="2.5"
+            />
+
+        </svg>
+
+    </div>
+
+
+    <div
+        class="error"
+        id="passwordError">
+    </div>
+
+
+    <label>
+        Confirm Password
+    </label>
+
+    <div class="password-wrapper">
+
+        <input
+            type="password"
+            id="confirmPassword"
+            name="confirmPassword"
+            placeholder="Confirm password"
+            autocomplete="new-password"
+            required
+        >
+
+        <svg
+            class="toggle-password"
+            data-target="confirmPassword"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24">
+
+            <path d="M12 5c-7 0-11 7-11 7s4 7 11 7 11-7 11-7-4-7-11-7zm0 12c-3 0-5-2.5-5-5s2-5 5-5 5 2.5 5 5-2 5-5 5z"/>
+
+            <circle
+                cx="12"
+                cy="12"
+                r="2.5"
+            />
+
+        </svg>
+
+    </div>
+
+
+    <div
+        class="error"
+        id="confirmPasswordError">
+    </div>
+
+
+    <button
+        id="signupBtn"
+        type="submit">
+
+        Sign Up
+
+    </button>
+
+
+    <div id="loginLink">
+
+        Already have an account?
+
+        <a href="login.html">
+            Login here
+        </a>
+
+    </div>
 
 </form>
 
 </div>
 
 <script>
-  const countries = [
+    const countries = [
 
-{ name: "Afghanistan", code: "af" },
-{ name: "Albania", code: "al" },
-{ name: "Algeria", code: "dz" },
-{ name: "Andorra", code: "ad" },
-{ name: "Angola", code: "ao" },
-{ name: "Antigua and Barbuda", code: "ag" },
-{ name: "Argentina", code: "ar" },
-{ name: "Armenia", code: "am" },
-{ name: "Australia", code: "au" },
-{ name: "Austria", code: "at" },
-{ name: "Azerbaijan", code: "az" },
-{ name: "Bahamas", code: "bs" },
-{ name: "Bahrain", code: "bh" },
-{ name: "Bangladesh", code: "bd" },
-{ name: "Barbados", code: "bb" },
-{ name: "Belarus", code: "by" },
-{ name: "Belgium", code: "be" },
-{ name: "Belize", code: "bz" },
-{ name: "Benin", code: "bj" },
-{ name: "Bhutan", code: "bt" },
-{ name: "Bolivia", code: "bo" },
-{ name: "Bosnia and Herzegovina", code: "ba" },
-{ name: "Botswana", code: "bw" },
-{ name: "Brazil", code: "br" },
-{ name: "Brunei", code: "bn" },
-{ name: "Bulgaria", code: "bg" },
-{ name: "Burkina Faso", code: "bf" },
-{ name: "Burundi", code: "bi" },
-{ name: "Cabo Verde", code: "cv" },
-{ name: "Cambodia", code: "kh" },
-{ name: "Cameroon", code: "cm" },
-{ name: "Canada", code: "ca" },
-{ name: "Central African Republic", code: "cf" },
-{ name: "Chad", code: "td" },
-{ name: "Chile", code: "cl" },
-{ name: "China", code: "cn" },
-{ name: "Colombia", code: "co" },
-{ name: "Comoros", code: "km" },
-{ name: "Congo (Brazzaville)", code: "cg" },
-{ name: "Congo (Kinshasa)", code: "cd" },
-{ name: "Costa Rica", code: "cr" },
-{ name: "Croatia", code: "hr" },
-{ name: "Cuba", code: "cu" },
-{ name: "Cyprus", code: "cy" },
-{ name: "Czechia", code: "cz" },
-{ name: "Denmark", code: "dk" },
-{ name: "Djibouti", code: "dj" },
-{ name: "Dominica", code: "dm" },
-{ name: "Dominican Republic", code: "do" },
-{ name: "Ecuador", code: "ec" },
-{ name: "Egypt", code: "eg" },
-{ name: "El Salvador", code: "sv" },
-{ name: "Equatorial Guinea", code: "gq" },
-{ name: "Eritrea", code: "er" },
-{ name: "Estonia", code: "ee" },
-{ name: "Eswatini", code: "sz" },
-{ name: "Ethiopia", code: "et" },
-{ name: "Fiji", code: "fj" },
-{ name: "Finland", code: "fi" },
-{ name: "France", code: "fr" },
-{ name: "Gabon", code: "ga" },
-{ name: "Gambia", code: "gm" },
-{ name: "Georgia", code: "ge" },
-{ name: "Germany", code: "de" },
-{ name: "Ghana", code: "gh" },
-{ name: "Greece", code: "gr" },
-{ name: "Grenada", code: "gd" },
-{ name: "Guatemala", code: "gt" },
-{ name: "Guinea", code: "gn" },
-{ name: "Guinea-Bissau", code: "gw" },
-{ name: "Guyana", code: "gy" },
-{ name: "Haiti", code: "ht" },
-{ name: "Honduras", code: "hn" },
-{ name: "Hungary", code: "hu" },
-{ name: "Iceland", code: "is" },
-{ name: "India", code: "in" },
-{ name: "Indonesia", code: "id" },
-{ name: "Iran", code: "ir" },
-{ name: "Iraq", code: "iq" },
-{ name: "Ireland", code: "ie" },
-{ name: "Israel", code: "il" },
-{ name: "Italy", code: "it" },
-{ name: "Jamaica", code: "jm" },
-{ name: "Japan", code: "jp" },
-{ name: "Jordan", code: "jo" },
-{ name: "Kazakhstan", code: "kz" },
-{ name: "Kenya", code: "ke" },
-{ name: "Kiribati", code: "ki" },
-{ name: "Kuwait", code: "kw" },
-{ name: "Kyrgyzstan", code: "kg" },
-{ name: "Laos", code: "la" },
-{ name: "Latvia", code: "lv" },
-{ name: "Lebanon", code: "lb" },
-{ name: "Lesotho", code: "ls" },
-{ name: "Liberia", code: "lr" },
-{ name: "Libya", code: "ly" },
-{ name: "Lithuania", code: "lt" },
-{ name: "Luxembourg", code: "lu" },
-{ name: "Madagascar", code: "mg" },
-{ name: "Malawi", code: "mw" },
-{ name: "Malaysia", code: "my" },
-{ name: "Maldives", code: "mv" },
-{ name: "Mali", code: "ml" },
-{ name: "Malta", code: "mt" },
-{ name: "Marshall Islands", code: "mh" },
-{ name: "Mauritania", code: "mr" },
-{ name: "Mauritius", code: "mu" },
-{ name: "Mexico", code: "mx" },
-{ name: "Micronesia", code: "fm" },
-{ name: "Moldova", code: "md" },
-{ name: "Monaco", code: "mc" },
-{ name: "Mongolia", code: "mn" },
-{ name: "Montenegro", code: "me" },
-{ name: "Morocco", code: "ma" },
-{ name: "Mozambique", code: "mz" },
-{ name: "Myanmar", code: "mm" },
-{ name: "Namibia", code: "na" },
-{ name: "Nauru", code: "nr" },
-{ name: "Nepal", code: "np" },
-{ name: "Netherlands", code: "nl" },
-{ name: "New Zealand", code: "nz" },
-{ name: "Nicaragua", code: "ni" },
-{ name: "Niger", code: "ne" },
-{ name: "Nigeria", code: "ng" },
-{ name: "North Korea", code: "kp" },
-{ name: "North Macedonia", code: "mk" },
-{ name: "Norway", code: "no" },
-{ name: "Oman", code: "om" },
-{ name: "Pakistan", code: "pk" },
-{ name: "Palau", code: "pw" },
-{ name: "Palestine", code: "ps" },
-{ name: "Panama", code: "pa" },
-{ name: "Papua New Guinea", code: "pg" },
-{ name: "Paraguay", code: "py" },
-{ name: "Peru", code: "pe" },
-{ name: "Philippines", code: "ph" },
-{ name: "Poland", code: "pl" },
-{ name: "Portugal", code: "pt" },
-{ name: "Qatar", code: "qa" },
-{ name: "Romania", code: "ro" },
-{ name: "Russia", code: "ru" },
-{ name: "Rwanda", code: "rw" },
-{ name: "Saint Kitts and Nevis", code: "kn" },
-{ name: "Saint Lucia", code: "lc" },
-{ name: "Saint Vincent and the Grenadines", code: "vc" },
-{ name: "Samoa", code: "ws" },
-{ name: "San Marino", code: "sm" },
-{ name: "Sao Tome and Principe", code: "st" },
-{ name: "Saudi Arabia", code: "sa" },
-{ name: "Senegal", code: "sn" },
-{ name: "Serbia", code: "rs" },
-{ name: "Seychelles", code: "sc" },
-{ name: "Sierra Leone", code: "sl" },
-{ name: "Singapore", code: "sg" },
-{ name: "Slovakia", code: "sk" },
-{ name: "Slovenia", code: "si" },
-{ name: "Solomon Islands", code: "sb" },
-{ name: "Somalia", code: "so" },
-{ name: "South Africa", code: "za" },
-{ name: "South Korea", code: "kr" },
-{ name: "South Sudan", code: "ss" },
-{ name: "Spain", code: "es" },
-{ name: "Sri Lanka", code: "lk" },
-{ name: "Sudan", code: "sd" },
-{ name: "Suriname", code: "sr" },
-{ name: "Sweden", code: "se" },
-{ name: "Switzerland", code: "ch" },
-{ name: "Syria", code: "sy" },
-{ name: "Taiwan", code: "tw" },
-{ name: "Tajikistan", code: "tj" },
-{ name: "Tanzania", code: "tz" },
-{ name: "Thailand", code: "th" },
-{ name: "Timor-Leste", code: "tl" },
-{ name: "Togo", code: "tg" },
-{ name: "Tonga", code: "to" },
-{ name: "Trinidad and Tobago", code: "tt" },
-{ name: "Tunisia", code: "tn" },
-{ name: "Turkey", code: "tr" },
-{ name: "Turkmenistan", code: "tm" },
-{ name: "Tuvalu", code: "tv" },
-{ name: "Uganda", code: "ug" },
-{ name: "Ukraine", code: "ua" },
-{ name: "United Arab Emirates", code: "ae" },
-{ name: "United Kingdom", code: "gb" },
-{ name: "United States", code: "us" },
-{ name: "Uruguay", code: "uy" },
-{ name: "Uzbekistan", code: "uz" },
-{ name: "Vanuatu", code: "vu" },
-{ name: "Vatican City", code: "va" },
-{ name: "Venezuela", code: "ve" },
-{ name: "Vietnam", code: "vn" },
-{ name: "Yemen", code: "ye" },
-{ name: "Zambia", code: "zm" },
-{ name: "Zimbabwe", code: "zw" }
+    { name: "Afghanistan", code: "af" },
+    { name: "Albania", code: "al" },
+    { name: "Algeria", code: "dz" },
+    { name: "Andorra", code: "ad" },
+    { name: "Angola", code: "ao" },
+    { name: "Antigua and Barbuda", code: "ag" },
+    { name: "Argentina", code: "ar" },
+    { name: "Armenia", code: "am" },
+    { name: "Australia", code: "au" },
+    { name: "Austria", code: "at" },
+    { name: "Azerbaijan", code: "az" },
+
+    { name: "Bahamas", code: "bs" },
+    { name: "Bahrain", code: "bh" },
+    { name: "Bangladesh", code: "bd" },
+    { name: "Barbados", code: "bb" },
+    { name: "Belarus", code: "by" },
+    { name: "Belgium", code: "be" },
+    { name: "Belize", code: "bz" },
+    { name: "Benin", code: "bj" },
+    { name: "Bhutan", code: "bt" },
+    { name: "Bolivia", code: "bo" },
+    { name: "Bosnia and Herzegovina", code: "ba" },
+    { name: "Botswana", code: "bw" },
+    { name: "Brazil", code: "br" },
+    { name: "Brunei", code: "bn" },
+    { name: "Bulgaria", code: "bg" },
+    { name: "Burkina Faso", code: "bf" },
+    { name: "Burundi", code: "bi" },
+
+    { name: "Cabo Verde", code: "cv" },
+    { name: "Cambodia", code: "kh" },
+    { name: "Cameroon", code: "cm" },
+    { name: "Canada", code: "ca" },
+    { name: "Central African Republic", code: "cf" },
+    { name: "Chad", code: "td" },
+    { name: "Chile", code: "cl" },
+    { name: "China", code: "cn" },
+    { name: "Colombia", code: "co" },
+    { name: "Comoros", code: "km" },
+    { name: "Congo (Brazzaville)", code: "cg" },
+    { name: "Congo (Kinshasa)", code: "cd" },
+    { name: "Costa Rica", code: "cr" },
+    { name: "Croatia", code: "hr" },
+    { name: "Cuba", code: "cu" },
+    { name: "Cyprus", code: "cy" },
+    { name: "Czechia", code: "cz" },
+
+    { name: "Denmark", code: "dk" },
+    { name: "Djibouti", code: "dj" },
+    { name: "Dominica", code: "dm" },
+    { name: "Dominican Republic", code: "do" },
+
+    { name: "Ecuador", code: "ec" },
+    { name: "Egypt", code: "eg" },
+    { name: "El Salvador", code: "sv" },
+    { name: "Equatorial Guinea", code: "gq" },
+    { name: "Eritrea", code: "er" },
+    { name: "Estonia", code: "ee" },
+    { name: "Eswatini", code: "sz" },
+    { name: "Ethiopia", code: "et" },
+
+    { name: "Fiji", code: "fj" },
+    { name: "Finland", code: "fi" },
+    { name: "France", code: "fr" },
+
+    { name: "Gabon", code: "ga" },
+    { name: "Gambia", code: "gm" },
+    { name: "Georgia", code: "ge" },
+    { name: "Germany", code: "de" },
+    { name: "Ghana", code: "gh" },
+    { name: "Greece", code: "gr" },
+    { name: "Grenada", code: "gd" },
+    { name: "Guatemala", code: "gt" },
+    { name: "Guinea", code: "gn" },
+    { name: "Guinea-Bissau", code: "gw" },
+    { name: "Guyana", code: "gy" },
+
+    { name: "Haiti", code: "ht" },
+    { name: "Honduras", code: "hn" },
+    { name: "Hungary", code: "hu" },
+
+    { name: "Iceland", code: "is" },
+    { name: "India", code: "in" },
+    { name: "Indonesia", code: "id" },
+    { name: "Iran", code: "ir" },
+    { name: "Iraq", code: "iq" },
+    { name: "Ireland", code: "ie" },
+    { name: "Israel", code: "il" },
+    { name: "Italy", code: "it" },
+
+    { name: "Jamaica", code: "jm" },
+    { name: "Japan", code: "jp" },
+    { name: "Jordan", code: "jo" },
+
+    { name: "Kazakhstan", code: "kz" },
+    { name: "Kenya", code: "ke" },
+    { name: "Kiribati", code: "ki" },
+    { name: "Kuwait", code: "kw" },
+    { name: "Kyrgyzstan", code: "kg" },
+
+    { name: "Laos", code: "la" },
+    { name: "Latvia", code: "lv" },
+    { name: "Lebanon", code: "lb" },
+    { name: "Lesotho", code: "ls" },
+    { name: "Liberia", code: "lr" },
+    { name: "Libya", code: "ly" },
+    { name: "Lithuania", code: "lt" },
+    { name: "Luxembourg", code: "lu" },
+
+    { name: "Madagascar", code: "mg" },
+    { name: "Malawi", code: "mw" },
+    { name: "Malaysia", code: "my" },
+    { name: "Maldives", code: "mv" },
+    { name: "Mali", code: "ml" },
+    { name: "Malta", code: "mt" },
+    { name: "Marshall Islands", code: "mh" },
+    { name: "Mauritania", code: "mr" },
+    { name: "Mauritius", code: "mu" },
+    { name: "Mexico", code: "mx" },
+    { name: "Micronesia", code: "fm" },
+    { name: "Moldova", code: "md" },
+    { name: "Monaco", code: "mc" },
+    { name: "Mongolia", code: "mn" },
+    { name: "Montenegro", code: "me" },
+    { name: "Morocco", code: "ma" },
+    { name: "Mozambique", code: "mz" },
+    { name: "Myanmar", code: "mm" },
+
+    { name: "Namibia", code: "na" },
+    { name: "Nauru", code: "nr" },
+    { name: "Nepal", code: "np" },
+    { name: "Netherlands", code: "nl" },
+    { name: "New Zealand", code: "nz" },
+    { name: "Nicaragua", code: "ni" },
+    { name: "Niger", code: "ne" },
+    { name: "Nigeria", code: "ng" },
+    { name: "North Korea", code: "kp" },
+    { name: "North Macedonia", code: "mk" },
+    { name: "Norway", code: "no" },
+
+    { name: "Oman", code: "om" },
+
+    { name: "Pakistan", code: "pk" },
+    { name: "Palau", code: "pw" },
+    { name: "Palestine", code: "ps" },
+    { name: "Panama", code: "pa" },
+    { name: "Papua New Guinea", code: "pg" },
+    { name: "Paraguay", code: "py" },
+    { name: "Peru", code: "pe" },
+    { name: "Philippines", code: "ph" },
+    { name: "Poland", code: "pl" },
+    { name: "Portugal", code: "pt" },
+
+    { name: "Qatar", code: "qa" },
+
+    { name: "Romania", code: "ro" },
+    { name: "Russia", code: "ru" },
+    { name: "Rwanda", code: "rw" },
+
+    { name: "Saint Kitts and Nevis", code: "kn" },
+    { name: "Saint Lucia", code: "lc" },
+    { name: "Saint Vincent and the Grenadines", code: "vc" },
+    { name: "Samoa", code: "ws" },
+    { name: "San Marino", code: "sm" },
+    { name: "Sao Tome and Principe", code: "st" },
+    { name: "Saudi Arabia", code: "sa" },
+    { name: "Senegal", code: "sn" },
+    { name: "Serbia", code: "rs" },
+    { name: "Seychelles", code: "sc" },
+    { name: "Sierra Leone", code: "sl" },
+    { name: "Singapore", code: "sg" },
+    { name: "Slovakia", code: "sk" },
+    { name: "Slovenia", code: "si" },
+    { name: "Solomon Islands", code: "sb" },
+    { name: "Somalia", code: "so" },
+    { name: "South Africa", code: "za" },
+    { name: "South Korea", code: "kr" },
+    { name: "South Sudan", code: "ss" },
+    { name: "Spain", code: "es" },
+    { name: "Sri Lanka", code: "lk" },
+    { name: "Sudan", code: "sd" },
+    { name: "Suriname", code: "sr" },
+    { name: "Sweden", code: "se" },
+    { name: "Switzerland", code: "ch" },
+    { name: "Syria", code: "sy" },
+
+    { name: "Taiwan", code: "tw" },
+    { name: "Tajikistan", code: "tj" },
+    { name: "Tanzania", code: "tz" },
+    { name: "Thailand", code: "th" },
+    { name: "Timor-Leste", code: "tl" },
+    { name: "Togo", code: "tg" },
+    { name: "Tonga", code: "to" },
+    { name: "Trinidad and Tobago", code: "tt" },
+    { name: "Tunisia", code: "tn" },
+    { name: "Turkey", code: "tr" },
+    { name: "Turkmenistan", code: "tm" },
+    { name: "Tuvalu", code: "tv" },
+
+    { name: "Uganda", code: "ug" },
+    { name: "Ukraine", code: "ua" },
+    { name: "United Arab Emirates", code: "ae" },
+    { name: "United Kingdom", code: "gb" },
+    { name: "United States", code: "us" },
+    { name: "Uruguay", code: "uy" },
+    { name: "Uzbekistan", code: "uz" },
+
+    { name: "Vanuatu", code: "vu" },
+    { name: "Vatican City", code: "va" },
+    { name: "Venezuela", code: "ve" },
+    { name: "Vietnam", code: "vn" },
+
+    { name: "Yemen", code: "ye" },
+
+    { name: "Zambia", code: "zm" },
+    { name: "Zimbabwe", code: "zw" }
 
 ];
+
+
 // ===========================
 // COUNTRY SELECTOR
 // ===========================
 
-const countrySearch = document.getElementById("countrySearch");
-const countryDropdown = document.getElementById("countryDropdown");
-const nationalityInput = document.getElementById("nationality");
+const countrySearch =
+    document.getElementById("countrySearch");
+
+const countryDropdown =
+    document.getElementById("countryDropdown");
+
+const nationalityInput =
+    document.getElementById("nationality");
+
 
 function populateCountries(search = "") {
 
     countryDropdown.innerHTML = "";
 
     const filtered = countries.filter(country =>
-        country.name.toLowerCase().includes(search.toLowerCase())
+        country.name
+            .toLowerCase()
+            .includes(search.toLowerCase())
     );
+
 
     filtered.forEach(country => {
 
-        const item = document.createElement("div");
+        const item =
+            document.createElement("div");
 
-        item.className = "dropdown-item";
+        item.className =
+            "dropdown-item";
+
 
         item.innerHTML = `
+
             <img
-            src="https://flagcdn.com/w20/${country.code}.png"
-            alt="${country.name}">
+                src="https://flagcdn.com/w20/${country.code}.png"
+                alt="${country.name}"
+            >
+
             ${country.name}
+
         `;
+
 
         item.onclick = () => {
 
-            countrySearch.value = country.name;
+            countrySearch.value =
+                country.name;
 
-            nationalityInput.value = country.name;
+            nationalityInput.value =
+                country.name;
 
-            countryDropdown.style.display = "none";
+            countryDropdown.style.display =
+                "none";
 
         };
+
 
         countryDropdown.appendChild(item);
 
     });
+
 
     countryDropdown.style.display =
         filtered.length ? "block" : "none";
 
 }
 
-countrySearch.addEventListener("focus", () => {
 
-    populateCountries(countrySearch.value);
+// Show countries when clicked
 
-});
+countrySearch.addEventListener(
+    "focus",
+    () => {
 
-countrySearch.addEventListener("input", () => {
-
-    populateCountries(countrySearch.value);
-
-});
-
-document.addEventListener("click", e => {
-
-    if (
-        !countrySearch.contains(e.target) &&
-        !countryDropdown.contains(e.target)
-    ) {
-
-        countryDropdown.style.display = "none";
+        populateCountries(
+            countrySearch.value
+        );
 
     }
+);
 
-});
+
+// Search countries while typing
+
+countrySearch.addEventListener(
+    "input",
+    () => {
+
+        populateCountries(
+            countrySearch.value
+        );
+
+    }
+);
+
+
+// Close dropdown when clicking elsewhere
+
+document.addEventListener(
+    "click",
+    e => {
+
+        if (
+            !countrySearch.contains(e.target) &&
+            !countryDropdown.contains(e.target)
+        ) {
+
+            countryDropdown.style.display =
+                "none";
+
+        }
+
+    }
+);
 
 
 // ===========================
 // PASSWORD SHOW / HIDE
 // ===========================
 
-document.querySelectorAll(".toggle-password").forEach(icon => {
+document
+    .querySelectorAll(".toggle-password")
+    .forEach(icon => {
 
-    icon.addEventListener("click", () => {
+        icon.addEventListener(
+            "click",
+            () => {
 
-        const input =
-            document.getElementById(
-                icon.dataset.target
-            );
+                const input =
+                    document.getElementById(
+                        icon.dataset.target
+                    );
 
-        if (input.type === "password") {
 
-            input.type = "text";
+                if (input.type === "password") {
 
-            icon.style.fill = "#1976d2";
+                    input.type = "text";
 
-        } else {
+                    icon.style.fill =
+                        "#1976d2";
 
-            input.type = "password";
+                } else {
 
-            icon.style.fill = "#444";
+                    input.type = "password";
 
-        }
+                    icon.style.fill =
+                        "#444";
+
+                }
+
+            }
+        );
 
     });
-
-});
-
-
 // ===========================
 // FORM REFERENCES
 // ===========================
@@ -965,300 +1066,499 @@ const message =
 
 function clearErrors(){
 
-[
-"firstName",
-"secondName",
-"email",
-"phone",
-"dob",
-"nationality",
-"password",
-"confirmPassword"
+    [
+        "firstName",
+        "secondName",
+        "email",
+        "phone",
+        "dob",
+        "nationality",
+        "password",
+        "confirmPassword"
 
-].forEach(field=>{
+    ].forEach(field => {
 
-const error=document.getElementById(field+"Error");
+        const error =
+            document.getElementById(
+                field + "Error"
+            );
 
-if(error){
+        if(error){
 
-error.textContent="";
+            error.textContent = "";
+
+        }
+
+    });
+
+
+    message.className = "";
+
+    message.style.display = "none";
+
+    message.innerHTML = "";
 
 }
 
-});
 
-message.className="";
-
-message.style.display="none";
-
-message.innerHTML="";
-
-}
 // ===========================
 // FORM VALIDATION
 // ===========================
 
-function validateForm() {
+function validateForm(){
 
     clearErrors();
 
     let valid = true;
 
-    const firstName = signupForm.firstName.value.trim();
-    const secondName = signupForm.secondName.value.trim();
-    const email = signupForm.email.value.trim();
-    const phone = signupForm.phone.value.trim();
-    const dob = signupForm.dob.value.trim();
-    const nationality = nationalityInput.value.trim();
-    const password = signupForm.password.value;
-    const confirmPassword = signupForm.confirmPassword.value;
 
-    // First Name
-    if (firstName === "") {
-        document.getElementById("firstNameError").textContent =
+    const firstName =
+        signupForm.firstName.value.trim();
+
+    const secondName =
+        signupForm.secondName.value.trim();
+
+    const email =
+        signupForm.email.value.trim();
+
+    const phone =
+        signupForm.phone.value.trim();
+
+    const dob =
+        signupForm.dob.value.trim();
+
+    const nationality =
+        nationalityInput.value.trim();
+
+    const password =
+        signupForm.password.value;
+
+    const confirmPassword =
+        signupForm.confirmPassword.value;
+
+
+    // ===========================
+    // FIRST NAME
+    // ===========================
+
+    if(firstName === ""){
+
+        document.getElementById(
+            "firstNameError"
+        ).textContent =
             "First name is required.";
+
         valid = false;
+
     }
 
-    // Second Name
-    if (secondName === "") {
-        document.getElementById("secondNameError").textContent =
+
+    // ===========================
+    // SECOND NAME
+    // ===========================
+
+    if(secondName === ""){
+
+        document.getElementById(
+            "secondNameError"
+        ).textContent =
             "Second name is required.";
+
         valid = false;
+
     }
 
-    // Email
-    if (email === "") {
 
-        document.getElementById("emailError").textContent =
+    // ===========================
+    // EMAIL
+    // ===========================
+
+    if(email === ""){
+
+        document.getElementById(
+            "emailError"
+        ).textContent =
             "Email is required.";
 
         valid = false;
 
-    } else if (
-        !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
-    ) {
+    }
 
-        document.getElementById("emailError").textContent =
+    else if(
+        !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
+    ){
+
+        document.getElementById(
+            "emailError"
+        ).textContent =
             "Please enter a valid email address.";
 
         valid = false;
 
     }
 
-    // Phone
-    if (phone === "") {
 
-        document.getElementById("phoneError").textContent =
+    // ===========================
+    // PHONE
+    // ===========================
+
+    if(phone === ""){
+
+        document.getElementById(
+            "phoneError"
+        ).textContent =
             "Phone number is required.";
 
         valid = false;
 
-    } else if (
-        !/^\+?\d{7,15}$/.test(phone)
-    ) {
+    }
 
-        document.getElementById("phoneError").textContent =
+    else if(
+        !/^\+?\d{7,15}$/.test(phone)
+    ){
+
+        document.getElementById(
+            "phoneError"
+        ).textContent =
             "Enter a valid phone number.";
 
         valid = false;
 
     }
 
-    // Date of Birth
-    if (dob === "") {
 
-        document.getElementById("dobError").textContent =
+    // ===========================
+    // DATE OF BIRTH
+    // ===========================
+
+    if(dob === ""){
+
+        document.getElementById(
+            "dobError"
+        ).textContent =
             "Date of birth is required.";
 
         valid = false;
 
-    } else if (
-        !/^\d{2}\/\d{2}\/\d{4}$/.test(dob)
-    ) {
+    }
 
-        document.getElementById("dobError").textContent =
+    else if(
+        !/^\d{2}\/\d{2}\/\d{4}$/.test(dob)
+    ){
+
+        document.getElementById(
+            "dobError"
+        ).textContent =
             "Use dd/mm/yyyy format.";
 
         valid = false;
 
     }
 
-    // Nationality
-    if (nationality === "") {
 
-        document.getElementById("nationalityError").textContent =
+    // ===========================
+    // NATIONALITY
+    // ===========================
+
+    if(nationality === ""){
+
+        document.getElementById(
+            "nationalityError"
+        ).textContent =
             "Please choose your nationality.";
 
         valid = false;
 
     }
 
-    // Password
-    if (password.length < 8) {
 
-        document.getElementById("passwordError").textContent =
+    // ===========================
+    // PASSWORD
+    // ===========================
+
+    if(password.length < 8){
+
+        document.getElementById(
+            "passwordError"
+        ).textContent =
             "Password must contain at least 8 characters.";
 
         valid = false;
 
     }
 
-    // Confirm Password
-    if (confirmPassword === "") {
 
-        document.getElementById("confirmPasswordError").textContent =
+    // ===========================
+    // CONFIRM PASSWORD
+    // ===========================
+
+    if(confirmPassword === ""){
+
+        document.getElementById(
+            "confirmPasswordError"
+        ).textContent =
             "Please confirm your password.";
 
         valid = false;
 
-    } else if (password !== confirmPassword) {
+    }
 
-        document.getElementById("confirmPasswordError").textContent =
+    else if(password !== confirmPassword){
+
+        document.getElementById(
+            "confirmPasswordError"
+        ).textContent =
             "Passwords do not match.";
 
         valid = false;
 
     }
 
+
     return valid;
 
 }
+
+
 // ===========================
 // SIGNUP SUBMIT
 // ===========================
 
-signupForm.addEventListener("submit", async function (e) {
+signupForm.addEventListener(
+    "submit",
+    async function(e){
 
-    e.preventDefault();
+        e.preventDefault();
 
-    if (!validateForm()) return;
 
-    signupBtn.disabled = true;
-    signupBtn.textContent = "Creating Account...";
+        // Stop if validation fails
 
-    message.style.display = "none";
-    message.className = "";
-    message.innerHTML = "";
+        if(!validateForm()){
 
-    const signupData = {
+            return;
 
-        firstName: signupForm.firstName.value.trim(),
+        }
 
-        secondName: signupForm.secondName.value.trim(),
 
-        email: signupForm.email.value.trim(),
+        // Disable button while creating account
 
-        phone: signupForm.phone.value.trim(),
+        signupBtn.disabled = true;
 
-        dob: signupForm.dob.value.trim(),
+        signupBtn.textContent =
+            "Creating Account...";
 
-        nationality: nationalityInput.value.trim(),
 
-        password: signupForm.password.value
+        message.style.display =
+            "none";
 
-    };
+        message.className = "";
 
-    try {
+        message.innerHTML = "";
 
-const response = await fetch("/signup", {
-    method: "POST",
-    headers: {
-        "Content-Type": "application/json"
-    },
-    credentials: "include",
-    body: JSON.stringify(signupData)
-});
-    
 
-        const data = await response.json();
+        // ===========================
+        // COLLECT SIGNUP DATA
+        // ===========================
 
-        if (response.ok && data.success) {
+        const signupData = {
 
-            message.className = "success";
+            firstName:
+                signupForm.firstName.value.trim(),
 
-            message.style.display = "block";
+            secondName:
+                signupForm.secondName.value.trim(),
 
-            message.innerHTML = `
-                ✅ <b>Account created successfully!</b><br><br>
-                Your account has been saved.
-                <br><br>
-                Redirecting you to the home page...
-            `;
+            email:
+                signupForm.email.value.trim(),
 
-            signupForm.reset();
+            phone:
+                signupForm.phone.value.trim(),
 
-            countrySearch.value = "";
+            dob:
+                signupForm.dob.value.trim(),
 
-            nationalityInput.value = "";
+            nationality:
+                nationalityInput.value.trim(),
 
-            setTimeout(() => {
-                window.location.href = "/home.html";
-            }, 1000);
+            password:
+                signupForm.password.value
 
-        } else {
+        };
 
-            message.className = "failure";
 
-            message.style.display = "block";
+        try{
+
+            // ===========================
+            // SEND DATA TO SERVER
+            // ===========================
+
+            const response =
+                await fetch(
+                    "/signup",
+                    {
+                        method:"POST",
+
+                        headers:{
+                            "Content-Type":
+                                "application/json"
+                        },
+
+                        // IMPORTANT:
+                        // Allows the browser to receive
+                        // and store the session cookie.
+
+                        credentials:"include",
+
+                        body:
+                            JSON.stringify(
+                                signupData
+                            )
+                    }
+                );
+
+
+            const data =
+                await response.json();
+
+
+            // ===========================
+            // SUCCESS
+            // ===========================
+
+            if(
+                response.ok &&
+                data.success
+            ){
+
+                /*
+                 * The server creates the account
+                 * AND creates the login session.
+                 *
+                 * Therefore the user is already
+                 * authenticated at this point.
+                 */
+
+                message.className =
+                    "success";
+
+                message.style.display =
+                    "block";
+
+                message.innerHTML = `
+                    ✅ <b>Account created successfully!</b>
+                    <br><br>
+                    Taking you to your account...
+                `;
+
+
+                /*
+                 * DO NOT:
+                 * - reset the form
+                 * - send the user to login.html
+                 * - ask them to login again
+                 *
+                 * The session cookie has already
+                 * been created by the server.
+                 */
+
+
+                // Go directly to account home
+
+                window.location.href =
+                    "/home.html";
+
+                return;
+
+            }
+
+
+            // ===========================
+            // SIGNUP FAILED
+            // ===========================
+
+            message.className =
+                "failure";
+
+            message.style.display =
+                "block";
 
             message.innerHTML =
                 data.message ||
                 "Unable to create your account.";
 
+
         }
 
-    } catch (err) {
+        catch(err){
 
-        console.error(err);
+            console.error(err);
 
-        message.className = "failure";
 
-        message.style.display = "block";
+            message.className =
+                "failure";
 
-        message.innerHTML =
-            "Unable to connect to the server. Please try again.";
+            message.style.display =
+                "block";
 
-    } finally {
+            message.innerHTML =
+                "Unable to connect to the server. Please try again.";
 
-        signupBtn.disabled = false;
+        }
 
-        signupBtn.textContent = "Sign Up";
+
+        finally{
+
+            signupBtn.disabled = false;
+
+            signupBtn.textContent =
+                "Sign Up";
+
+        }
 
     }
-
-});
+);
 // ===========================
 // SMOOTH BACKGROUND SLIDESHOW
 // ===========================
 
 const images = [
 
-"https://visitakagera.org/wp-content/uploads/2022/11/our_work_hero2.jpg",
+    "https://visitakagera.org/wp-content/uploads/2022/11/our_work_hero2.jpg",
 
-"https://dynamic-media-cdn.tripadvisor.com/media/photo-o/15/26/6d/0c/views-from-the-western.jpg?h=-1&s=1&w=1200",
+    "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/15/26/6d/0c/views-from-the-western.jpg?h=-1&s=1&w=1200",
 
-"https://www.arcadiasafaris.com/wp-content/uploads/2023/08/akagera-1.jpg",
+    "https://www.arcadiasafaris.com/wp-content/uploads/2023/08/akagera-1.jpg",
 
-"https://english.news.cn/20230328/f758fd9a2f3c42b1a13f73b6301f70c2/20230328f758fd9a2f3c42b1a13f73b6301f70c2_b6e3ce7a-29c7-4f07-b102-bca1414453cb.jpg",
+    "https://english.news.cn/20230328/f758fd9a2f3c42b1a13f73b6301f70c2/20230328f758fd9a2f3c42b1a13f73b6301f70c2_b6e3ce7a-29c7-4f07-b102-bca1414453cb.jpg",
 
-"https://i.natgeofe.com/n/6bc5f904-553a-48b3-8d82-8fd5e9d20776/MM8382_05-31-15_03819.jpg"
+    "https://i.natgeofe.com/n/6bc5f904-553a-48b3-8d82-8fd5e9d20776/MM8382_05-31-15_03819.jpg"
 
 ];
 
-const bg1 = document.getElementById("bg1");
-const bg2 = document.getElementById("bg2");
+
+const bg1 =
+    document.getElementById("bg1");
+
+const bg2 =
+    document.getElementById("bg2");
+
 
 let currentImage = 0;
 
 let activeBackground = bg1;
+
 let nextBackground = bg2;
 
-// Load first image immediately
-bg1.style.backgroundImage = `url("${images[0]}")`;
+
+// Load the first image immediately
+
+bg1.style.backgroundImage =
+    `url("${images[0]}")`;
+
 bg1.classList.add("visible");
 
 currentImage = 1;
+
 
 function changeBackground(){
 
@@ -1269,9 +1569,13 @@ function changeBackground(){
 
     activeBackground.classList.remove("visible");
 
+
     const temp = activeBackground;
+
     activeBackground = nextBackground;
+
     nextBackground = temp;
+
 
     currentImage++;
 
@@ -1283,10 +1587,16 @@ function changeBackground(){
 
 }
 
+
 // Change every 6 seconds
-setInterval(changeBackground,6000);
+
+setInterval(
+    changeBackground,
+    6000
+);
 
 </script>
 
 </body>
+
 </html>

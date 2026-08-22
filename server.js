@@ -1,11 +1,7 @@
 const express = require("express");
-const bodyParser = require("body-parser");
-const cors = require("cors");
-const dotenv = require("dotenv");
 const mongoose = require("mongoose");
+const path = require("path");
 const crypto = require("crypto");
-
-dotenv.config();
 
 const app = express();
 
@@ -14,61 +10,44 @@ const app = express();
 // MIDDLEWARE
 // ===============================
 
-app.use(cors({
-    origin: true,
-    credentials: true
+app.use(express.json());
+
+app.use(express.urlencoded({
+    extended: true
 }));
 
-app.use(bodyParser.json());
-
-app.use(express.static(__dirname));
-
 
 // ===============================
-// HOME PAGE
+// SERVE FRONTEND FILES
 // ===============================
 
-app.get("/", (req, res) => {
-
-    res.sendFile(
-        __dirname + "/home.html"
-    );
-
-});
-
-
-// Allow /home to open home.html
-
-app.get("/home", (req, res) => {
-
-    res.sendFile(
-        __dirname + "/home.html"
-    );
-
-});
+app.use(express.static(
+    path.join(__dirname)
+));
 
 
 // ===============================
 // MONGODB CONNECTION
 // ===============================
 
-mongoose
-    .connect(
-        process.env.MONGO_URI ||
-        "mongodb://localhost:27017/tourismo"
-    )
+const MONGODB_URI =
+    process.env.MONGODB_URI ||
+    "YOUR_MONGODB_CONNECTION_STRING";
+
+
+mongoose.connect(MONGODB_URI)
     .then(() => {
 
         console.log(
-            "✅ MongoDB connected"
+            "✅ Connected to MongoDB"
         );
 
     })
-    .catch((err) => {
+    .catch(error => {
 
         console.error(
-            "❌ MongoDB connection error:",
-            err
+            "❌ MongoDB CONNECTION ERROR:",
+            error
         );
 
     });
@@ -93,9 +72,7 @@ const userSchema = new mongoose.Schema({
     email: {
         type: String,
         required: true,
-        unique: true,
-        lowercase: true,
-        trim: true
+        unique: true
     },
 
     phone: {
@@ -118,6 +95,7 @@ const userSchema = new mongoose.Schema({
         required: true
     },
 
+
     // =========================
     // LOGIN SESSION
     // =========================
@@ -131,7 +109,10 @@ const userSchema = new mongoose.Schema({
 
 
 const User =
-    mongoose.model("User", userSchema);
+    mongoose.model(
+        "User",
+        userSchema
+    );
     // ===============================
 // SIGNUP ROUTE
 // ===============================
@@ -144,6 +125,10 @@ app.post("/signup", async (req, res) => {
             "📥 SIGNUP REQUEST RECEIVED"
         );
 
+
+        // =========================
+        // GET FORM DATA
+        // =========================
 
         const {
             firstName,
@@ -187,7 +172,9 @@ app.post("/signup", async (req, res) => {
         // =========================
 
         const normalizedEmail =
-            email.trim().toLowerCase();
+            String(email)
+                .trim()
+                .toLowerCase();
 
 
         // =========================
@@ -196,7 +183,10 @@ app.post("/signup", async (req, res) => {
 
         const existingUser =
             await User.findOne({
-                email: normalizedEmail
+
+                email:
+                    normalizedEmail
+
             });
 
 
@@ -215,33 +205,56 @@ app.post("/signup", async (req, res) => {
 
 
         // =========================
-        // CREATE ACCOUNT
+        // CREATE SESSION TOKEN
         // =========================
 
-        const newUser = new User({
+        const sessionToken =
+            crypto
+                .randomBytes(32)
+                .toString("hex");
 
-            firstName:
-                firstName.trim(),
 
-            secondName:
-                secondName.trim(),
+        // =========================
+        // CREATE NEW USER
+        // =========================
 
-            email:
-                normalizedEmail,
+        const newUser =
+            new User({
 
-            phone:
-                phone.trim(),
+                firstName:
+                    String(firstName)
+                        .trim(),
 
-            dob:
-                dob.trim(),
+                secondName:
+                    String(secondName)
+                        .trim(),
 
-            nationality:
-                nationality.trim(),
+                email:
+                    normalizedEmail,
 
-            password:
-                password
+                phone:
+                    String(phone)
+                        .trim(),
 
-        });
+                dob:
+                    String(dob)
+                        .trim(),
+
+                nationality:
+                    String(nationality)
+                        .trim(),
+
+                password:
+                    password,
+
+                // IMPORTANT:
+                // User is automatically logged in
+                // immediately after signup.
+
+                sessionToken:
+                    sessionToken
+
+            });
 
 
         // =========================
@@ -257,12 +270,77 @@ app.post("/signup", async (req, res) => {
         );
 
 
+        // =========================
+        // CREATE LOGIN COOKIE
+        // =========================
+
+        const isHttps =
+            req.headers["x-forwarded-proto"] === "https" ||
+            req.secure;
+
+
+        let cookie =
+            `tourismo_session=${sessionToken}; ` +
+            `HttpOnly; ` +
+            `Path=/; ` +
+            `SameSite=Lax; ` +
+            `Max-Age=604800`;
+
+
+        // Only use Secure when HTTPS
+        // is actually being used.
+
+        if (isHttps) {
+
+            cookie += "; Secure";
+
+        }
+
+
+        res.setHeader(
+            "Set-Cookie",
+            cookie
+        );
+
+
+        console.log(
+            "✅ AUTO LOGIN SUCCESS:",
+            normalizedEmail
+        );
+
+
+        // =========================
+        // RETURN SUCCESS
+        // =========================
+
         return res.status(201).json({
 
             success: true,
 
             message:
-                "Account created successfully!"
+                "Account created successfully!",
+
+            user: {
+
+                firstName:
+                    newUser.firstName,
+
+                secondName:
+                    newUser.secondName,
+
+                email:
+                    newUser.email,
+
+                phone:
+                    newUser.phone,
+
+                dob:
+                    newUser.dob,
+
+                nationality:
+                    newUser.nationality
+
+            }
 
         });
 
@@ -277,7 +355,13 @@ app.post("/signup", async (req, res) => {
         );
 
 
-        if (error.code === 11000) {
+        // =========================
+        // DUPLICATE EMAIL
+        // =========================
+
+        if (
+            error.code === 11000
+        ) {
 
             return res.status(400).json({
 
@@ -290,6 +374,10 @@ app.post("/signup", async (req, res) => {
 
         }
 
+
+        // =========================
+        // SERVER ERROR
+        // =========================
 
         return res.status(500).json({
 
@@ -334,7 +422,7 @@ app.post("/login", async (req, res) => {
 
 
         // =========================
-        // CHECK FIELDS
+        // CHECK REQUIRED FIELDS
         // =========================
 
         if (
@@ -360,7 +448,10 @@ app.post("/login", async (req, res) => {
 
         const user =
             await User.findOne({
-                email: normalizedEmail
+
+                email:
+                    normalizedEmail
+
             });
 
 
@@ -382,7 +473,9 @@ app.post("/login", async (req, res) => {
         // CHECK PASSWORD
         // =========================
 
-        if (user.password !== password) {
+        if (
+            user.password !== password
+        ) {
 
             return res.status(401).json({
 
@@ -397,7 +490,7 @@ app.post("/login", async (req, res) => {
 
 
         // =========================
-        // CREATE SESSION TOKEN
+        // CREATE NEW SESSION TOKEN
         // =========================
 
         const sessionToken =
@@ -405,6 +498,10 @@ app.post("/login", async (req, res) => {
                 .randomBytes(32)
                 .toString("hex");
 
+
+        // =========================
+        // SAVE SESSION
+        // =========================
 
         user.sessionToken =
             sessionToken;
@@ -414,7 +511,7 @@ app.post("/login", async (req, res) => {
 
 
         // =========================
-        // SET LOGIN COOKIE
+        // CREATE LOGIN COOKIE
         // =========================
 
         const isHttps =
@@ -449,6 +546,10 @@ app.post("/login", async (req, res) => {
         );
 
 
+        // =========================
+        // RETURN LOGIN SUCCESS
+        // =========================
+
         return res.json({
 
             success: true,
@@ -465,12 +566,20 @@ app.post("/login", async (req, res) => {
                     user.secondName,
 
                 email:
-                    user.email
+                    user.email,
+
+                phone:
+                    user.phone,
+
+                dob:
+                    user.dob,
+
+                nationality:
+                    user.nationality
 
             }
 
         });
-
 
     }
 
@@ -513,7 +622,9 @@ app.get("/me", async (req, res) => {
         const cookies =
             cookieHeader
                 .split(";")
-                .map(cookie => cookie.trim());
+                .map(cookie =>
+                    cookie.trim()
+                );
 
 
         const sessionCookie =
@@ -538,6 +649,10 @@ app.get("/me", async (req, res) => {
         }
 
 
+        // =========================
+        // GET SESSION TOKEN
+        // =========================
+
         const sessionToken =
             sessionCookie
                 .split("=")
@@ -551,8 +666,10 @@ app.get("/me", async (req, res) => {
 
         const user =
             await User.findOne({
+
                 sessionToken:
                     sessionToken
+
             });
 
 
@@ -571,7 +688,7 @@ app.get("/me", async (req, res) => {
 
 
         // =========================
-        // RETURN USER
+        // RETURN USER INFORMATION
         // =========================
 
         return res.json({
@@ -602,7 +719,6 @@ app.get("/me", async (req, res) => {
 
         });
 
-
     }
 
     catch (error) {
@@ -625,6 +741,8 @@ app.get("/me", async (req, res) => {
     }
 
 });
+
+
 // ===============================
 // LOGOUT
 // ===============================
@@ -637,10 +755,16 @@ app.post("/logout", async (req, res) => {
             req.headers.cookie || "";
 
 
+        // =========================
+        // FIND SESSION COOKIE
+        // =========================
+
         const cookies =
             cookieHeader
                 .split(";")
-                .map(cookie => cookie.trim());
+                .map(cookie =>
+                    cookie.trim()
+                );
 
 
         const sessionCookie =
@@ -651,6 +775,10 @@ app.post("/logout", async (req, res) => {
             );
 
 
+        // =========================
+        // REMOVE SESSION FROM USER
+        // =========================
+
         if (sessionCookie) {
 
             const sessionToken =
@@ -659,8 +787,6 @@ app.post("/logout", async (req, res) => {
                     .slice(1)
                     .join("=");
 
-
-            // Remove session from MongoDB
 
             await User.updateOne(
 
@@ -685,7 +811,6 @@ app.post("/logout", async (req, res) => {
         // =========================
 
         res.setHeader(
-
             "Set-Cookie",
 
             "tourismo_session=; " +
@@ -693,7 +818,6 @@ app.post("/logout", async (req, res) => {
             "Path=/; " +
             "SameSite=Lax; " +
             "Max-Age=0"
-
         );
 
 
@@ -710,7 +834,6 @@ app.post("/logout", async (req, res) => {
                 "Logged out successfully."
 
         });
-
 
     }
 
@@ -734,6 +857,8 @@ app.post("/logout", async (req, res) => {
     }
 
 });
+
+
 // ===============================
 // START SERVER
 // ===============================
