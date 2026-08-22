@@ -24,6 +24,28 @@ app.use(express.urlencoded({
 app.use(express.static(
     path.join(__dirname)
 ));
+// ===============================
+// HOME PAGE
+// ===============================
+
+app.get("/", (req, res) => {
+
+    res.sendFile(
+        path.join(__dirname, "home.html")
+    );
+
+});
+
+
+// Allow /home to open home.html
+
+app.get("/home", (req, res) => {
+
+    res.sendFile(
+        path.join(__dirname, "home.html")
+    );
+
+});
 
 
 // ===============================
