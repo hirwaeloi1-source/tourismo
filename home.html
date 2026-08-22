@@ -148,11 +148,6 @@ body{
 
 /* USER NAME */
 
-#welcomeUser{
-    font-size:16px;
-    font-weight:600;
-    color:#0c3b2e;
-}
 
 /* LOGIN BUTTON */
 
@@ -195,8 +190,11 @@ body{
 ================================ */
 
 .hero{
+
     margin:30px;
-    height:320px;
+
+    min-height:320px;
+
     border-radius:25px;
 
     background-image:
@@ -207,39 +205,73 @@ body{
     url('https://images.unsplash.com/photo-1516026672322-bc52d61a55d5');
 
     background-size:cover;
+
     background-position:center;
 
     display:flex;
+
     align-items:center;
-    padding-left:60px;
+
+    padding:50px 60px;
+
     color:white;
+
+    width:auto;
+
 }
 
 .hero h1{
+
     font-size:55px;
+
     margin-bottom:15px;
+
 }
 
 .hero p{
+
     font-size:20px;
+
+    line-height:1.5;
+
     margin-bottom:25px;
-    max-width:600px;
+
+    max-width:650px;
+
+}
+
+.hero a{
+
+    text-decoration:none;
+
 }
 
 .hero button{
+
     padding:15px 35px;
+
     background:#ff9800;
+
     color:white;
+
     border:none;
+
     border-radius:30px;
+
     font-size:18px;
+
     cursor:pointer;
+
     transition:.3s;
+
 }
 
 .hero button:hover{
+
     background:#ff7700;
+
     transform:scale(1.05);
+
 }
 
 /* ===============================
@@ -247,17 +279,18 @@ body{
 ================================ */
 
 .container{
-    display:grid;
-    grid-template-columns:3fr 1fr;
-    gap:25px;
+    display:block;
     padding:0 30px 30px;
 }
 
 .feed{
+    width:100%;
     display:flex;
     flex-direction:column;
     gap:25px;
 }
+
+
 
 /* ===============================
    STORIES
