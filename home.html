@@ -287,7 +287,20 @@ body{
     margin-top:8px;
     font-size:14px;
 }
+.top-icon{
+    color:#0c3b2e;
+    text-decoration:none;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    transition:.3s;
+}
 
+.top-icon:hover{
+    color:#1f8f63;
+    transform:scale(1.12);
+}
 </style>
 
 </head>
@@ -383,45 +396,71 @@ body{
 
     <!-- TOP BAR -->
 
-    <div class="topbar">
+   <div class="topbar">
 
-        <div class="search">
+    <div class="search">
 
-            <i class="fa fa-search"></i>
+        <i class="fa fa-search"></i>
 
-            <input
-                type="text"
-                placeholder="Search places, friends or guides"
-            >
+        <input
+            type="text"
+            placeholder="Search places, friends or guides"
+        >
 
-        </div>
+    </div>
 
-        <div class="icons">
 
-            <i class="fa-regular fa-bell"></i>
+    <div class="icons">
 
-            <i class="fa-solid fa-robot"></i>
+        <!-- Notifications -->
+
+        <i class="fa-regular fa-bell"></i>
+
+
+        <!-- AI -->
+
+        <i class="fa-solid fa-robot"></i>
+
+
+        <!-- Profile -->
+
+        <a
+            href="profile.html"
+            class="top-icon"
+            title="Profile"
+        >
 
             <i class="fa-solid fa-user-circle"></i>
 
-            <!-- LOGGED-IN USER -->
+        </a>
 
-            <span id="welcomeUser">
-                Welcome
-            </span>
 
-            <!-- LOGIN -->
+        <!-- Settings -->
 
-            <a
-                href="/login.html"
-                class="login-btn"
-                id="loginBtn"
-            >
-                Login
-            </a>
+        <a
+            href="settings.html"
+            class="top-icon"
+            title="Settings"
+        >
 
-        </div>
+            <i class="fa-solid fa-gear"></i>
 
+        </a>
+
+
+        <!-- Login -->
+
+        <a
+            href="/login.html"
+            class="login-btn"
+            id="loginBtn"
+        >
+            Login
+        </a>
+
+    </div>
+
+</div>
     </div>
     <!-- ===============================
      HERO
@@ -542,32 +581,40 @@ async function loadUser(){
             credentials: "include"
         });
 
-        if(!response.ok){
-
-            console.log("No logged-in user.");
-
-            return;
-        }
-
-        const data = await response.json();
-
-        const welcomeUser =
-            document.getElementById("welcomeUser");
-
         const loginBtn =
             document.getElementById("loginBtn");
 
-        if(data.success && data.user){
+        if(response.ok){
 
-            welcomeUser.textContent =
-                `Welcome, ${data.user.firstName}`;
+            const data = await response.json();
 
-            // Hide login button when logged in
-            loginBtn.style.display = "none";
+            if(data.success && data.user){
+
+                // User is logged in.
+                // Remove the Login button.
+
+                loginBtn.style.display = "none";
+
+                console.log(
+                    "Logged in as:",
+                    data.user.firstName
+                );
+
+            }
 
         }
 
     }
+    catch(error){
+
+        console.error(
+            "Could not check login:",
+            error
+        );
+
+    }
+
+}
 
     catch(error){
 

@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>Tourismo - Profile</title>
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Segoe UI,sans-serif;
+}
+
+body{
+    background:#eef2f7;
+    min-height:100vh;
+    display:flex;
+}
+
+/* SIDEBAR */
+
+.sidebar{
+    width:260px;
+    min-height:100vh;
+    background:#0c3b2e;
+    color:white;
+    padding:20px;
+    position:fixed;
+    left:0;
+    top:0;
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    margin-bottom:40px;
+}
+
+.logo img{
+    width:55px;
+    height:55px;
+    border-radius:50%;
+    margin-right:10px;
+    border:3px solid white;
+}
+
+.logo h2{
+    font-size:28px;
+}
+
+.menu{
+    list-style:none;
+}
+
+.menu li{
+    margin:18px 0;
+}
+
+.menu li a{
+    color:white;
+    text-decoration:none;
+    font-size:17px;
+    display:flex;
+    align-items:center;
+    padding:12px;
+    border-radius:12px;
+    transition:.3s;
+}
+
+.menu li a i{
+    width:30px;
+    margin-right:15px;
+    text-align:center;
+}
+
+.menu li a:hover,
+.menu li a.active{
+    background:#1f8f63;
+    transform:translateX(5px);
+}
+
+/* MAIN */
+
+.main{
+    margin-left:260px;
+    width:calc(100% - 260px);
+}
+
+/* TOPBAR */
+
+.topbar{
+    height:80px;
+    background:white;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:0 30px;
+    box-shadow:0 2px 15px rgba(0,0,0,.1);
+}
+
+.topbar h1{
+    color:#0c3b2e;
+}
+
+.user-icon{
+    font-size:30px;
+    color:#0c3b2e;
+}
+
+/* PROFILE */
+
+.profile-container{
+    max-width:1000px;
+    margin:30px auto;
+    padding:0 20px;
+}
+
+/* PROFILE HEADER */
+
+.profile-card{
+    background:white;
+    border-radius:20px;
+    padding:35px;
+    box-shadow:0 5px 20px rgba(0,0,0,.08);
+}
+
+.profile-header{
+    display:flex;
+    align-items:center;
+    gap:30px;
+}
+
+.profile-picture{
+    width:150px;
+    height:150px;
+    border-radius:50%;
+    object-fit:cover;
+    border:6px solid #1f8f63;
+}
+
+.profile-info{
+    flex:1;
+}
+
+.profile-info h2{
+    font-size:32px;
+    color:#0c3b2e;
+}
+
+.username{
+    color:#777;
+    margin:5px 0 15px;
+}
+
+.bio{
+    color:#444;
+    max-width:600px;
+    line-height:1.6;
+}
+
+.stats{
+    display:flex;
+    gap:35px;
+    margin-top:20px;
+}
+
+.stat{
+    text-align:center;
+}
+
+.stat strong{
+    display:block;
+    font-size:22px;
+    color:#0c3b2e;
+}
+
+.stat span{
+    color:#777;
+    font-size:14px;
+}
+
+/* BUTTONS */
+
+.profile-buttons{
+    margin-top:25px;
+    display:flex;
+    gap:12px;
+}
+
+.btn{
+    border:none;
+    padding:11px 22px;
+    border-radius:25px;
+    cursor:pointer;
+    font-size:15px;
+    font-weight:600;
+}
+
+.follow-btn{
+    background:#1f8f63;
+    color:white;
+}
+
+.post-btn{
+    background:#ff9800;
+    color:white;
+}
+
+/* POSTS */
+
+.posts-section{
+    margin-top:30px;
+}
+
+.posts-section h2{
+    color:#0c3b2e;
+    margin-bottom:20px;
+}
+
+.posts-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:15px;
+}
+
+.post{
+    background:white;
+    border-radius:15px;
+    overflow:hidden;
+    box-shadow:0 4px 15px rgba(0,0,0,.08);
+}
+
+.post img{
+    width:100%;
+    height:250px;
+    object-fit:cover;
+}
+
+.post-info{
+    padding:12px;
+}
+
+.post-info p{
+    color:#555;
+}
+
+/* NEW POST */
+
+.new-post{
+    display:none;
+    background:white;
+    padding:25px;
+    border-radius:20px;
+    margin-bottom:25px;
+    box-shadow:0 5px 20px rgba(0,0,0,.08);
+}
+
+.new-post textarea{
+    width:100%;
+    min-height:100px;
+    padding:15px;
+    border:1px solid #ddd;
+    border-radius:12px;
+    resize:vertical;
+    outline:none;
+}
+
+.new-post button{
+    margin-top:12px;
+    background:#ff9800;
+    color:white;
+    border:none;
+    padding:11px 22px;
+    border-radius:25px;
+    cursor:pointer;
+}
+
+/* MOBILE */
+
+@media(max-width:800px){
+
+    .sidebar{
+        width:75px;
+        padding:10px;
+    }
+
+    .logo h2{
+        display:none;
+    }
+
+    .menu li a{
+        justify-content:center;
+    }
+
+    .menu li a span{
+        display:none;
+    }
+
+    .menu li a i{
+        margin-right:0;
+    }
+
+    .main{
+        margin-left:75px;
+        width:calc(100% - 75px);
+    }
+
+    .profile-header{
+        flex-direction:column;
+        text-align:center;
+    }
+
+    .posts-grid{
+        grid-template-columns:1fr;
+    }
+
+}
+
+</style>
+
+</head>
+<body>
+
+<div class="sidebar">
+
+    <div class="logo">
+
+        <img src="logo.jpeg" alt="Tourismo">
+
+        <h2>TOURISMO</h2>
+
+    </div>
+
+    <ul class="menu">
+
+        <li>
+            <a href="home.html">
+                <i class="fa-solid fa-house"></i>
+                <span>Home</span>
+            </a>
+        </li>
+
+        <li>
+            <a href="explore.html">
+                <i class="fa-solid fa-compass"></i>
+                <span>Explore</span>
+            </a>
+        </li>
+
+        <li>
+            <a href="messages.html">
+                <i class="fa-solid fa-message"></i>
+                <span>Messages</span>
+            </a>
+        </li>
+
+        <li>
+            <a href="#">
+                <i class="fa-solid fa-plane"></i>
+                <span>Trips</span>
+            </a>
+        </li>
+
+        <li>
+            <a href="profile.html" class="active">
+                <i class="fa-solid fa-user"></i>
+                <span>Profile</span>
+            </a>
+        </li>
+
+        <li>
+            <a href="settings.html">
+                <i class="fa-solid fa-gear"></i>
+                <span>Settings</span>
+            </a>
+        </li>
+
+        <li>
+            <a href="#" id="logoutBtn">
+                <i class="fa-solid fa-right-from-bracket"></i>
+                <span>Logout</span>
+            </a>
+        </li>
+
+    </ul>
+
+</div>
+
+
+<div class="main">
+
+    <div class="topbar">
+
+        <h1>
+            <i class="fa-solid fa-user"></i>
+            Profile
+        </h1>
+
+        <i class="fa-solid fa-circle-user user-icon"></i>
+
+    </div>
+
+
+    <div class="profile-container">
+
+        <div class="profile-card">
+
+            <div class="profile-header">
+
+                <img
+                    id="profilePicture"
+                    class="profile-picture"
+                    src="https://i.pravatar.cc/300"
+                    alt="Profile Picture"
+                >
+
+                <div class="profile-info">
+
+                    <h2 id="profileName">
+                        Loading...
+                    </h2>
+
+                    <p
+                        class="username"
+                        id="profileEmail"
+                    >
+                        @user
+                    </p>
+
+                    <p
+                        class="bio"
+                        id="profileBio"
+                    >
+                        Traveler exploring the world 🌍
+                    </p>
+
+                    <div class="stats">
+
+                        <div class="stat">
+
+                            <strong id="postCount">
+                                0
+                            </strong>
+
+                            <span>Posts</span>
+
+                        </div>
+
+                        <div class="stat">
+
+                            <strong>
+                                0
+                            </strong>
+
+                            <span>Followers</span>
+
+                        </div>
+
+                        <div class="stat">
+
+                            <strong>
+                                0
+                            </strong>
+
+                            <span>Following</span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="profile-buttons">
+
+                <button
+                    class="btn follow-btn"
+                    id="followBtn"
+                >
+                    Follow
+                </button>
+
+                <button
+                    class="btn post-btn"
+                    id="addPostBtn"
+                >
+                    <i class="fa-solid fa-plus"></i>
+                    Add Post
+                </button>
+
+            </div>
+
+        </div>
+        <!-- NEW POST AREA -->
+
+<div
+    class="new-post"
+    id="newPost"
+>
+
+    <h2>
+        Create a New Post
+    </h2>
+
+    <br>
+
+    <textarea
+        id="postText"
+        placeholder="Share your travel experience..."
+    ></textarea>
+
+    <button id="publishPost">
+        Publish Post
+    </button>
+
+</div>
+
+
+<!-- POSTS -->
+
+<div class="posts-section">
+
+    <h2>
+        Posts
+    </h2>
+
+    <div
+        class="posts-grid"
+        id="postsGrid"
+    >
+
+        <div class="post">
+
+            <img
+                src="https://images.unsplash.com/photo-1516026672322-bc52d61a55d5"
+                alt="Rwanda"
+            >
+
+            <div class="post-info">
+
+                <p>
+                    Exploring the beautiful landscapes
+                    of Rwanda 🌍
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="post">
+
+            <img
+                src="https://images.unsplash.com/photo-1548013146-72479768bada"
+                alt="Travel"
+            >
+
+            <div class="post-info">
+
+                <p>
+                    Another amazing adventure!
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="post">
+
+            <img
+                src="https://images.unsplash.com/photo-1500534623283-312aade485b7"
+                alt="Adventure"
+            >
+
+            <div class="post-info">
+
+                <p>
+                    Travel. Explore. Discover. ✈️
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+</div>
+<script>
+
+// ==========================================
+// LOAD PROFILE
+// ==========================================
+
+async function loadProfile(){
+
+    try{
+
+        const response =
+            await fetch("/me", {
+                credentials:"include"
+            });
+
+        if(!response.ok){
+
+            window.location.href =
+                "/login.html";
+
+            return;
+
+        }
+
+        const data =
+            await response.json();
+
+        if(!data.success || !data.user){
+
+            window.location.href =
+                "/login.html";
+
+            return;
+
+        }
+
+        const user = data.user;
+
+        document.getElementById(
+            "profileName"
+        ).textContent =
+            `${user.firstName} ${user.secondName}`;
+
+        document.getElementById(
+            "profileEmail"
+        ).textContent =
+            user.email;
+
+        if(user.bio){
+
+            document.getElementById(
+                "profileBio"
+            ).textContent =
+                user.bio;
+
+        }
+
+        if(user.profilePicture){
+
+            document.getElementById(
+                "profilePicture"
+            ).src =
+                user.profilePicture;
+
+        }
+
+    }
+
+    catch(error){
+
+        console.error(
+            "Profile loading error:",
+            error
+        );
+
+    }
+
+}
+
+
+// ==========================================
+// ADD POST BUTTON
+// ==========================================
+
+document
+.getElementById("addPostBtn")
+.addEventListener("click", function(){
+
+    const newPost =
+        document.getElementById("newPost");
+
+    if(newPost.style.display === "block"){
+
+        newPost.style.display = "none";
+
+    }
+    else{
+
+        newPost.style.display = "block";
+
+    }
+
+});
+
+
+// ==========================================
+// PUBLISH POST
+// ==========================================
+
+document
+.getElementById("publishPost")
+.addEventListener("click", function(){
+
+    const text =
+        document.getElementById("postText").value.trim();
+
+    if(!text){
+
+        alert(
+            "Please write something before publishing."
+        );
+
+        return;
+
+    }
+
+    const postsGrid =
+        document.getElementById("postsGrid");
+
+    const post =
+        document.createElement("div");
+
+    post.className = "post";
+
+    post.innerHTML = `
+
+        <div
+            style="
+                padding:25px;
+                min-height:180px;
+                display:flex;
+                align-items:center;
+            "
+        >
+
+            <p>
+                ${text}
+            </p>
+
+        </div>
+
+        <div class="post-info">
+
+            <p>
+                Posted just now 🌍
+            </p>
+
+        </div>
+
+    `;
+
+    postsGrid.prepend(post);
+
+    document.getElementById(
+        "postText"
+    ).value = "";
+
+    document.getElementById(
+        "newPost"
+    ).style.display = "none";
+
+    const count =
+        document.getElementById("postCount");
+
+    count.textContent =
+        parseInt(count.textContent) + 1;
+
+});
+
+
+// ==========================================
+// FOLLOW
+// ==========================================
+
+document
+.getElementById("followBtn")
+.addEventListener("click", function(){
+
+    if(this.textContent.trim() === "Follow"){
+
+        this.textContent = "Following";
+
+    }
+    else{
+
+        this.textContent = "Follow";
+
+    }
+
+});
+
+
+// ==========================================
+// LOGOUT
+// ==========================================
+
+document
+.getElementById("logoutBtn")
+.addEventListener("click", async function(e){
+
+    e.preventDefault();
+
+    try{
+
+        await fetch("/logout", {
+            method:"POST",
+            credentials:"include"
+        });
+
+    }
+
+    catch(error){
+
+        console.log(error);
+
+    }
+
+    window.location.href =
+        "/login.html";
+
+});
+
+
+// ==========================================
+// START
+// ==========================================
+
+loadProfile();
+
+</script>
+
+</body>
+
+</html>
