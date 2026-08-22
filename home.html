@@ -28,17 +28,20 @@ body{
     overflow:hidden;
 }
 
+
 /* ===============================
    LEFT SIDEBAR
 ================================ */
 
 .sidebar{
     width:260px;
+    min-width:260px;
     background:#0c3b2e;
     color:white;
     display:flex;
     flex-direction:column;
     padding:20px;
+    overflow-y:auto;
 }
 
 .logo{
@@ -90,14 +93,17 @@ body{
     transform:translateX(8px);
 }
 
+
 /* ===============================
    MAIN
 ================================ */
 
 .main{
     flex:1;
+    min-width:0;
     overflow-y:auto;
 }
+
 
 /* ===============================
    TOP BAR
@@ -121,6 +127,7 @@ body{
     padding:12px 20px;
     border-radius:30px;
     width:400px;
+    max-width:50%;
     display:flex;
     align-items:center;
 }
@@ -146,10 +153,30 @@ body{
     cursor:pointer;
 }
 
-/* USER NAME */
+
+/* ===============================
+   PROFILE / SETTINGS
+================================ */
+
+.top-icon{
+    color:#0c3b2e;
+    text-decoration:none;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.top-icon:hover{
+    color:#1f8f63;
+    transform:scale(1.12);
+}
 
 
-/* LOGIN BUTTON */
+/* ===============================
+   LOGIN BUTTON
+================================ */
 
 .login-btn{
     background:#ff9800;
@@ -165,8 +192,6 @@ body{
     height:35px;
     transition:.3s;
     box-shadow:0 5px 15px rgba(255,152,0,.3);
-    border:none;
-    cursor:pointer;
 }
 
 .login-btn:hover{
@@ -174,23 +199,12 @@ body{
     transform:scale(1.05);
 }
 
-/* LOGOUT BUTTON */
-
-.logout-top{
-    display:none;
-    background:#e53935;
-}
-
-.logout-top:hover{
-    background:#c62828;
-}
 
 /* ===============================
    HERO
 ================================ */
 
 .hero{
-
     margin:30px;
 
     min-height:320px;
@@ -198,11 +212,11 @@ body{
     border-radius:25px;
 
     background-image:
-    linear-gradient(
-        rgba(0,0,0,.45),
-        rgba(0,0,0,.45)
-    ),
-    url('https://images.unsplash.com/photo-1516026672322-bc52d61a55d5');
+        linear-gradient(
+            rgba(0,0,0,.45),
+            rgba(0,0,0,.45)
+        ),
+        url('https://images.unsplash.com/photo-1516026672322-bc52d61a55d5');
 
     background-size:cover;
 
@@ -215,64 +229,40 @@ body{
     padding:50px 60px;
 
     color:white;
-
-    width:auto;
-
 }
 
 .hero h1{
-
     font-size:55px;
-
     margin-bottom:15px;
-
 }
 
 .hero p{
-
     font-size:20px;
-
     line-height:1.5;
-
     margin-bottom:25px;
-
     max-width:650px;
-
 }
 
 .hero a{
-
     text-decoration:none;
-
 }
 
 .hero button{
-
     padding:15px 35px;
-
     background:#ff9800;
-
     color:white;
-
     border:none;
-
     border-radius:30px;
-
     font-size:18px;
-
     cursor:pointer;
-
     transition:.3s;
-
 }
 
 .hero button:hover{
-
     background:#ff7700;
-
     transform:scale(1.05);
-
 }
+
 
 /* ===============================
    CONTENT
@@ -289,7 +279,6 @@ body{
     flex-direction:column;
     gap:25px;
 }
-
 
 
 /* ===============================
@@ -320,24 +309,39 @@ body{
     margin-top:8px;
     font-size:14px;
 }
-.top-icon{
-    color:#0c3b2e;
-    text-decoration:none;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    cursor:pointer;
-    transition:.3s;
+
+
+/* ===============================
+   MOBILE
+================================ */
+
+@media(max-width:900px){
+
+    .sidebar{
+        width:210px;
+        min-width:210px;
+    }
+
+    .search{
+        width:300px;
+    }
+
+    .hero{
+        padding:40px;
+    }
+
+    .hero h1{
+        font-size:42px;
+    }
+
 }
 
-.top-icon:hover{
-    color:#1f8f63;
-    transform:scale(1.12);
-}
 </style>
 
 </head>
+
 <body>
+
 
 <!-- ===============================
      LEFT SIDEBAR
@@ -353,6 +357,7 @@ body{
 
     </div>
 
+
     <ul class="menu">
 
         <li>
@@ -362,12 +367,14 @@ body{
             </a>
         </li>
 
+
         <li>
             <a href="explore.html">
                 <i class="fa-solid fa-compass"></i>
                 Explore
             </a>
         </li>
+
 
         <li>
             <a href="messages.html">
@@ -376,12 +383,14 @@ body{
             </a>
         </li>
 
+
         <li>
             <a href="#">
                 <i class="fa-solid fa-plane"></i>
                 Trips
             </a>
         </li>
+
 
         <li>
             <a href="#">
@@ -390,12 +399,14 @@ body{
             </a>
         </li>
 
+
         <li>
             <a href="#">
                 <i class="fa-solid fa-images"></i>
                 Gallery
             </a>
         </li>
+
 
         <li>
             <a href="#">
@@ -404,12 +415,14 @@ body{
             </a>
         </li>
 
+
         <li>
             <a href="#">
                 <i class="fa-solid fa-users"></i>
                 Group Trips
             </a>
         </li>
+
 
         <li>
             <a href="#" id="logoutBtn">
@@ -421,176 +434,199 @@ body{
     </ul>
 
 </div>
+
+
+
 <!-- ===============================
      MAIN
 ================================ -->
 
 <div class="main">
 
+
     <!-- TOP BAR -->
 
-   <div class="topbar">
+    <div class="topbar">
 
-    <div class="search">
+        <div class="search">
 
-        <i class="fa fa-search"></i>
+            <i class="fa fa-search"></i>
 
-        <input
-            type="text"
-            placeholder="Search places, friends or guides"
-        >
+            <input
+                type="text"
+                placeholder="Search places, friends or guides"
+            >
+
+        </div>
+
+
+        <div class="icons">
+
+            <!-- Notifications -->
+
+            <i class="fa-regular fa-bell"></i>
+
+
+            <!-- AI -->
+
+            <i class="fa-solid fa-robot"></i>
+
+
+            <!-- Profile -->
+
+            <a
+                href="profile.html"
+                class="top-icon"
+                title="Profile"
+            >
+
+                <i class="fa-solid fa-user-circle"></i>
+
+            </a>
+
+
+            <!-- Settings -->
+
+            <a
+                href="settings.html"
+                class="top-icon"
+                title="Settings"
+            >
+
+                <i class="fa-solid fa-gear"></i>
+
+            </a>
+
+
+            <!-- Login -->
+
+            <a
+                href="/login.html"
+                class="login-btn"
+                id="loginBtn"
+            >
+                Login
+            </a>
+
+        </div>
+
+    </div>
+        <!-- ===============================
+         HERO
+    ================================ -->
+
+    <div class="hero">
+
+        <div>
+
+            <h1>
+                Discover Rwanda
+            </h1>
+
+            <p>
+                Explore amazing destinations,
+                book trips,
+                meet professional tour guides,
+                and let AI plan your perfect adventure.
+            </p>
+
+            <a href="explore.html">
+
+                <button>
+                    Explore Now
+                </button>
+
+            </a>
+
+        </div>
 
     </div>
 
 
-    <div class="icons">
 
-        <!-- Notifications -->
-
-        <i class="fa-regular fa-bell"></i>
-
-
-        <!-- AI -->
-
-        <i class="fa-solid fa-robot"></i>
-
-
-        <!-- Profile -->
-
-        <a
-            href="profile.html"
-            class="top-icon"
-            title="Profile"
-        >
-
-            <i class="fa-solid fa-user-circle"></i>
-
-        </a>
-
-
-        <!-- Settings -->
-
-        <a
-            href="settings.html"
-            class="top-icon"
-            title="Settings"
-        >
-
-            <i class="fa-solid fa-gear"></i>
-
-        </a>
-
-
-        <!-- Login -->
-
-        <a
-            href="/login.html"
-            class="login-btn"
-            id="loginBtn"
-        >
-            Login
-        </a>
-
-    </div>
-
-</div>
-    </div>
     <!-- ===============================
-     HERO
-================================ -->
+         CONTENT
+    ================================ -->
 
-<div class="hero">
+    <div class="container">
 
-    <div>
-
-        <h1>Discover Rwanda</h1>
-
-        <p>
-            Explore amazing destinations,
-            book trips,
-            meet professional tour guides,
-            and let AI plan your perfect adventure.
-        </p>
-
-        <a href="explore.html">
-
-            <button>
-                Explore Now
-            </button>
-
-        </a>
-
-    </div>
-
-</div>
-<!-- ===============================
-     CONTENT
-================================ -->
-
-<div class="container">
-
-    <div class="feed">
-
-        <!-- STORIES -->
-
-        <div class="stories">
-
-            <div class="story">
-
-                <img
-                    src="https://i.pravatar.cc/150?img=1"
-                    alt="Patrick"
-                >
-
-                <p>Patrick</p>
-
-            </div>
+        <div class="feed">
 
 
-            <div class="story">
+            <!-- STORIES -->
 
-                <img
-                    src="https://i.pravatar.cc/150?img=2"
-                    alt="Alice"
-                >
-
-                <p>Alice</p>
-
-            </div>
+            <div class="stories">
 
 
-            <div class="story">
+                <div class="story">
 
-                <img
-                    src="https://i.pravatar.cc/150?img=3"
-                    alt="John"
-                >
+                    <img
+                        src="https://i.pravatar.cc/150?img=1"
+                        alt="Patrick"
+                    >
 
-                <p>John</p>
+                    <p>
+                        Patrick
+                    </p>
 
-            </div>
-
-
-            <div class="story">
-
-                <img
-                    src="https://i.pravatar.cc/150?img=4"
-                    alt="Guide"
-                >
-
-                <p>Guide</p>
-
-            </div>
+                </div>
 
 
-            <div class="story">
+                <div class="story">
 
-                <img
-                    src="https://i.pravatar.cc/150?img=5"
-                    alt="Lake Kivu"
-                >
+                    <img
+                        src="https://i.pravatar.cc/150?img=2"
+                        alt="Alice"
+                    >
 
-                <p>Lake Kivu</p>
+                    <p>
+                        Alice
+                    </p>
+
+                </div>
+
+
+                <div class="story">
+
+                    <img
+                        src="https://i.pravatar.cc/150?img=3"
+                        alt="John"
+                    >
+
+                    <p>
+                        John
+                    </p>
+
+                </div>
+
+
+                <div class="story">
+
+                    <img
+                        src="https://i.pravatar.cc/150?img=4"
+                        alt="Guide"
+                    >
+
+                    <p>
+                        Guide
+                    </p>
+
+                </div>
+
+
+                <div class="story">
+
+                    <img
+                        src="https://i.pravatar.cc/150?img=5"
+                        alt="Lake Kivu"
+                    >
+
+                    <p>
+                        Lake Kivu
+                    </p>
+
+                </div>
+
 
             </div>
 
@@ -601,6 +637,7 @@ body{
 </div>
 <script>
 
+
 // ==========================================
 // CHECK LOGGED-IN USER
 // ==========================================
@@ -610,23 +647,31 @@ async function loadUser(){
     try{
 
         const response = await fetch("/me", {
+
             method: "GET",
+
             credentials: "include"
+
         });
+
 
         const loginBtn =
             document.getElementById("loginBtn");
 
+
         if(response.ok){
 
-            const data = await response.json();
+            const data =
+                await response.json();
+
 
             if(data.success && data.user){
 
                 // User is logged in.
-                // Remove the Login button.
+                // Hide Login button.
 
                 loginBtn.style.display = "none";
+
 
                 console.log(
                     "Logged in as:",
@@ -638,16 +683,6 @@ async function loadUser(){
         }
 
     }
-    catch(error){
-
-        console.error(
-            "Could not check login:",
-            error
-        );
-
-    }
-
-}
 
     catch(error){
 
@@ -661,6 +696,7 @@ async function loadUser(){
 }
 
 
+
 // ==========================================
 // LOGOUT
 // ==========================================
@@ -669,56 +705,63 @@ const logoutBtn =
     document.getElementById("logoutBtn");
 
 
-logoutBtn.addEventListener(
-    "click",
-    async function(e){
+if(logoutBtn){
 
-        e.preventDefault();
+    logoutBtn.addEventListener(
+        "click",
+        async function(e){
 
-        try{
-
-            const response =
-                await fetch("/logout", {
-
-                    method: "POST",
-
-                    credentials: "include"
-
-                });
+            e.preventDefault();
 
 
-            if(response.ok){
+            try{
 
-                window.location.href =
-                    "/login.html";
+                const response =
+                    await fetch("/logout", {
+
+                        method: "POST",
+
+                        credentials: "include"
+
+                    });
+
+
+                if(response.ok){
+
+                    window.location.href =
+                        "/login.html";
+
+                }
+
+                else{
+
+                    alert(
+                        "Unable to logout. Please try again."
+                    );
+
+                }
 
             }
 
-            else{
+            catch(error){
+
+                console.error(
+                    "Logout error:",
+                    error
+                );
+
 
                 alert(
-                    "Unable to logout. Please try again."
+                    "Unable to connect to the server."
                 );
 
             }
 
         }
+    );
 
-        catch(error){
+}
 
-            console.error(
-                "Logout error:",
-                error
-            );
-
-            alert(
-                "Unable to connect to the server."
-            );
-
-        }
-
-    }
-);
 
 
 // ==========================================
@@ -726,6 +769,7 @@ logoutBtn.addEventListener(
 // ==========================================
 
 loadUser();
+
 
 </script>
 
