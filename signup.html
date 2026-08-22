@@ -1184,15 +1184,10 @@ signupForm.addEventListener("submit", async function (e) {
             message.style.display = "block";
 
             message.innerHTML = `
-            ✅ <b>Account created successfully!</b><br><br>
-
-            A verification email has been sent to
-            <b>${signupData.email}</b>.
-
-            <br><br>
-
-            Please open your inbox, click the verification
-            link, then return to the Login page.
+                ✅ <b>Account created successfully!</b><br><br>
+                Your account has been saved.
+                <br><br>
+                Redirecting you to the home page...
             `;
 
             signupForm.reset();
@@ -1201,13 +1196,9 @@ signupForm.addEventListener("submit", async function (e) {
 
             nationalityInput.value = "";
 
-            window.scrollTo({
-
-                top: 0,
-
-                behavior: "smooth"
-
-            });
+            setTimeout(() => {
+                window.location.href = "/home.html";
+            }, 1000);
 
         } else {
 
