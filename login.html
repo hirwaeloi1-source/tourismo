@@ -328,102 +328,211 @@ setInterval(()=>{
 
 
 // ===============================
+// // ===============================
 // LOGIN
 // ===============================
 
-const loginForm=document.getElementById("loginForm");
+const loginForm =
+    document.getElementById("loginForm");
 
-const loginBtn=document.getElementById("loginBtn");
+const loginBtn =
+    document.getElementById("loginBtn");
 
-const message=document.getElementById("message");
+const message =
+    document.getElementById("message");
 
-loginForm.addEventListener("submit",async(e)=>{
 
-    e.preventDefault();
+loginForm.addEventListener(
+    "submit",
+    async (e) => {
 
-    message.style.display="none";
-    message.className="";
-    message.innerHTML="";
+        e.preventDefault();
 
-    loginBtn.disabled=true;
-    loginBtn.textContent="Logging in...";
 
-    const email=document.getElementById("email").value.trim();
+        message.style.display = "none";
+        message.className = "";
+        message.innerHTML = "";
 
-    const password=document.getElementById("password").value;
 
-    try{
+        loginBtn.disabled = true;
+        loginBtn.textContent = "Logging in...";
 
-        const response=await fetch("/login",{
 
-            method:"POST",
+        const email =
+            document
+                .getElementById("email")
+                .value
+                .trim()
+                .toLowerCase();
 
-            headers:{
-                "Content-Type":"application/json"
-            },
 
-            credentials:"include",
+        const password =
+            document
+                .getElementById("password")
+                .value;
 
-            body:JSON.stringify({
-                email,
-                password
-            })
 
-        });
+        try {
 
-        const data=await response.json();
+            // =========================
+            // SEND LOGIN REQUEST
+            // =========================
 
-        if(response.ok && data.success){
+            const response =
+                await fetch("/login", {
 
-            message.className="success";
+                    method: "POST",
 
-            message.style.display="block";
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
 
-            message.innerHTML=
-            "✅ Login successful.<br>Redirecting...";
+                    credentials: "include",
 
-            setTimeout(()=>{
+                    body: JSON.stringify({
 
-                window.location.href="/home.html";
+                        email: email,
 
-            },1000);
+                        password: password
+
+                    })
+
+                });
+
+
+            const data =
+                await response.json();
+
+
+            // =========================
+            // LOGIN FAILED
+            // =========================
+
+            if (
+                !response.ok ||
+                !data.success
+            ) {
+
+                message.className =
+                    "failure";
+
+                message.style.display =
+                    "block";
+
+                message.textContent =
+                    data.message ||
+                    "Invalid email or password.";
+
+                return;
+
+            }
+
+
+            // =========================
+            // VERIFY SESSION
+            // =========================
+
+            const meResponse =
+                await fetch("/me", {
+
+                    method: "GET",
+
+                    credentials: "include"
+
+                });
+
+
+            const meData =
+                await meResponse.json();
+
+
+            // =========================
+            // SESSION CONFIRMED
+            // =========================
+
+            if (
+                meResponse.ok &&
+                meData.success &&
+                meData.user
+            ) {
+
+                console.log(
+                    "Logged in user:",
+                    meData.user.firstName,
+                    meData.user.secondName,
+                    meData.user.email
+                );
+
+
+                message.className =
+                    "success";
+
+                message.style.display =
+                    "block";
+
+                message.innerHTML =
+                    "✅ Login successful.<br>" +
+                    "Redirecting...";
+
+
+                setTimeout(() => {
+
+                    window.location.href =
+                        "/home";
+
+                }, 700);
+
+
+            }
+
+            else {
+
+                message.className =
+                    "failure";
+
+                message.style.display =
+                    "block";
+
+                message.textContent =
+                    "Login succeeded, but your session could not be created. Please try again.";
+
+            }
+
 
         }
 
-        else{
+        catch (error) {
 
-            message.className="failure";
+            console.error(
+                "Login error:",
+                error
+            );
 
-            message.style.display="block";
 
-            message.innerHTML=data.message;
+            message.className =
+                "failure";
+
+            message.style.display =
+                "block";
+
+            message.textContent =
+                "Unable to connect to the server.";
+
+        }
+
+        finally {
+
+            loginBtn.disabled = false;
+
+            loginBtn.textContent =
+                "Login";
 
         }
 
     }
+);
 
-    catch(err){
-
-        console.error(err);
-
-        message.className="failure";
-
-        message.style.display="block";
-
-        message.innerHTML=
-        "Unable to connect to the server.";
-
-    }
-
-    finally{
-
-        loginBtn.disabled=false;
-
-        loginBtn.textContent="Login";
-
-    }
-
-});
 </script>
 </body>
 </html>

@@ -1161,19 +1161,15 @@ signupForm.addEventListener("submit", async function (e) {
 
     try {
 
-        const response = await fetch("/signup", {
-
-            method: "POST",
-
-            headers: {
-
-                "Content-Type": "application/json"
-
-            },
-
-            body: JSON.stringify(signupData)
-
-        });
+const response = await fetch("/signup", {
+    method: "POST",
+    headers: {
+        "Content-Type": "application/json"
+    },
+    credentials: "include",
+    body: JSON.stringify(signupData)
+});
+    
 
         const data = await response.json();
 
