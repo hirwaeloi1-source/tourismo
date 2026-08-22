@@ -15,6 +15,13 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 app.use(express.static(__dirname));
+// ===============================
+// HOME PAGE
+// ===============================
+
+app.get("/", (req, res) => {
+  res.sendFile(__dirname + "/home.html");
+});
 
 // ===============================
 // MONGODB CONNECTION
@@ -75,6 +82,7 @@ const userSchema = new mongoose.Schema({
 });
 
 const User = mongoose.model("User", userSchema);
+
 // ===============================
 // SIGNUP ROUTE
 // ===============================
