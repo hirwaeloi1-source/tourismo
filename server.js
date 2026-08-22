@@ -51,11 +51,8 @@ app.get("/home", (req, res) => {
 // ===============================
 // MONGODB CONNECTION
 // ===============================
-
 const MONGODB_URI =
-    process.env.MONGODB_URI ||
-    "YOUR_MONGODB_CONNECTION_STRING";
-
+    process.env.MONGO_URI;
 
 mongoose.connect(MONGODB_URI)
     .then(() => {
