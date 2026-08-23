@@ -2640,82 +2640,7 @@ app.get(
 );
 
 
-// ======================================================
-// 404
-// ======================================================
 
-app.use(
-    (req, res) => {
-
-        /*
-         * Return JSON for API requests.
-         */
-
-        if (
-            req.path.startsWith(
-                "/posts"
-            ) ||
-            req.path.startsWith(
-                "/trips"
-            ) ||
-            req.path.startsWith(
-                "/api/"
-            )
-        ) {
-
-            return res.status(404).json({
-
-                success: false,
-
-                message:
-                    "API endpoint not found."
-
-            });
-
-        }
-
-
-        res.status(404).send(
-            "Page not found."
-        );
-
-    }
-);
-
-
-// ======================================================
-// ERROR HANDLER
-// ======================================================
-
-app.use(
-    (error, req, res, next) => {
-
-        console.error(
-            "❌ UNHANDLED SERVER ERROR:",
-            error
-        );
-
-
-        if (
-            res.headersSent
-        ) {
-
-            return next(error);
-
-        }
-
-
-        res.status(500).json({
-
-            success: false,
-
-            message:
-                "Internal server error."
-
-        });
-
-    }
-);
 // ======================================
 // GET VIRTUAL TOURS
 // ======================================
@@ -2852,11 +2777,7 @@ app.post("/api/virtual-tours", async (req, res) => {
 
         });
 
-    }
-
-    catch (error) {
-
-        console.error(
+    }nsole.error(
             "❌ CREATE VIRTUAL TOUR ERROR:",
             error
         );
@@ -3720,6 +3641,82 @@ app.delete(
             });
 
         }
+
+    }
+);
+// ======================================================
+// 404
+// ======================================================
+
+app.use(
+    (req, res) => {
+
+        /*
+         * Return JSON for API requests.
+         */
+
+        if (
+            req.path.startsWith(
+                "/posts"
+            ) ||
+            req.path.startsWith(
+                "/trips"
+            ) ||
+            req.path.startsWith(
+                "/api/"
+            )
+        ) {
+
+            return res.status(404).json({
+
+                success: false,
+
+                message:
+                    "API endpoint not found."
+
+            });
+
+        }
+
+
+        res.status(404).send(
+            "Page not found."
+        );
+
+    }
+);
+
+
+// ======================================================
+// ERROR HANDLER
+// ======================================================
+
+app.use(
+    (error, req, res, next) => {
+
+        console.error(
+            "❌ UNHANDLED SERVER ERROR:",
+            error
+        );
+
+
+        if (
+            res.headersSent
+        ) {
+
+            return next(error);
+
+        }
+
+
+        res.status(500).json({
+
+            success: false,
+
+            message:
+                "Internal server error."
+
+        });
 
     }
 );
