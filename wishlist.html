@@ -1,0 +1,1287 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Tourismo | Wishlist</title>
+
+    <style>
+
+        /* =========================
+           RESET
+        ========================= */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+
+        body {
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+
+            background: #f5f7fb;
+
+            color: #1f2937;
+
+            min-height: 100vh;
+        }
+
+
+        button,
+        input {
+            font: inherit;
+        }
+
+
+        button {
+            cursor: pointer;
+        }
+
+
+        /* =========================
+           NAVBAR
+        ========================= */
+
+        .navbar {
+
+            width: 100%;
+
+            height: 72px;
+
+            background: white;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            padding: 0 6%;
+
+            border-bottom:
+                1px solid #e5e7eb;
+
+            position: sticky;
+
+            top: 0;
+
+            z-index: 100;
+        }
+
+
+        .logo {
+
+            text-decoration: none;
+
+            font-size: 25px;
+
+            font-weight: 800;
+
+            color: #111827;
+
+            letter-spacing: -0.5px;
+        }
+
+
+        .logo span {
+            color: #2563eb;
+        }
+
+
+        .nav-links {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 28px;
+        }
+
+
+        .nav-links a {
+
+            text-decoration: none;
+
+            color: #4b5563;
+
+            font-size: 14px;
+
+            font-weight: 600;
+
+            transition: 0.2s;
+        }
+
+
+        .nav-links a:hover {
+
+            color: #2563eb;
+        }
+
+
+        .nav-links a.active {
+
+            color: #2563eb;
+        }
+
+
+        /* =========================
+           PAGE
+        ========================= */
+
+        .page {
+
+            width: 100%;
+
+            max-width: 1200px;
+
+            margin: auto;
+
+            padding: 50px 25px 80px;
+        }
+
+
+        .page-header {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: flex-end;
+
+            gap: 20px;
+
+            margin-bottom: 35px;
+        }
+
+
+        .page-header h1 {
+
+            font-size: 38px;
+
+            color: #111827;
+
+            margin-bottom: 8px;
+        }
+
+
+        .page-header p {
+
+            color: #6b7280;
+
+            font-size: 16px;
+        }
+
+
+        .wishlist-count {
+
+            background: #eff6ff;
+
+            color: #2563eb;
+
+            padding: 10px 16px;
+
+            border-radius: 999px;
+
+            font-size: 14px;
+
+            font-weight: 700;
+
+            white-space: nowrap;
+        }
+
+
+        /* =========================
+           SEARCH
+        ========================= */
+
+        .search-box {
+
+            margin-bottom: 30px;
+
+            position: relative;
+        }
+
+
+        .search-box input {
+
+            width: 100%;
+
+            padding: 15px 18px;
+
+            border:
+                1px solid #d1d5db;
+
+            border-radius: 12px;
+
+            background: white;
+
+            outline: none;
+
+            font-size: 15px;
+
+            transition: 0.2s;
+        }
+
+
+        .search-box input:focus {
+
+            border-color: #2563eb;
+
+            box-shadow:
+                0 0 0 3px
+                rgba(37, 99, 235, 0.1);
+        }
+
+
+        /* =========================
+           GRID
+        ========================= */
+
+        .wishlist-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(
+                    auto-fill,
+                    minmax(280px, 1fr)
+                );
+
+            gap: 25px;
+        }
+
+
+        /* =========================
+           WISHLIST CARD
+        ========================= */
+
+        .wishlist-card {
+
+            background: white;
+
+            border-radius: 18px;
+
+            overflow: hidden;
+
+            border:
+                1px solid #e5e7eb;
+
+            box-shadow:
+                0 5px 18px
+                rgba(0, 0, 0, 0.05);
+
+            transition:
+                transform 0.2s,
+                box-shadow 0.2s;
+        }
+
+
+        .wishlist-card:hover {
+
+            transform:
+                translateY(-4px);
+
+            box-shadow:
+                0 12px 28px
+                rgba(0, 0, 0, 0.09);
+        }
+
+
+        .card-image {
+
+            width: 100%;
+
+            height: 210px;
+
+            position: relative;
+
+            background: #e5e7eb;
+
+            overflow: hidden;
+        }
+
+
+        .card-image img {
+
+            width: 100%;
+
+            height: 100%;
+
+            object-fit: cover;
+
+            display: block;
+        }
+
+
+        .remove-button {
+
+            position: absolute;
+
+            top: 12px;
+
+            right: 12px;
+
+            width: 40px;
+
+            height: 40px;
+
+            border: none;
+
+            border-radius: 50%;
+
+            background: white;
+
+            color: #ef4444;
+
+            font-size: 20px;
+
+            box-shadow:
+                0 3px 12px
+                rgba(0, 0, 0, 0.15);
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            transition: 0.2s;
+        }
+
+
+        .remove-button:hover {
+
+            background: #fee2e2;
+
+            transform:
+                scale(1.05);
+        }
+
+
+        .card-content {
+
+            padding: 20px;
+        }
+
+
+        .card-category {
+
+            display: inline-block;
+
+            background: #eff6ff;
+
+            color: #2563eb;
+
+            padding: 6px 10px;
+
+            border-radius: 999px;
+
+            font-size: 11px;
+
+            font-weight: 700;
+
+            margin-bottom: 10px;
+        }
+
+
+        .card-content h2 {
+
+            font-size: 20px;
+
+            color: #111827;
+
+            margin-bottom: 8px;
+        }
+
+
+        .location {
+
+            color: #6b7280;
+
+            font-size: 14px;
+
+            margin-bottom: 12px;
+        }
+
+
+        .description {
+
+            color: #6b7280;
+
+            font-size: 14px;
+
+            line-height: 1.6;
+
+            margin-bottom: 18px;
+        }
+
+
+        .view-button {
+
+            display: inline-block;
+
+            text-decoration: none;
+
+            background: #2563eb;
+
+            color: white;
+
+            padding: 11px 16px;
+
+            border-radius: 9px;
+
+            font-size: 13px;
+
+            font-weight: 700;
+
+            transition: 0.2s;
+        }
+
+
+        .view-button:hover {
+
+            background: #1d4ed8;
+        }
+
+
+        /* =========================
+           EMPTY STATE
+        ========================= */
+
+        .empty-state {
+
+            text-align: center;
+
+            background: white;
+
+            border:
+                1px solid #e5e7eb;
+
+            border-radius: 20px;
+
+            padding: 70px 25px;
+
+            box-shadow:
+                0 5px 18px
+                rgba(0, 0, 0, 0.04);
+
+            display: none;
+        }
+
+
+        .empty-icon {
+
+            font-size: 55px;
+
+            margin-bottom: 18px;
+        }
+
+
+        .empty-state h2 {
+
+            font-size: 24px;
+
+            margin-bottom: 10px;
+
+            color: #111827;
+        }
+
+
+        .empty-state p {
+
+            color: #6b7280;
+
+            margin-bottom: 25px;
+
+            line-height: 1.6;
+        }
+
+
+        .explore-button {
+
+            display: inline-block;
+
+            text-decoration: none;
+
+            background: #2563eb;
+
+            color: white;
+
+            padding: 13px 22px;
+
+            border-radius: 10px;
+
+            font-weight: 700;
+
+            font-size: 14px;
+        }
+
+
+        /* =========================
+           LOADING
+        ========================= */
+
+        .loading {
+
+            text-align: center;
+
+            padding: 60px 20px;
+
+            color: #6b7280;
+
+            font-size: 15px;
+        }
+
+
+        /* =========================
+           ERROR
+        ========================= */
+
+        .error-message {
+
+            display: none;
+
+            background: #fef2f2;
+
+            border:
+                1px solid #fecaca;
+
+            color: #b91c1c;
+
+            padding: 15px 18px;
+
+            border-radius: 10px;
+
+            margin-bottom: 25px;
+
+            font-size: 14px;
+        }
+
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 750px) {
+
+            .navbar {
+
+                height: auto;
+
+                padding:
+                    18px 20px;
+
+                flex-direction: column;
+
+                gap: 15px;
+            }
+
+
+            .nav-links {
+
+                gap: 16px;
+
+                flex-wrap: wrap;
+
+                justify-content: center;
+            }
+
+
+            .page {
+
+                padding:
+                    35px 18px 60px;
+            }
+
+
+            .page-header {
+
+                align-items: flex-start;
+
+                flex-direction: column;
+            }
+
+
+            .page-header h1 {
+
+                font-size: 31px;
+            }
+
+
+            .wishlist-count {
+
+                align-self: flex-start;
+            }
+
+
+            .wishlist-grid {
+
+                grid-template-columns:
+                    1fr;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- =========================
+         NAVBAR
+    ========================= -->
+
+    <nav class="navbar">
+
+        <a
+            href="home.html"
+            class="logo"
+        >
+            Touri<span>smo</span>
+        </a>
+
+
+        <div class="nav-links">
+
+            <a href="home.html">
+                Home
+            </a>
+
+            <a href="trips.html">
+                Trips
+            </a>
+
+            <a href="posts.html">
+                Community
+            </a>
+
+            <a href="gallery.html">
+                Gallery
+            </a>
+
+            <a href="virtual.html">
+                Virtual Tours
+            </a>
+
+            <a
+                href="wishlist.html"
+                class="active"
+            >
+                Wishlist
+            </a>
+
+        </div>
+
+    </nav>
+
+
+    <!-- =========================
+         MAIN
+    ========================= -->
+
+    <main class="page">
+
+
+        <div class="page-header">
+
+            <div>
+
+                <h1>
+                    My Wishlist
+                </h1>
+
+                <p>
+                    Keep track of the places
+                    you want to explore.
+                </p>
+
+            </div>
+
+
+            <div
+                class="wishlist-count"
+                id="wishlistCount"
+            >
+                0 saved
+            </div>
+
+        </div>
+
+
+        <!-- SEARCH -->
+
+        <div class="search-box">
+
+            <input
+                type="text"
+                id="searchInput"
+                placeholder="Search your wishlist..."
+                autocomplete="off"
+            >
+
+        </div>
+
+
+        <!-- ERROR -->
+
+        <div
+            class="error-message"
+            id="errorMessage"
+        ></div>
+
+
+        <!-- LOADING -->
+
+        <div
+            class="loading"
+            id="loading"
+        >
+            Loading your wishlist...
+        </div>
+
+
+        <!-- WISHLIST -->
+
+        <div
+            class="wishlist-grid"
+            id="wishlistGrid"
+        ></div>
+
+
+        <!-- EMPTY -->
+
+        <div
+            class="empty-state"
+            id="emptyState"
+        >
+
+            <div class="empty-icon">
+                ♡
+            </div>
+
+            <h2>
+                Your wishlist is empty
+            </h2>
+
+            <p>
+                You haven't saved any destinations yet.
+                Start exploring Tourismo and save the
+                places you would love to visit.
+            </p>
+
+            <a
+                href="virtual.html"
+                class="explore-button"
+            >
+                Explore Destinations
+            </a>
+
+        </div>
+
+
+    </main>
+
+
+    <script>
+
+        // ======================================
+        // STATE
+        // ======================================
+
+        let wishlist = [];
+
+
+        // ======================================
+        // ELEMENTS
+        // ======================================
+
+        const wishlistGrid =
+            document.getElementById(
+                "wishlistGrid"
+            );
+
+        const loading =
+            document.getElementById(
+                "loading"
+            );
+
+        const emptyState =
+            document.getElementById(
+                "emptyState"
+            );
+
+        const wishlistCount =
+            document.getElementById(
+                "wishlistCount"
+            );
+
+        const searchInput =
+            document.getElementById(
+                "searchInput"
+            );
+
+        const errorMessage =
+            document.getElementById(
+                "errorMessage"
+            );
+
+
+        // ======================================
+        // LOAD WISHLIST
+        // ======================================
+
+        async function loadWishlist() {
+
+            try {
+
+                loading.style.display =
+                    "block";
+
+                emptyState.style.display =
+                    "none";
+
+                wishlistGrid.innerHTML =
+                    "";
+
+
+                const response =
+                    await fetch(
+                        "/api/wishlist"
+                    );
+
+
+                const data =
+                    await response.json();
+
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        data.message ||
+                        "Unable to load wishlist."
+                    );
+
+                }
+
+
+                wishlist =
+                    data.wishlist || [];
+
+
+                renderWishlist();
+
+
+            }
+
+            catch (error) {
+
+                console.error(
+                    "Wishlist error:",
+                    error
+                );
+
+
+                showError(
+                    error.message ||
+                    "Unable to load wishlist."
+                );
+
+            }
+
+            finally {
+
+                loading.style.display =
+                    "none";
+
+            }
+
+        }
+
+
+        // ======================================
+        // RENDER WISHLIST
+        // ======================================
+
+        function renderWishlist() {
+
+            const search =
+                searchInput.value
+                    .trim()
+                    .toLowerCase();
+
+
+            const filtered =
+                wishlist.filter(item => {
+
+                    return (
+
+                        String(
+                            item.title || ""
+                        )
+                            .toLowerCase()
+                            .includes(search)
+
+                        ||
+
+                        String(
+                            item.location || ""
+                        )
+                            .toLowerCase()
+                            .includes(search)
+
+                        ||
+
+                        String(
+                            item.country || ""
+                        )
+                            .toLowerCase()
+                            .includes(search)
+
+                        ||
+
+                        String(
+                            item.category || ""
+                        )
+                            .toLowerCase()
+                            .includes(search)
+
+                    );
+
+                });
+
+
+            wishlistCount.textContent =
+                `${wishlist.length} saved`;
+
+
+            wishlistGrid.innerHTML =
+                "";
+
+
+            if (
+                wishlist.length === 0
+            ) {
+
+                emptyState.style.display =
+                    "block";
+
+                return;
+
+            }
+
+
+            if (
+                filtered.length === 0
+            ) {
+
+                wishlistGrid.innerHTML = `
+
+                    <div
+                        style="
+                            grid-column: 1 / -1;
+                            text-align: center;
+                            padding: 50px 20px;
+                            color: #6b7280;
+                        "
+                    >
+
+                        No wishlist items
+                        match your search.
+
+                    </div>
+
+                `;
+
+                emptyState.style.display =
+                    "none";
+
+                return;
+
+            }
+
+
+            emptyState.style.display =
+                "none";
+
+
+            filtered.forEach(item => {
+
+                const card =
+                    document.createElement(
+                        "article"
+                    );
+
+                card.className =
+                    "wishlist-card";
+
+
+                const image =
+                    escapeHtml(
+                        item.image ||
+                        ""
+                    );
+
+
+                const title =
+                    escapeHtml(
+                        item.title ||
+                        "Untitled destination"
+                    );
+
+
+                const location =
+                    escapeHtml(
+                        item.location ||
+                        item.country ||
+                        "Unknown location"
+                    );
+
+
+                const description =
+                    escapeHtml(
+                        item.description ||
+                        "A destination saved to your Tourismo wishlist."
+                    );
+
+
+                const category =
+                    escapeHtml(
+                        item.category ||
+                        "Other"
+                    );
+
+
+                card.innerHTML = `
+
+                    <div class="card-image">
+
+                        <img
+                            src="${image}"
+                            alt="${title}"
+                            onerror="
+                                this.style.display='none';
+                            "
+                        >
+
+                        <button
+                            class="remove-button"
+                            type="button"
+                            title="Remove from wishlist"
+                            onclick="
+                                removeFromWishlist(
+                                    '${item._id}'
+                                )
+                            "
+                        >
+                            ♥
+                        </button>
+
+                    </div>
+
+
+                    <div class="card-content">
+
+                        <span
+                            class="card-category"
+                        >
+                            ${category}
+                        </span>
+
+
+                        <h2>
+                            ${title}
+                        </h2>
+
+
+                        <div class="location">
+                            📍 ${location}
+                        </div>
+
+
+                        <p class="description">
+                            ${description}
+                        </p>
+
+
+                        <a
+                            href="virtual.html"
+                            class="view-button"
+                        >
+                            Explore
+                        </a>
+
+                    </div>
+
+                `;
+
+
+                wishlistGrid.appendChild(
+                    card
+                );
+
+            });
+
+        }
+
+
+        // ======================================
+        // REMOVE FROM WISHLIST
+        // ======================================
+
+        async function removeFromWishlist(
+            id
+        ) {
+
+            try {
+
+                const response =
+                    await fetch(
+                        `/api/wishlist/${id}`,
+                        {
+                            method:
+                                "DELETE"
+                        }
+                    );
+
+
+                const data =
+                    await response.json();
+
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        data.message ||
+                        "Unable to remove item."
+                    );
+
+                }
+
+
+                wishlist =
+                    wishlist.filter(
+                        item =>
+                            String(item._id) !==
+                            String(id)
+                    );
+
+
+                renderWishlist();
+
+            }
+
+            catch (error) {
+
+                console.error(
+                    "Remove wishlist error:",
+                    error
+                );
+
+
+                showError(
+                    error.message ||
+                    "Unable to remove item."
+                );
+
+            }
+
+        }
+
+
+        // ======================================
+        // SEARCH
+        // ======================================
+
+        searchInput.addEventListener(
+            "input",
+            renderWishlist
+        );
+
+
+        // ======================================
+        // ERROR
+        // ======================================
+
+        function showError(message) {
+
+            errorMessage.textContent =
+                message;
+
+            errorMessage.style.display =
+                "block";
+
+
+            setTimeout(() => {
+
+                errorMessage.style.display =
+                    "none";
+
+            }, 5000);
+
+        }
+
+
+        // ======================================
+        // HTML ESCAPE
+        // ======================================
+
+        function escapeHtml(value) {
+
+            return String(value)
+
+                .replace(
+                    /&/g,
+                    "&amp;"
+                )
+
+                .replace(
+                    /</g,
+                    "&lt;"
+                )
+
+                .replace(
+                    />/g,
+                    "&gt;"
+                )
+
+                .replace(
+                    /"/g,
+                    "&quot;"
+                )
+
+                .replace(
+                    /'/g,
+                    "&#039;"
+                );
+
+        }
+
+
+        // ======================================
+        // START
+        // ======================================
+
+        loadWishlist();
+
+    </script>
+
+</body>
+
+</html>
+```

@@ -1,0 +1,2196 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>Tourismo | Post</title>
+
+<style>
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f4f7f4;
+    color: #222;
+    min-height: 100vh;
+}
+
+/* =========================
+   HEADER
+========================= */
+
+header {
+    height: 70px;
+    background: #157a1f;
+    display: flex;
+    align-items: center;
+    padding: 0 25px;
+    color: white;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 10px rgba(0,0,0,.15);
+}
+
+.logo {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid white;
+    margin-right: 15px;
+}
+
+header h1 {
+    font-size: 21px;
+    letter-spacing: .5px;
+}
+
+.back-btn {
+    margin-left: auto;
+    background: rgba(255,255,255,.15);
+    color: white;
+    border: 1px solid rgba(255,255,255,.35);
+    padding: 9px 16px;
+    border-radius: 7px;
+    cursor: pointer;
+    text-decoration: none;
+    font-size: 14px;
+    transition: .2s;
+}
+
+.back-btn:hover {
+    background: rgba(255,255,255,.25);
+}
+
+/* =========================
+   MAIN
+========================= */
+
+main {
+    width: min(760px, 94%);
+    margin: 35px auto;
+}
+
+/* =========================
+   POST CARD
+========================= */
+
+.post-card {
+    background: white;
+    border-radius: 14px;
+    box-shadow: 0 4px 18px rgba(0,0,0,.1);
+    overflow: hidden;
+}
+
+/* =========================
+   POST HEADER
+========================= */
+
+.post-header {
+    display: flex;
+    align-items: center;
+    padding: 18px;
+}
+
+.avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    object-fit: cover;
+    background: #ddd;
+    margin-right: 12px;
+}
+
+.user-info {
+    flex: 1;
+}
+
+.user-name {
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.post-date {
+    color: #777;
+    font-size: 13px;
+    margin-top: 3px;
+}
+
+.more-btn {
+    border: none;
+    background: transparent;
+    font-size: 22px;
+    cursor: pointer;
+    padding: 5px;
+}
+
+/* =========================
+   POST CONTENT
+========================= */
+
+.post-content {
+    padding: 0 18px 18px;
+}
+
+.post-text {
+    font-size: 16px;
+    line-height: 1.6;
+    white-space: pre-wrap;
+    margin-bottom: 15px;
+}
+
+.post-media {
+    width: 100%;
+    max-height: 600px;
+    object-fit: cover;
+    display: block;
+    background: #111;
+    border-radius: 8px;
+}
+
+video.post-media {
+    max-height: 600px;
+}
+
+/* =========================
+   STATS
+========================= */
+
+.post-stats {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 18px;
+    color: #666;
+    font-size: 14px;
+    border-bottom: 1px solid #eee;
+}
+
+/* =========================
+   ACTIONS
+========================= */
+
+.post-actions {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    border-bottom: 1px solid #eee;
+}
+
+.action-btn {
+    border: none;
+    background: white;
+    padding: 13px 5px;
+    cursor: pointer;
+    font-size: 14px;
+    color: #555;
+    transition: .2s;
+}
+
+.action-btn:hover {
+    background: #f2f5f2;
+}
+
+.action-btn:disabled {
+    opacity: .6;
+    cursor: not-allowed;
+}
+
+.action-btn.liked {
+    color: #e53935;
+    font-weight: bold;
+}
+
+/* =========================
+   COMMENTS
+========================= */
+
+.comments-section {
+    padding: 18px;
+}
+
+.comments-title {
+    font-size: 17px;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.comment-form {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 20px;
+}
+
+.comment-input {
+    flex: 1;
+    border: 1px solid #ddd;
+    border-radius: 20px;
+    padding: 10px 15px;
+    outline: none;
+    font-size: 14px;
+}
+
+.comment-input:focus {
+    border-color: #157a1f;
+}
+
+.comment-submit {
+    border: none;
+    background: #157a1f;
+    color: white;
+    border-radius: 20px;
+    padding: 0 18px;
+    cursor: pointer;
+}
+
+.comment-submit:disabled {
+    opacity: .6;
+}
+
+/* =========================
+   COMMENT
+========================= */
+
+.comment {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.comment-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    object-fit: cover;
+    background: #ddd;
+}
+
+.comment-body {
+    background: #f2f4f2;
+    border-radius: 12px;
+    padding: 9px 12px;
+    flex: 1;
+}
+
+.comment-user {
+    font-weight: bold;
+    font-size: 13px;
+    margin-bottom: 3px;
+}
+
+.comment-text {
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+/* =========================
+   SHARE
+========================= */
+
+.share-box {
+    display: none;
+    padding: 15px 18px;
+    background: #f7f9f7;
+    border-top: 1px solid #eee;
+}
+
+.share-box.active {
+    display: block;
+}
+
+.share-title {
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.share-options {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.share-option {
+    border: 1px solid #ddd;
+    background: white;
+    border-radius: 7px;
+    padding: 8px 13px;
+    cursor: pointer;
+    font-size: 13px;
+}
+
+/* =========================
+   LOADING
+========================= */
+
+.loading {
+    text-align: center;
+    padding: 50px;
+    color: #777;
+}
+
+/* =========================
+   ERROR
+========================= */
+
+.error-message {
+    background: #fff0f0;
+    color: #b00020;
+    padding: 18px;
+    border-radius: 10px;
+    text-align: center;
+    display: none;
+}
+
+/* =========================
+   SUCCESS MESSAGE
+========================= */
+
+.success-message {
+    background: #edf8ef;
+    color: #157a1f;
+    padding: 12px;
+    border-radius: 8px;
+    text-align: center;
+    display: none;
+    margin-bottom: 15px;
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media(max-width:600px) {
+
+    header {
+        padding: 0 15px;
+    }
+
+    header h1 {
+        font-size: 18px;
+    }
+
+    main {
+        width: 96%;
+        margin: 20px auto;
+    }
+
+    .post-header {
+        padding: 14px;
+    }
+
+    .post-content {
+        padding: 0 14px 14px;
+    }
+
+    .comments-section {
+        padding: 14px;
+    }
+
+    .comment-submit {
+        padding: 0 13px;
+    }
+
+    .post-actions .action-btn {
+        font-size: 13px;
+    }
+}
+
+</style>
+
+</head>
+
+<body>
+
+<header>
+
+    <img
+        src="logo.jpeg"
+        class="logo"
+        alt="Tourismo"
+    >
+
+    <h1>Tourismo</h1>
+
+    <a
+        href="posts.html"
+        class="back-btn"
+    >
+        ← Back to Posts
+    </a>
+
+</header>
+
+
+<main>
+
+    <div
+        id="loading"
+        class="loading"
+    >
+        Loading post...
+    </div>
+
+
+    <div
+        id="errorMessage"
+        class="error-message"
+    >
+        Unable to load this post.
+    </div>
+
+
+    <div
+        id="successMessage"
+        class="success-message"
+    ></div>
+
+
+    <article
+        id="postCard"
+        class="post-card"
+        style="display:none;"
+    >
+
+        <!-- POST HEADER -->
+
+        <div class="post-header">
+
+            <img
+                id="userAvatar"
+                class="avatar"
+                src="logo.jpeg"
+                alt="User"
+            >
+
+            <div class="user-info">
+
+                <div
+                    id="userName"
+                    class="user-name"
+                >
+                    Tourismo User
+                </div>
+
+                <div
+                    id="postDate"
+                    class="post-date"
+                >
+                    Just now
+                </div>
+
+            </div>
+
+            <button
+                class="more-btn"
+                id="moreBtn"
+                type="button"
+            >
+                ⋯
+            </button>
+
+        </div>
+
+
+        <!-- CONTENT -->
+
+        <div class="post-content">
+
+            <div
+                id="postText"
+                class="post-text"
+            ></div>
+
+
+            <img
+                id="postImage"
+                class="post-media"
+                alt="Post image"
+                style="display:none;"
+            >
+
+
+            <video
+                id="postVideo"
+                class="post-media"
+                controls
+                playsinline
+                style="display:none;"
+            ></video>
+
+        </div>
+
+
+        <!-- STATS -->
+
+        <div class="post-stats">
+
+            <span id="likeCount">
+                0 likes
+            </span>
+
+            <span id="commentCount">
+                0 comments
+            </span>
+
+            <span id="shareCount">
+                0 shares
+            </span>
+
+        </div>
+
+
+        <!-- ACTIONS -->
+
+        <div class="post-actions">
+
+            <button
+                id="likeBtn"
+                class="action-btn"
+                type="button"
+            >
+                ❤️ Like
+            </button>
+
+            <button
+                id="commentBtn"
+                class="action-btn"
+                type="button"
+            >
+                💬 Comment
+            </button>
+
+            <button
+                id="shareBtn"
+                class="action-btn"
+                type="button"
+            >
+                ↗️ Share
+            </button>
+
+        </div>
+
+
+        <!-- SHARE BOX -->
+
+        <div
+            id="shareBox"
+            class="share-box"
+        >
+
+            <div class="share-title">
+                Share this post
+            </div>
+
+            <div class="share-options">
+
+                <button
+                    class="share-option"
+                    id="copyLinkBtn"
+                    type="button"
+                >
+                    🔗 Copy link
+                </button>
+
+                <button
+                    class="share-option"
+                    id="nativeShareBtn"
+                    type="button"
+                >
+                    📤 Share
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- COMMENTS -->
+
+        <section
+            id="commentsSection"
+            class="comments-section"
+        >
+
+            <div class="comments-title">
+                Comments
+            </div>
+
+
+            <form
+                id="commentForm"
+                class="comment-form"
+            >
+
+                <input
+                    type="text"
+                    id="commentInput"
+                    class="comment-input"
+                    placeholder="Write a comment..."
+                    maxlength="500"
+                    autocomplete="off"
+                >
+
+                <button
+                    type="submit"
+                    class="comment-submit"
+                    id="commentSubmit"
+                >
+                    Send
+                </button>
+
+            </form>
+
+
+            <div id="commentsList"></div>
+
+        </section>
+
+    </article>
+
+</main>
+
+
+<script>
+
+/* =====================================================
+   POST ID
+===================================================== */
+
+const params =
+    new URLSearchParams(
+        window.location.search
+    );
+
+const postId =
+    params.get("id");
+
+
+/* =====================================================
+   ELEMENTS
+===================================================== */
+
+const loading =
+    document.getElementById("loading");
+
+const errorMessage =
+    document.getElementById("errorMessage");
+
+const successMessage =
+    document.getElementById("successMessage");
+
+const postCard =
+    document.getElementById("postCard");
+
+const userName =
+    document.getElementById("userName");
+
+const userAvatar =
+    document.getElementById("userAvatar");
+
+const postDate =
+    document.getElementById("postDate");
+
+const postText =
+    document.getElementById("postText");
+
+const postImage =
+    document.getElementById("postImage");
+
+const postVideo =
+    document.getElementById("postVideo");
+
+const likeBtn =
+    document.getElementById("likeBtn");
+
+const likeCount =
+    document.getElementById("likeCount");
+
+const commentBtn =
+    document.getElementById("commentBtn");
+
+const commentCount =
+    document.getElementById("commentCount");
+
+const shareBtn =
+    document.getElementById("shareBtn");
+
+const shareCount =
+    document.getElementById("shareCount");
+
+const shareBox =
+    document.getElementById("shareBox");
+
+const commentsSection =
+    document.getElementById("commentsSection");
+
+const commentForm =
+    document.getElementById("commentForm");
+
+const commentInput =
+    document.getElementById("commentInput");
+
+const commentSubmit =
+    document.getElementById("commentSubmit");
+
+const commentsList =
+    document.getElementById("commentsList");
+
+const copyLinkBtn =
+    document.getElementById("copyLinkBtn");
+
+const nativeShareBtn =
+    document.getElementById("nativeShareBtn");
+
+const moreBtn =
+    document.getElementById("moreBtn");
+
+
+/* =====================================================
+   STATE
+===================================================== */
+
+let currentUser = null;
+let currentPost = null;
+
+
+/* =====================================================
+   HELPERS
+===================================================== */
+
+function escapeHtml(value) {
+
+    return String(value || "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+
+}
+
+
+function getId(value) {
+
+    if (!value) {
+        return null;
+    }
+
+    if (typeof value === "string") {
+        return value;
+    }
+
+    return value._id ||
+           value.id ||
+           value.userId ||
+           null;
+
+}
+
+
+function showError(message) {
+
+    loading.style.display = "none";
+
+    errorMessage.textContent =
+        message ||
+        "Something went wrong.";
+
+    errorMessage.style.display =
+        "block";
+
+}
+
+
+function showSuccess(message) {
+
+    successMessage.textContent =
+        message;
+
+    successMessage.style.display =
+        "block";
+
+    setTimeout(() => {
+
+        successMessage.style.display =
+            "none";
+
+    }, 2500);
+
+}
+
+
+function formatDate(value) {
+
+    if (!value) {
+        return "Just now";
+    }
+
+    const date =
+        new Date(value);
+
+    if (
+        Number.isNaN(
+            date.getTime()
+        )
+    ) {
+        return "Just now";
+    }
+
+    return date.toLocaleString(
+        undefined,
+        {
+            year: "numeric",
+            month: "short",
+            day: "numeric",
+            hour: "numeric",
+            minute: "2-digit"
+        }
+    );
+
+}
+
+
+/* =====================================================
+   CURRENT USER
+===================================================== */
+
+async function loadCurrentUser() {
+
+    try {
+
+        const response =
+            await fetch(
+                "/me",
+                {
+                    credentials: "include"
+                }
+            );
+
+        if (!response.ok) {
+
+            currentUser = null;
+
+            return;
+
+        }
+
+        const data =
+            await response.json();
+
+        if (data.success) {
+
+            currentUser =
+                data.user;
+
+        }
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "Current user error:",
+            error
+        );
+
+        currentUser = null;
+
+    }
+
+}
+
+
+/* =====================================================
+   DISPLAY POST
+===================================================== */
+
+function displayPost(post) {
+
+    currentPost = post;
+
+
+    /* AUTHOR */
+
+    const author =
+        post.author ||
+        post.user ||
+        post.creator ||
+        {};
+
+
+    const firstName =
+        author.firstName ||
+        post.firstName ||
+        "";
+
+    const secondName =
+        author.secondName ||
+        post.secondName ||
+        "";
+
+    const fullName =
+        `${firstName} ${secondName}`
+            .trim();
+
+
+    userName.textContent =
+        fullName ||
+        author.name ||
+        post.userName ||
+        "Tourismo User";
+
+
+    /* AVATAR */
+
+    const avatar =
+        author.avatar ||
+        author.profilePicture ||
+        post.avatar ||
+        post.profilePicture ||
+        "logo.jpeg";
+
+
+    userAvatar.src =
+        avatar;
+
+
+    /* DATE */
+
+    postDate.textContent =
+        formatDate(
+            post.createdAt ||
+            post.date
+        );
+
+
+    /* TEXT */
+
+    postText.textContent =
+        post.text ||
+        post.content ||
+        post.caption ||
+        "";
+
+
+    /* MEDIA */
+
+    postImage.style.display =
+        "none";
+
+    postVideo.style.display =
+        "none";
+
+    postImage.removeAttribute("src");
+
+    postVideo.removeAttribute("src");
+
+
+    const mediaUrl =
+        post.mediaUrl ||
+        post.media ||
+        post.fileUrl ||
+        post.imageUrl ||
+        post.videoUrl ||
+        "";
+
+
+    const mediaType =
+        String(
+            post.mediaType ||
+            post.type ||
+            ""
+        ).toLowerCase();
+
+
+    if (mediaUrl) {
+
+        const isVideo =
+            mediaType === "video" ||
+            /\.(mp4|webm|ogg|mov|m4v)(\?|$)/i.test(
+                mediaUrl
+            );
+
+
+        if (isVideo) {
+
+            postVideo.src =
+                mediaUrl;
+
+            postVideo.style.display =
+                "block";
+
+        }
+
+        else {
+
+            postImage.src =
+                mediaUrl;
+
+            postImage.style.display =
+                "block";
+
+        }
+
+    }
+
+
+    /* COUNTS */
+
+    const likes =
+        Array.isArray(post.likes)
+            ? post.likes.length
+            : Number(
+                post.likeCount || 0
+            );
+
+
+    const comments =
+        Array.isArray(post.comments)
+            ? post.comments.length
+            : Number(
+                post.commentCount || 0
+            );
+
+
+    const shares =
+        Number(
+            post.shareCount ||
+            post.shares ||
+            0
+        );
+
+
+    likeCount.textContent =
+        `${likes} ${
+            likes === 1
+                ? "like"
+                : "likes"
+        }`;
+
+
+    commentCount.textContent =
+        `${comments} ${
+            comments === 1
+                ? "comment"
+                : "comments"
+        }`;
+
+
+    shareCount.textContent =
+        `${shares} ${
+            shares === 1
+                ? "share"
+                : "shares"
+        }`;
+
+
+    /* LIKE STATE */
+
+    let liked = false;
+
+
+    if (
+        currentUser &&
+        Array.isArray(post.likes)
+    ) {
+
+        const currentId =
+            getId(currentUser) ||
+            currentUser.email;
+
+
+        liked =
+            post.likes.some(
+                like => {
+
+                    const likeId =
+                        getId(like) ||
+                        like;
+
+                    return String(
+                        likeId
+                    ) === String(
+                        currentId
+                    );
+
+                }
+            );
+
+    }
+
+
+    if (liked) {
+
+        likeBtn.classList.add(
+            "liked"
+        );
+
+        likeBtn.textContent =
+            "❤️ Liked";
+
+    }
+
+    else {
+
+        likeBtn.classList.remove(
+            "liked"
+        );
+
+        likeBtn.textContent =
+            "❤️ Like";
+
+    }
+
+
+    /* COMMENTS */
+
+    renderComments(
+        Array.isArray(post.comments)
+            ? post.comments
+            : []
+    );
+
+
+    loading.style.display =
+        "none";
+
+    errorMessage.style.display =
+        "none";
+
+    postCard.style.display =
+        "block";
+
+}
+
+
+/* =====================================================
+   LOAD POST
+===================================================== */
+
+async function loadPost() {
+
+    if (!postId) {
+
+        showError(
+            "No post was specified."
+        );
+
+        return;
+
+    }
+
+
+    try {
+
+        const response =
+            await fetch(
+                `/posts/${encodeURIComponent(postId)}`,
+                {
+                    method: "GET",
+                    credentials: "include"
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                data.message ||
+                "Post not found."
+            );
+
+        }
+
+
+        const post =
+            data.post ||
+            data.data;
+
+
+        if (!post) {
+
+            throw new Error(
+                "Post not found."
+            );
+
+        }
+
+
+        displayPost(post);
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "POST LOAD ERROR:",
+            error
+        );
+
+        showError(
+            error.message ||
+            "Unable to load this post."
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   COMMENTS
+===================================================== */
+
+function renderComments(comments) {
+
+    commentsList.innerHTML = "";
+
+
+    if (!comments.length) {
+
+        commentsList.innerHTML = `
+
+            <div
+                class="no-comments"
+                style="
+                    text-align:center;
+                    color:#888;
+                    padding:15px 0;
+                "
+            >
+                No comments yet.
+                Be the first to comment.
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    comments.forEach(
+        comment => {
+
+            renderComment(
+                comment
+            );
+
+        }
+    );
+
+}
+
+
+function renderComment(comment) {
+
+    const author =
+        comment.author ||
+        comment.user ||
+        {};
+
+
+    const name =
+        `${author.firstName || ""} ${
+            author.secondName || ""
+        }`
+        .trim() ||
+        author.name ||
+        comment.userName ||
+        "User";
+
+
+    const avatar =
+        author.avatar ||
+        author.profilePicture ||
+        comment.avatar ||
+        "logo.jpeg";
+
+
+    const text =
+        comment.text ||
+        comment.content ||
+        "";
+
+
+    const wrapper =
+        document.createElement("div");
+
+
+    wrapper.className =
+        "comment";
+
+
+    const avatarElement =
+        document.createElement("img");
+
+    avatarElement.className =
+        "comment-avatar";
+
+    avatarElement.src =
+        avatar;
+
+    avatarElement.alt =
+        "User";
+
+
+    const body =
+        document.createElement("div");
+
+    body.className =
+        "comment-body";
+
+
+    const username =
+        document.createElement("div");
+
+    username.className =
+        "comment-user";
+
+    username.textContent =
+        name;
+
+
+    const commentText =
+        document.createElement("div");
+
+    commentText.className =
+        "comment-text";
+
+    commentText.textContent =
+        text;
+
+
+    body.appendChild(
+        username
+    );
+
+    body.appendChild(
+        commentText
+    );
+
+
+    wrapper.appendChild(
+        avatarElement
+    );
+
+    wrapper.appendChild(
+        body
+    );
+
+
+    commentsList.appendChild(
+        wrapper
+    );
+
+}
+
+
+/* =====================================================
+   LIKE
+===================================================== */
+
+likeBtn.addEventListener(
+    "click",
+    async () => {
+
+        if (!currentUser) {
+
+            alert(
+                "Please log in to like this post."
+            );
+
+            window.location.href =
+                "/login.html";
+
+            return;
+
+        }
+
+
+        if (!postId) {
+            return;
+        }
+
+
+        try {
+
+            likeBtn.disabled =
+                true;
+
+
+            const response =
+                await fetch(
+                    `/posts/${encodeURIComponent(postId)}/like`,
+                    {
+                        method: "POST",
+                        credentials: "include",
+                        headers: {
+                            "Content-Type":
+                                "application/json"
+                        }
+                    }
+                );
+
+
+            const data =
+                await response.json();
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    data.message ||
+                    "Unable to like post."
+                );
+
+            }
+
+
+            if (
+                typeof data.liked ===
+                "boolean"
+            ) {
+
+                if (data.liked) {
+
+                    likeBtn.classList.add(
+                        "liked"
+                    );
+
+                    likeBtn.textContent =
+                        "❤️ Liked";
+
+                }
+
+                else {
+
+                    likeBtn.classList.remove(
+                        "liked"
+                    );
+
+                    likeBtn.textContent =
+                        "❤️ Like";
+
+                }
+
+            }
+
+
+            if (
+                typeof data.likeCount ===
+                "number"
+            ) {
+
+                const count =
+                    data.likeCount;
+
+                likeCount.textContent =
+                    `${count} ${
+                        count === 1
+                            ? "like"
+                            : "likes"
+                    }`;
+
+            }
+
+
+            if (data.post) {
+
+                displayPost(
+                    data.post
+                );
+
+            }
+
+        }
+
+        catch (error) {
+
+            console.error(
+                "LIKE ERROR:",
+                error
+            );
+
+            alert(
+                error.message ||
+                "Unable to like this post."
+            );
+
+        }
+
+        finally {
+
+            likeBtn.disabled =
+                false;
+
+        }
+
+    }
+);
+
+
+/* =====================================================
+   COMMENT BUTTON
+===================================================== */
+
+commentBtn.addEventListener(
+    "click",
+    () => {
+
+        commentsSection.scrollIntoView({
+            behavior: "smooth",
+            block: "start"
+        });
+
+
+        setTimeout(
+            () => {
+
+                commentInput.focus();
+
+            },
+            400
+        );
+
+    }
+);
+
+
+/* =====================================================
+   ADD COMMENT
+===================================================== */
+
+commentForm.addEventListener(
+    "submit",
+    async event => {
+
+        event.preventDefault();
+
+
+        if (!currentUser) {
+
+            alert(
+                "Please log in to comment."
+            );
+
+            window.location.href =
+                "/login.html";
+
+            return;
+
+        }
+
+
+        const text =
+            commentInput.value.trim();
+
+
+        if (!text) {
+
+            commentInput.focus();
+
+            return;
+
+        }
+
+
+        if (!postId) {
+            return;
+        }
+
+
+        try {
+
+            commentSubmit.disabled =
+                true;
+
+
+            const response =
+                await fetch(
+                    `/posts/${encodeURIComponent(postId)}/comments`,
+                    {
+                        method: "POST",
+
+                        credentials: "include",
+
+                        headers: {
+                            "Content-Type":
+                                "application/json"
+                        },
+
+                        body:
+                            JSON.stringify({
+                                text: text
+                            })
+                    }
+                );
+
+
+            const data =
+                await response.json();
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    data.message ||
+                    "Unable to add comment."
+                );
+
+            }
+
+
+            commentInput.value =
+                "";
+
+
+            if (data.post) {
+
+                displayPost(
+                    data.post
+                );
+
+            }
+
+            else if (
+                Array.isArray(
+                    data.comments
+                )
+            ) {
+
+                renderComments(
+                    data.comments
+                );
+
+                updateCommentCount(
+                    data.comments.length
+                );
+
+            }
+
+            else if (data.comment) {
+
+                const empty =
+                    commentsList.querySelector(
+                        ".no-comments"
+                    );
+
+                if (empty) {
+                    empty.remove();
+                }
+
+                renderComment(
+                    data.comment
+                );
+
+
+                const count =
+                    commentsList.querySelectorAll(
+                        ".comment"
+                    ).length;
+
+
+                updateCommentCount(
+                    count
+                );
+
+            }
+
+            else {
+
+                await loadPost();
+
+            }
+
+        }
+
+        catch (error) {
+
+            console.error(
+                "COMMENT ERROR:",
+                error
+            );
+
+            alert(
+                error.message ||
+                "Unable to add comment."
+            );
+
+        }
+
+        finally {
+
+            commentSubmit.disabled =
+                false;
+
+        }
+
+    }
+);
+
+
+/* =====================================================
+   UPDATE COMMENT COUNT
+===================================================== */
+
+function updateCommentCount(count) {
+
+    commentCount.textContent =
+        `${count} ${
+            count === 1
+                ? "comment"
+                : "comments"
+        }`;
+
+}
+
+
+/* =====================================================
+   SHARE BUTTON
+===================================================== */
+
+shareBtn.addEventListener(
+    "click",
+    async () => {
+
+        shareBox.classList.toggle(
+            "active"
+        );
+
+
+        /*
+         * Count the share on the server
+         * only when the user actually
+         * opens the share action.
+         */
+
+        if (
+            shareBox.classList.contains(
+                "active"
+            ) &&
+            postId
+        ) {
+
+            try {
+
+                const response =
+                    await fetch(
+                        `/posts/${encodeURIComponent(postId)}/share`,
+                        {
+                            method: "POST",
+                            credentials: "include"
+                        }
+                    );
+
+
+                const data =
+                    await response.json();
+
+
+                if (
+                    response.ok &&
+                    typeof data.shareCount ===
+                    "number"
+                ) {
+
+                    const count =
+                        data.shareCount;
+
+                    shareCount.textContent =
+                        `${count} ${
+                            count === 1
+                                ? "share"
+                                : "shares"
+                        }`;
+
+                }
+
+            }
+
+            catch (error) {
+
+                console.error(
+                    "SHARE COUNT ERROR:",
+                    error
+                );
+
+            }
+
+        }
+
+    }
+);
+
+
+/* =====================================================
+   COPY LINK
+===================================================== */
+
+copyLinkBtn.addEventListener(
+    "click",
+    async () => {
+
+        try {
+
+            await navigator.clipboard.writeText(
+                window.location.href
+            );
+
+
+            copyLinkBtn.textContent =
+                "✅ Link copied";
+
+
+            setTimeout(
+                () => {
+
+                    copyLinkBtn.textContent =
+                        "🔗 Copy link";
+
+                },
+                2000
+            );
+
+        }
+
+        catch (error) {
+
+            alert(
+                "Unable to copy the link."
+            );
+
+        }
+
+    }
+);
+
+
+/* =====================================================
+   NATIVE SHARE
+===================================================== */
+
+nativeShareBtn.addEventListener(
+    "click",
+    async () => {
+
+        const url =
+            window.location.href;
+
+
+        if (
+            navigator.share
+        ) {
+
+            try {
+
+                await navigator.share({
+
+                    title:
+                        "Tourismo Post",
+
+                    text:
+                        currentPost?.text ||
+                        "Check out this post on Tourismo.",
+
+                    url:
+                        url
+
+                });
+
+            }
+
+            catch (error) {
+
+                if (
+                    error.name !==
+                    "AbortError"
+                ) {
+
+                    console.error(
+                        error
+                    );
+
+                }
+
+            }
+
+        }
+
+        else {
+
+            try {
+
+                await navigator.clipboard.writeText(
+                    url
+                );
+
+                alert(
+                    "Post link copied."
+                );
+
+            }
+
+            catch (error) {
+
+                alert(
+                    "Sharing is not supported on this device."
+                );
+
+            }
+
+        }
+
+    }
+);
+
+
+/* =====================================================
+   MORE OPTIONS
+===================================================== */
+
+moreBtn.addEventListener(
+    "click",
+    async () => {
+
+        if (!currentUser) {
+
+            alert(
+                "Please log in first."
+            );
+
+            return;
+
+        }
+
+
+        if (!currentPost) {
+            return;
+        }
+
+
+        const author =
+            currentPost.author ||
+            currentPost.user ||
+            currentPost.creator ||
+            {};
+
+
+        const ownerId =
+            getId(author) ||
+            currentPost.creatorId;
+
+
+        const currentId =
+            getId(currentUser);
+
+
+        const isOwner =
+            ownerId &&
+            currentId &&
+            String(ownerId) ===
+            String(currentId);
+
+
+        if (isOwner) {
+
+            const choice =
+                prompt(
+                    "Type DELETE to delete this post."
+                );
+
+
+            if (
+                choice &&
+                choice.toUpperCase() ===
+                "DELETE"
+            ) {
+
+                await deletePost();
+
+            }
+
+        }
+
+        else {
+
+            alert(
+                "You can report this post from the report options."
+            );
+
+        }
+
+    }
+);
+
+
+/* =====================================================
+   DELETE POST
+===================================================== */
+
+async function deletePost() {
+
+    if (!postId) {
+        return;
+    }
+
+
+    try {
+
+        const response =
+            await fetch(
+                `/posts/${encodeURIComponent(postId)}`,
+                {
+                    method: "DELETE",
+                    credentials: "include"
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                data.message ||
+                "Unable to delete post."
+            );
+
+        }
+
+
+        alert(
+            "Post deleted successfully."
+        );
+
+
+        window.location.href =
+            "/posts.html";
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "DELETE ERROR:",
+            error
+        );
+
+        alert(
+            error.message ||
+            "Unable to delete post."
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   MEDIA ERROR HANDLING
+===================================================== */
+
+postImage.addEventListener(
+    "error",
+    () => {
+
+        postImage.style.display =
+            "none";
+
+    }
+);
+
+
+postVideo.addEventListener(
+    "error",
+    () => {
+
+        postVideo.style.display =
+            "none";
+
+    }
+);
+
+
+/* =====================================================
+   INITIALIZE
+===================================================== */
+
+async function initialize() {
+
+    if (!postId) {
+
+        showError(
+            "No post ID was provided."
+        );
+
+        return;
+
+    }
+
+
+    await loadCurrentUser();
+
+    await loadPost();
+
+}
+
+
+initialize();
+
+
+/* =====================================================
+   KEYBOARD SHORTCUTS
+===================================================== */
+
+document.addEventListener(
+    "keydown",
+    event => {
+
+        if (
+            event.ctrlKey &&
+            event.key === "Enter" &&
+            document.activeElement ===
+            commentInput
+        ) {
+
+            commentForm.requestSubmit();
+
+        }
+
+
+        if (
+            event.key === "Escape"
+        ) {
+
+            shareBox.classList.remove(
+                "active"
+            );
+
+        }
+
+    }
+);
+
+</script>
+
+</body>
+
+</html>
