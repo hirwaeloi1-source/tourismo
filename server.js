@@ -2687,6 +2687,7 @@ app.get("/api/virtual-tours", async (req, res) => {
 
 });
 // ======================================
+// ======================================
 // CREATE VIRTUAL TOUR
 // ======================================
 
@@ -2777,7 +2778,11 @@ app.post("/api/virtual-tours", async (req, res) => {
 
         });
 
-    }nsole.error(
+    }
+
+    catch (error) {
+
+        console.error(
             "❌ CREATE VIRTUAL TOUR ERROR:",
             error
         );
@@ -2794,157 +2799,6 @@ app.post("/api/virtual-tours", async (req, res) => {
     }
 
 });
-// ======================================
-// GET GALLERY
-// ======================================
-
-app.get("/api/gallery", async (req, res) => {
-
-    try {
-
-        const gallery =
-            await Gallery
-                .find({})
-                .sort({
-                    createdAt: -1
-                })
-                .lean();
-
-        return res.json({
-
-            success: true,
-
-            gallery: gallery
-
-        });
-
-    }
-
-    catch (error) {
-
-        console.error(
-            "❌ GALLERY ERROR:",
-            error
-        );
-
-        return res.status(500).json({
-
-            success: false,
-
-            message:
-                "Unable to load gallery."
-
-        });
-
-    }
-
-});
-
-
-// ======================================
-// CREATE GALLERY ITEM
-// ======================================
-
-app.post("/api/gallery", async (req, res) => {
-
-    try {
-
-        const {
-            title,
-            description,
-            image,
-            location,
-            category,
-            country
-        } = req.body;
-
-
-        if (
-            !title ||
-            !image
-        ) {
-
-            return res.status(400).json({
-
-                success: false,
-
-                message:
-                    "Title and image are required."
-
-            });
-
-        }
-
-
-        const galleryItem =
-            await Gallery.create({
-
-                title:
-                    String(title)
-                        .trim(),
-
-                description:
-                    String(
-                        description || ""
-                    ).trim(),
-
-                image:
-                    String(image)
-                        .trim(),
-
-                location:
-                    String(
-                        location || ""
-                    ).trim(),
-
-                category:
-                    String(
-                        category || "Other"
-                    ).trim(),
-
-                country:
-                    String(
-                        country || ""
-                    ).trim()
-
-            });
-
-
-        return res.status(201).json({
-
-            success: true,
-
-            message:
-                "Gallery item created successfully.",
-
-            gallery:
-                galleryItem
-
-        });
-
-    }
-
-    catch (error) {
-
-        console.error(
-            "❌ CREATE GALLERY ERROR:",
-            error
-        );
-
-        return res.status(500).json({
-
-            success: false,
-
-            message:
-                "Unable to create gallery item."
-
-        });
-
-    }
-
-});
-
-
 // ======================================
 // GET ONE GALLERY ITEM
 // ======================================
