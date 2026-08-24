@@ -1277,8 +1277,6 @@ body.vr-mode .viewer-wrapper {
     </div>
 
 </main>
-
-
 <script>
 
 /* =========================================================
@@ -1426,165 +1424,560 @@ let velocityY = 0;
 
 let autoRotate = false;
 
-let autoRotateTimer = null;
-
 let orientationEnabled = false;
 
 
 /* =========================================================
-   WISHLIST
+   WISHLIST STATE
 ========================================================= */
 
-function getWishlist(){
+let wishlistSaved = false;
+
+let wishlistItemId = null;
+
+
+/* =========================================================
+   CHECK WISHLIST STATUS
+========================================================= */
+
+async function checkWishlistStatus(){
+
+    if(!currentTour){
+
+        wishlistSaved = false;
+
+        wishlistItemId = null;
+
+        updateWishlistButton();
+
+        return;
+
+    }
+
 
     try {
 
-        const saved =
-            localStorage.getItem(
-                "tourismoWishlist"
+        const response =
+            await fetch(
+                "/api/wishlist",
+                {
+                    method:
+                        "GET",
+
+                    credentials:
+                        "include"
+                }
             );
 
-        if(!saved){
 
-            return [];
+        /*
+         * If the user is not logged in,
+         * the server may return 401.
+         */
+
+        if(
+            response.status === 401
+        ){
+
+            wishlistSaved = false;
+
+            wishlistItemId = null;
+
+            updateWishlistButton();
+
+            return;
 
         }
 
-        const parsed =
-            JSON.parse(saved);
 
-        return Array.isArray(parsed)
-            ? parsed
-            : [];
+        if(!response.ok){
+
+            throw new Error(
+                "Unable to check wishlist."
+            );
+
+        }
+
+
+        const data =
+            await response.json();
+
+
+        /*
+         * Support the common response formats:
+         *
+         * { wishlist: [...] }
+         *
+         * or
+         *
+         * { data: [...] }
+         */
+
+        const wishlist =
+            Array.isArray(data.wishlist)
+                ? data.wishlist
+                : Array.isArray(data.data)
+                    ? data.data
+                    : [];
+
+
+        /*
+         * Find the current virtual tour.
+         *
+         * MongoDB virtual tours use virtualTourId.
+         *
+         * Older/local wishlist items may only have
+         * a title, so we also check the title.
+         */
+
+        const found =
+            wishlist.find(
+                item => {
+
+                    if(
+                        currentTour.id &&
+                        item.virtualTourId
+                    ){
+
+                        return (
+                            String(
+                                item.virtualTourId
+                            ) ===
+                            String(
+                                currentTour.id
+                            )
+                        );
+
+                    }
+
+
+                    return (
+                        String(
+                            item.title || ""
+                        ).trim().toLowerCase()
+                        ===
+                        String(
+                            currentTour.title || ""
+                        ).trim().toLowerCase()
+                    );
+
+                }
+            );
+
+
+        if(found){
+
+            wishlistSaved = true;
+
+            wishlistItemId =
+                found._id ||
+                found.id ||
+                null;
+
+        }
+
+        else{
+
+            wishlistSaved = false;
+
+            wishlistItemId = null;
+
+        }
+
+
+        updateWishlistButton();
 
     }
 
     catch(error){
 
         console.error(
-            "Wishlist error:",
+            "Wishlist status error:",
             error
         );
 
-        return [];
+
+        /*
+         * Do not show a fake "saved" state
+         * when the server cannot be reached.
+         */
+
+        wishlistSaved = false;
+
+        wishlistItemId = null;
+
+        updateWishlistButton();
 
     }
 
 }
 
 
-function saveWishlist(items){
+/* =========================================================
+   ADD TO WISHLIST
+========================================================= */
 
-    localStorage.setItem(
-        "tourismoWishlist",
-        JSON.stringify(items)
-    );
-
-}
-
-
-function isInWishlist(id){
-
-    const wishlist =
-        getWishlist();
-
-    return wishlist.some(
-        item =>
-            String(item.id) ===
-            String(id)
-    );
-
-}
-
-
-function addToWishlist(tour){
+async function addToWishlist(tour){
 
     if(!tour){
 
-        return;
+        return false;
 
     }
 
 
-    const wishlist =
-        getWishlist();
+    wishlistBtn.disabled = true;
+
+    wishlistBtn.textContent =
+        "Saving...";
 
 
-    const exists =
-        wishlist.some(
-            item =>
-                String(item.id) ===
+    try {
+
+        /*
+         * Build the wishlist item.
+         */
+
+        const body = {
+
+            title:
+                tour.title ||
+                "Virtual Tour",
+
+            description:
+                tour.description ||
+                "",
+
+            image:
+                tour.image ||
+                "",
+
+            location:
+                tour.location ||
+                "",
+
+            category:
+                tour.category ||
+                "Virtual Tour",
+
+            country:
+                tour.country ||
+                ""
+
+        };
+
+
+        /*
+         * IMPORTANT:
+         *
+         * MongoDB requires virtualTourId to be
+         * a valid ObjectId.
+         *
+         * Local fallback tours have IDs such as:
+         *
+         * "rwanda"
+         * "safari"
+         * "mountains"
+         *
+         * Those are NOT MongoDB ObjectIds.
+         *
+         * Therefore we only send virtualTourId
+         * when the ID is a real MongoDB ObjectId.
+         */
+
+        if(
+            tour.id &&
+            /^[a-f\d]{24}$/i.test(
                 String(tour.id)
+            )
+        ){
+
+            body.virtualTourId =
+                String(tour.id);
+
+        }
+
+
+        const response =
+            await fetch(
+                "/api/wishlist",
+                {
+
+                    method:
+                        "POST",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    credentials:
+                        "include",
+
+                    body:
+                        JSON.stringify(body)
+
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        /*
+         * Already saved.
+         */
+
+        if(
+            response.status === 409
+        ){
+
+            wishlistSaved = true;
+
+
+            if(data.wishlist){
+
+                wishlistItemId =
+                    data.wishlist._id ||
+                    data.wishlist.id ||
+                    null;
+
+            }
+
+
+            updateWishlistButton();
+
+            return true;
+
+        }
+
+
+        /*
+         * Login required.
+         */
+
+        if(
+            response.status === 401
+        ){
+
+            wishlistSaved = false;
+
+            wishlistItemId = null;
+
+            updateWishlistButton();
+
+
+            alert(
+                "Please log in before saving a tour to your wishlist."
+            );
+
+
+            return false;
+
+        }
+
+
+        /*
+         * Other server error.
+         */
+
+        if(!response.ok){
+
+            throw new Error(
+                data.message ||
+                "Unable to save to wishlist."
+            );
+
+        }
+
+
+        /*
+         * Successfully saved.
+         */
+
+        wishlistSaved = true;
+
+
+        if(data.wishlist){
+
+            wishlistItemId =
+                data.wishlist._id ||
+                data.wishlist.id ||
+                null;
+
+        }
+
+
+        updateWishlistButton();
+
+
+        return true;
+
+    }
+
+    catch(error){
+
+        console.error(
+            "Add wishlist error:",
+            error
         );
 
 
-    if(exists){
+        wishlistSaved = false;
 
-        return;
+        wishlistItemId = null;
+
+
+        updateWishlistButton();
+
+
+        alert(
+            error.message ||
+            "Unable to save to wishlist."
+        );
+
+
+        return false;
+
+    }
+
+}
+
+
+/* =========================================================
+   REMOVE FROM WISHLIST
+========================================================= */
+
+async function removeFromWishlist(){
+
+    if(!wishlistItemId){
+
+        /*
+         * If we know it is saved but don't know
+         * its MongoDB wishlist ID, refresh first.
+         */
+
+        await checkWishlistStatus();
+
+
+        if(!wishlistItemId){
+
+            alert(
+                "Unable to find this wishlist item."
+            );
+
+            return false;
+
+        }
 
     }
 
 
-    wishlist.push({
+    wishlistBtn.disabled = true;
 
-        id:
-            tour.id,
-
-        title:
-            tour.title,
-
-        location:
-            tour.location,
-
-        description:
-            tour.description,
-
-        image:
-            tour.image,
-
-        type:
-            "virtual-tour",
-
-        savedAt:
-            new Date().toISOString()
-
-    });
+    wishlistBtn.textContent =
+        "Removing...";
 
 
-    saveWishlist(
-        wishlist
-    );
+    try {
 
-}
+        const response =
+            await fetch(
+                `/api/wishlist/${encodeURIComponent(
+                    wishlistItemId
+                )}`,
+                {
+
+                    method:
+                        "DELETE",
+
+                    credentials:
+                        "include"
+
+                }
+            );
 
 
-function removeFromWishlist(id){
-
-    const wishlist =
-        getWishlist();
+        const data =
+            await response.json();
 
 
-    const updated =
-        wishlist.filter(
-            item =>
-                String(item.id) !==
-                String(id)
+        if(
+            response.status === 401
+        ){
+
+            wishlistSaved = false;
+
+            wishlistItemId = null;
+
+            updateWishlistButton();
+
+            alert(
+                "Please log in to manage your wishlist."
+            );
+
+
+            return false;
+
+        }
+
+
+        if(!response.ok){
+
+            throw new Error(
+                data.message ||
+                "Unable to remove from wishlist."
+            );
+
+        }
+
+
+        wishlistSaved = false;
+
+        wishlistItemId = null;
+
+
+        updateWishlistButton();
+
+
+        return true;
+
+    }
+
+    catch(error){
+
+        console.error(
+            "Remove wishlist error:",
+            error
         );
 
 
-    saveWishlist(
-        updated
-    );
+        updateWishlistButton();
+
+
+        alert(
+            error.message ||
+            "Unable to remove from wishlist."
+        );
+
+
+        return false;
+
+    }
 
 }
 
+
+/* =========================================================
+   UPDATE WISHLIST BUTTON
+========================================================= */
 
 function updateWishlistButton(){
 
     if(!currentTour){
 
-        wishlistBtn.disabled =
-            true;
+        wishlistBtn.disabled = true;
 
         wishlistBtn.textContent =
             "♡ Add to Wishlist";
@@ -1598,17 +1991,10 @@ function updateWishlistButton(){
     }
 
 
-    wishlistBtn.disabled =
-        false;
+    wishlistBtn.disabled = false;
 
 
-    const saved =
-        isInWishlist(
-            currentTour.id
-        );
-
-
-    if(saved){
+    if(wishlistSaved){
 
         wishlistBtn.textContent =
             "♥ Saved to Wishlist";
@@ -1639,7 +2025,7 @@ function updateWishlistButton(){
 
 wishlistBtn.addEventListener(
     "click",
-    () => {
+    async () => {
 
         if(!currentTour){
 
@@ -1648,28 +2034,19 @@ wishlistBtn.addEventListener(
         }
 
 
-        if(
-            isInWishlist(
-                currentTour.id
-            )
-        ){
+        if(wishlistSaved){
 
-            removeFromWishlist(
-                currentTour.id
-            );
+            await removeFromWishlist();
 
         }
 
         else{
 
-            addToWishlist(
+            await addToWishlist(
                 currentTour
             );
 
         }
-
-
-        updateWishlistButton();
 
     }
 );
@@ -1729,6 +2106,16 @@ function loadTour(tour){
         tour;
 
 
+    /*
+     * Reset wishlist state immediately.
+     * The server check below will update it.
+     */
+
+    wishlistSaved = false;
+
+    wishlistItemId = null;
+
+
     tourImage.classList.add(
         "loading"
     );
@@ -1759,7 +2146,16 @@ function loadTour(tour){
 
     resetView();
 
+
     updateWishlistButton();
+
+
+    /*
+     * Ask MongoDB whether this specific tour
+     * is already in the user's wishlist.
+     */
+
+    checkWishlistStatus();
 
 
     document
@@ -1861,21 +2257,35 @@ function renderTours(){
                 tour.id;
 
 
+            const image =
+                tour.image || "";
+
+
+            const title =
+                tour.title ||
+                "Virtual Tour";
+
+
+            const location =
+                tour.location ||
+                "Virtual Destination";
+
+
             button.innerHTML = `
 
                 <img
-                    src="${tour.image || ""}"
-                    alt="${tour.title || "Virtual tour"}"
+                    src="${image}"
+                    alt="${title}"
                 >
 
                 <div class="tour-option-content">
 
                     <div class="tour-option-title">
-                        ${tour.title || "Virtual Tour"}
+                        ${title}
                     </div>
 
                     <div class="tour-option-location">
-                        ${tour.location || "Virtual Destination"}
+                        ${location}
                     </div>
 
                 </div>
@@ -2098,14 +2508,18 @@ function animateView(){
 
 
     rotationX +=
-        (targetRotationX -
-         rotationX) *
+        (
+            targetRotationX -
+            rotationX
+        ) *
         .12;
 
 
     rotationY +=
-        (targetRotationY -
-         rotationY) *
+        (
+            targetRotationY -
+            rotationY
+        ) *
         .12;
 
 
@@ -2205,8 +2619,6 @@ resetBtn.addEventListener(
     "click",
     resetView
 );
-
-
 /* =========================================================
    PREVIOUS TOUR
 ========================================================= */
@@ -2239,6 +2651,12 @@ function previousTour(){
     );
 
 }
+
+
+previousBtn.addEventListener(
+    "click",
+    previousTour
+);
 
 
 /* =========================================================
@@ -2274,12 +2692,6 @@ function nextTour(){
     );
 
 }
-
-
-previousBtn.addEventListener(
-    "click",
-    previousTour
-);
 
 
 nextBtn.addEventListener(
@@ -2614,6 +3026,7 @@ motionBtn.addEventListener(
 
             disableMotion();
 
+
             viewerLabel.textContent =
                 currentTour
                     ? `360° • ${currentTour.title}`
@@ -2645,7 +3058,9 @@ function updateTourUrl(tour){
 
 
     const newUrl =
-        `${window.location.pathname}?id=${encodeURIComponent(tour.id)}`;
+        `${window.location.pathname}?id=${encodeURIComponent(
+            tour.id
+        )}`;
 
 
     window.history.replaceState(
@@ -2753,10 +3168,18 @@ async function loadToursFromServer(){
             !serverTours.length
         ){
 
+            console.log(
+                "No server virtual tours found. Using local tours."
+            );
+
             return;
 
         }
 
+
+        /*
+         * Replace fallback tours with MongoDB tours.
+         */
 
         tours.length =
             0;
@@ -2788,6 +3211,14 @@ async function loadToursFromServer(){
                         tour.image ||
                         tour.imageUrl ||
                         tour.panoramaUrl ||
+                        "",
+
+                    category:
+                        tour.category ||
+                        "Virtual Tour",
+
+                    country:
+                        tour.country ||
                         ""
 
                 });
@@ -2798,6 +3229,11 @@ async function loadToursFromServer(){
 
         renderTours();
 
+
+        /*
+         * Check whether the URL contains a requested
+         * MongoDB virtual tour ID.
+         */
 
         const params =
             new URLSearchParams(
@@ -3085,12 +3521,24 @@ window.addEventListener(
 
 async function initializeVirtualTours(){
 
+    /*
+     * First render the local fallback tours.
+     */
+
     renderTours();
 
+
+    /*
+     * Load a tour from ?id= if one exists.
+     */
 
     let selected =
         loadTourFromUrl();
 
+
+    /*
+     * Otherwise show the first fallback tour.
+     */
 
     if(
         !selected &&
@@ -3104,21 +3552,132 @@ async function initializeVirtualTours(){
     }
 
 
-    await loadToursFromServer();
-
-
     /*
-     * Refresh wishlist state after
-     * tours/API have loaded.
+     * Now ask the server for the real
+     * MongoDB virtual tours.
      */
 
-    updateWishlistButton();
+    await loadToursFromServer();
 
 }
 
 
+/* =========================================================
+   START
+========================================================= */
+
 initializeVirtualTours();
 
+
+/* =========================================================
+   FINAL INITIALIZATION SAFETY
+========================================================= */
+
+/*
+ * Make sure the wishlist button always reflects
+ * the current tour after the page has loaded.
+ */
+
+if(currentTour){
+
+    checkWishlistStatus();
+
+}
+
+
+/* =========================================================
+   HANDLE FULLSCREEN EXIT
+========================================================= */
+
+document.addEventListener(
+    "fullscreenchange",
+    () => {
+
+        /*
+         * If the user exits fullscreen while VR mode
+         * is active, leave VR mode as well.
+         */
+
+        if(
+            !document.fullscreenElement &&
+            document.body.classList.contains(
+                "vr-mode"
+            )
+        ){
+
+            document.body.classList.remove(
+                "vr-mode"
+            );
+
+
+            vrBtn.textContent =
+                "🥽 Enter VR Mode";
+
+
+            disableMotion();
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   HANDLE WINDOW RESIZE
+========================================================= */
+
+window.addEventListener(
+    "resize",
+    () => {
+
+        /*
+         * Keep the viewer stable when the screen
+         * orientation or browser size changes.
+         */
+
+        applyView();
+
+    }
+);
+
+
+/* =========================================================
+   CLEANUP
+========================================================= */
+
+window.addEventListener(
+    "beforeunload",
+    () => {
+
+        /*
+         * Stop device orientation listener.
+         */
+
+        disableMotion();
+
+
+        /*
+         * Stop dragging state.
+         */
+
+        dragging =
+            false;
+
+    }
+);
+
+
+/* =========================================================
+   PAGE READY
+========================================================= */
+
+console.log(
+    "Tourismo Virtual Tours initialized."
+);
+
+console.log(
+    "Wishlist system: server/MongoDB"
+);
 </script>
 
 </body>

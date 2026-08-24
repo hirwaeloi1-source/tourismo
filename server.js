@@ -2800,8 +2800,47 @@ app.post("/api/virtual-tours", async (req, res) => {
 
 });
 // ======================================
-// GET ONE GALLERY ITEM
+// GET ALL GALLERY ITEMS
 // ======================================
+
+app.get("/api/gallery", async (req, res) => {
+
+    try {
+
+        const gallery =
+            await Gallery
+                .find({})
+                .sort({
+                    createdAt: -1
+                })
+                .lean();
+
+        return res.json({
+            success: true,
+            gallery: gallery
+        });
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "❌ GET GALLERY ERROR:",
+            error
+        );
+
+        return res.status(500).json({
+            success: false,
+            message:
+                "Unable to load gallery."
+        });
+
+    }
+
+});
+// ======================================
+// GET ONE GALLERY ITEM
+// =====================================
 
 app.get("/api/gallery/:id", async (req, res) => {
 

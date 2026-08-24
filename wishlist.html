@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="en">
 
@@ -27,27 +26,34 @@
 
 
         body {
+
             font-family:
                 Arial,
                 Helvetica,
                 sans-serif;
 
-            background: #f5f7fb;
+            background:
+                #f5f7fb;
 
-            color: #1f2937;
+            color:
+                #1f2937;
 
-            min-height: 100vh;
+            min-height:
+                100vh;
         }
 
 
         button,
         input {
+
             font: inherit;
         }
 
 
         button {
-            cursor: pointer;
+
+            cursor:
+                pointer;
         }
 
 
@@ -57,83 +63,107 @@
 
         .navbar {
 
-            width: 100%;
+            width:
+                100%;
 
-            height: 72px;
+            min-height:
+                72px;
 
-            background: white;
+            background:
+                white;
 
-            display: flex;
+            display:
+                flex;
 
-            align-items: center;
+            align-items:
+                center;
 
-            justify-content: space-between;
+            justify-content:
+                space-between;
 
-            padding: 0 6%;
+            padding:
+                0 6%;
 
             border-bottom:
                 1px solid #e5e7eb;
 
-            position: sticky;
+            position:
+                sticky;
 
-            top: 0;
+            top:
+                0;
 
-            z-index: 100;
+            z-index:
+                100;
         }
 
 
         .logo {
 
-            text-decoration: none;
+            text-decoration:
+                none;
 
-            font-size: 25px;
+            font-size:
+                25px;
 
-            font-weight: 800;
+            font-weight:
+                800;
 
-            color: #111827;
-
-            letter-spacing: -0.5px;
+            color:
+                #111827;
         }
 
 
         .logo span {
-            color: #2563eb;
+
+            color:
+                #2563eb;
         }
 
 
         .nav-links {
 
-            display: flex;
+            display:
+                flex;
 
-            align-items: center;
+            align-items:
+                center;
 
-            gap: 28px;
+            gap:
+                28px;
         }
 
 
         .nav-links a {
 
-            text-decoration: none;
+            text-decoration:
+                none;
 
-            color: #4b5563;
+            color:
+                #4b5563;
 
-            font-size: 14px;
+            font-size:
+                14px;
 
-            font-weight: 600;
+            font-weight:
+                600;
 
-            transition: 0.2s;
+            transition:
+                .2s;
         }
 
 
         .nav-links a:hover {
 
-            color: #2563eb;
+            color:
+                #2563eb;
         }
 
 
         .nav-links a.active {
 
-            color: #2563eb;
+            color:
+                #2563eb;
         }
 
 
@@ -143,63 +173,84 @@
 
         .page {
 
-            width: 100%;
+            width:
+                100%;
 
-            max-width: 1200px;
+            max-width:
+                1200px;
 
-            margin: auto;
+            margin:
+                auto;
 
-            padding: 50px 25px 80px;
+            padding:
+                50px 25px 80px;
         }
 
 
         .page-header {
 
-            display: flex;
+            display:
+                flex;
 
-            justify-content: space-between;
+            justify-content:
+                space-between;
 
-            align-items: flex-end;
+            align-items:
+                flex-end;
 
-            gap: 20px;
+            gap:
+                20px;
 
-            margin-bottom: 35px;
+            margin-bottom:
+                35px;
         }
 
 
         .page-header h1 {
 
-            font-size: 38px;
+            font-size:
+                38px;
 
-            color: #111827;
+            color:
+                #111827;
 
-            margin-bottom: 8px;
+            margin-bottom:
+                8px;
         }
 
 
         .page-header p {
 
-            color: #6b7280;
+            color:
+                #6b7280;
 
-            font-size: 16px;
+            font-size:
+                16px;
         }
 
 
         .wishlist-count {
 
-            background: #eff6ff;
+            background:
+                #eff6ff;
 
-            color: #2563eb;
+            color:
+                #2563eb;
 
-            padding: 10px 16px;
+            padding:
+                10px 16px;
 
-            border-radius: 999px;
+            border-radius:
+                999px;
 
-            font-size: 14px;
+            font-size:
+                14px;
 
-            font-weight: 700;
+            font-weight:
+                700;
 
-            white-space: nowrap;
+            white-space:
+                nowrap;
         }
 
 
@@ -209,40 +260,102 @@
 
         .search-box {
 
-            margin-bottom: 30px;
+            margin-bottom:
+                30px;
 
-            position: relative;
+            position:
+                relative;
         }
 
 
         .search-box input {
 
-            width: 100%;
+            width:
+                100%;
 
-            padding: 15px 18px;
+            padding:
+                15px 18px;
 
             border:
                 1px solid #d1d5db;
 
-            border-radius: 12px;
+            border-radius:
+                12px;
 
-            background: white;
+            background:
+                white;
 
-            outline: none;
+            outline:
+                none;
 
-            font-size: 15px;
+            font-size:
+                15px;
 
-            transition: 0.2s;
+            transition:
+                .2s;
         }
 
 
         .search-box input:focus {
 
-            border-color: #2563eb;
+            border-color:
+                #2563eb;
 
             box-shadow:
                 0 0 0 3px
-                rgba(37, 99, 235, 0.1);
+                rgba(37,99,235,.1);
+        }
+
+
+        /* =========================
+           ERROR
+        ========================= */
+
+        .error-message {
+
+            display:
+                none;
+
+            background:
+                #fef2f2;
+
+            border:
+                1px solid #fecaca;
+
+            color:
+                #b91c1c;
+
+            padding:
+                15px 18px;
+
+            border-radius:
+                10px;
+
+            margin-bottom:
+                25px;
+
+            font-size:
+                14px;
+        }
+
+
+        /* =========================
+           LOADING
+        ========================= */
+
+        .loading {
+
+            text-align:
+                center;
+
+            padding:
+                60px 20px;
+
+            color:
+                #6b7280;
+
+            font-size:
+                15px;
         }
 
 
@@ -252,40 +365,44 @@
 
         .wishlist-grid {
 
-            display: grid;
+            display:
+                grid;
 
             grid-template-columns:
                 repeat(
                     auto-fill,
-                    minmax(280px, 1fr)
+                    minmax(280px,1fr)
                 );
 
-            gap: 25px;
+            gap:
+                25px;
         }
 
 
         /* =========================
-           WISHLIST CARD
+           CARD
         ========================= */
 
         .wishlist-card {
 
-            background: white;
+            background:
+                white;
 
-            border-radius: 18px;
+            border-radius:
+                18px;
 
-            overflow: hidden;
+            overflow:
+                hidden;
 
             border:
                 1px solid #e5e7eb;
 
             box-shadow:
                 0 5px 18px
-                rgba(0, 0, 0, 0.05);
+                rgba(0,0,0,.05);
 
             transition:
-                transform 0.2s,
-                box-shadow 0.2s;
+                .2s;
         }
 
 
@@ -296,164 +413,208 @@
 
             box-shadow:
                 0 12px 28px
-                rgba(0, 0, 0, 0.09);
+                rgba(0,0,0,.09);
         }
 
 
         .card-image {
 
-            width: 100%;
+            width:
+                100%;
 
-            height: 210px;
+            height:
+                210px;
 
-            position: relative;
+            position:
+                relative;
 
-            background: #e5e7eb;
+            background:
+                #e5e7eb;
 
-            overflow: hidden;
+            overflow:
+                hidden;
         }
 
 
         .card-image img {
 
-            width: 100%;
+            width:
+                100%;
 
-            height: 100%;
+            height:
+                100%;
 
-            object-fit: cover;
+            object-fit:
+                cover;
 
-            display: block;
+            display:
+                block;
         }
 
 
         .remove-button {
 
-            position: absolute;
+            position:
+                absolute;
 
-            top: 12px;
+            top:
+                12px;
 
-            right: 12px;
+            right:
+                12px;
 
-            width: 40px;
+            width:
+                40px;
 
-            height: 40px;
+            height:
+                40px;
 
-            border: none;
+            border:
+                none;
 
-            border-radius: 50%;
+            border-radius:
+                50%;
 
-            background: white;
+            background:
+                white;
 
-            color: #ef4444;
+            color:
+                #ef4444;
 
-            font-size: 20px;
+            font-size:
+                20px;
 
             box-shadow:
                 0 3px 12px
-                rgba(0, 0, 0, 0.15);
+                rgba(0,0,0,.15);
 
-            display: flex;
+            display:
+                flex;
 
-            align-items: center;
+            align-items:
+                center;
 
-            justify-content: center;
-
-            transition: 0.2s;
+            justify-content:
+                center;
         }
 
 
         .remove-button:hover {
 
-            background: #fee2e2;
-
-            transform:
-                scale(1.05);
+            background:
+                #fee2e2;
         }
 
 
         .card-content {
 
-            padding: 20px;
+            padding:
+                20px;
         }
 
 
         .card-category {
 
-            display: inline-block;
+            display:
+                inline-block;
 
-            background: #eff6ff;
+            background:
+                #eff6ff;
 
-            color: #2563eb;
+            color:
+                #2563eb;
 
-            padding: 6px 10px;
+            padding:
+                6px 10px;
 
-            border-radius: 999px;
+            border-radius:
+                999px;
 
-            font-size: 11px;
+            font-size:
+                11px;
 
-            font-weight: 700;
+            font-weight:
+                700;
 
-            margin-bottom: 10px;
+            margin-bottom:
+                10px;
         }
 
 
         .card-content h2 {
 
-            font-size: 20px;
+            font-size:
+                20px;
 
-            color: #111827;
+            color:
+                #111827;
 
-            margin-bottom: 8px;
+            margin-bottom:
+                8px;
         }
 
 
         .location {
 
-            color: #6b7280;
+            color:
+                #6b7280;
 
-            font-size: 14px;
+            font-size:
+                14px;
 
-            margin-bottom: 12px;
+            margin-bottom:
+                12px;
         }
 
 
         .description {
 
-            color: #6b7280;
+            color:
+                #6b7280;
 
-            font-size: 14px;
+            font-size:
+                14px;
 
-            line-height: 1.6;
+            line-height:
+                1.6;
 
-            margin-bottom: 18px;
+            margin-bottom:
+                18px;
         }
 
 
         .view-button {
 
-            display: inline-block;
+            display:
+                inline-block;
 
-            text-decoration: none;
+            text-decoration:
+                none;
 
-            background: #2563eb;
+            background:
+                #2563eb;
 
-            color: white;
+            color:
+                white;
 
-            padding: 11px 16px;
+            padding:
+                11px 16px;
 
-            border-radius: 9px;
+            border-radius:
+                9px;
 
-            font-size: 13px;
+            font-size:
+                13px;
 
-            font-weight: 700;
-
-            transition: 0.2s;
+            font-weight:
+                700;
         }
 
 
         .view-button:hover {
 
-            background: #1d4ed8;
+            background:
+                #1d4ed8;
         }
 
 
@@ -463,111 +624,88 @@
 
         .empty-state {
 
-            text-align: center;
+            text-align:
+                center;
 
-            background: white;
+            background:
+                white;
 
             border:
                 1px solid #e5e7eb;
 
-            border-radius: 20px;
+            border-radius:
+                20px;
 
-            padding: 70px 25px;
+            padding:
+                70px 25px;
 
             box-shadow:
                 0 5px 18px
-                rgba(0, 0, 0, 0.04);
+                rgba(0,0,0,.04);
 
-            display: none;
+            display:
+                none;
         }
 
 
         .empty-icon {
 
-            font-size: 55px;
+            font-size:
+                55px;
 
-            margin-bottom: 18px;
+            margin-bottom:
+                18px;
         }
 
 
         .empty-state h2 {
 
-            font-size: 24px;
+            font-size:
+                24px;
 
-            margin-bottom: 10px;
-
-            color: #111827;
+            margin-bottom:
+                10px;
         }
 
 
         .empty-state p {
 
-            color: #6b7280;
+            color:
+                #6b7280;
 
-            margin-bottom: 25px;
+            margin-bottom:
+                25px;
 
-            line-height: 1.6;
+            line-height:
+                1.6;
         }
 
 
         .explore-button {
 
-            display: inline-block;
+            display:
+                inline-block;
 
-            text-decoration: none;
+            text-decoration:
+                none;
 
-            background: #2563eb;
+            background:
+                #2563eb;
 
-            color: white;
+            color:
+                white;
 
-            padding: 13px 22px;
+            padding:
+                13px 22px;
 
-            border-radius: 10px;
+            border-radius:
+                10px;
 
-            font-weight: 700;
+            font-weight:
+                700;
 
-            font-size: 14px;
-        }
-
-
-        /* =========================
-           LOADING
-        ========================= */
-
-        .loading {
-
-            text-align: center;
-
-            padding: 60px 20px;
-
-            color: #6b7280;
-
-            font-size: 15px;
-        }
-
-
-        /* =========================
-           ERROR
-        ========================= */
-
-        .error-message {
-
-            display: none;
-
-            background: #fef2f2;
-
-            border:
-                1px solid #fecaca;
-
-            color: #b91c1c;
-
-            padding: 15px 18px;
-
-            border-radius: 10px;
-
-            margin-bottom: 25px;
-
-            font-size: 14px;
+            font-size:
+                14px;
         }
 
 
@@ -575,28 +713,31 @@
            MOBILE
         ========================= */
 
-        @media (max-width: 750px) {
+        @media(max-width:750px) {
 
             .navbar {
-
-                height: auto;
 
                 padding:
                     18px 20px;
 
-                flex-direction: column;
+                flex-direction:
+                    column;
 
-                gap: 15px;
+                gap:
+                    15px;
             }
 
 
             .nav-links {
 
-                gap: 16px;
+                gap:
+                    16px;
 
-                flex-wrap: wrap;
+                flex-wrap:
+                    wrap;
 
-                justify-content: center;
+                justify-content:
+                    center;
             }
 
 
@@ -609,21 +750,18 @@
 
             .page-header {
 
-                align-items: flex-start;
+                align-items:
+                    flex-start;
 
-                flex-direction: column;
+                flex-direction:
+                    column;
             }
 
 
             .page-header h1 {
 
-                font-size: 31px;
-            }
-
-
-            .wishlist-count {
-
-                align-self: flex-start;
+                font-size:
+                    31px;
             }
 
 
@@ -641,7 +779,6 @@
 
 
 <body>
-
 
     <!-- =========================
          NAVBAR
@@ -697,7 +834,6 @@
 
     <main class="page">
 
-
         <div class="page-header">
 
             <div>
@@ -724,8 +860,6 @@
         </div>
 
 
-        <!-- SEARCH -->
-
         <div class="search-box">
 
             <input
@@ -738,15 +872,11 @@
         </div>
 
 
-        <!-- ERROR -->
-
         <div
             class="error-message"
             id="errorMessage"
         ></div>
 
-
-        <!-- LOADING -->
 
         <div
             class="loading"
@@ -756,15 +886,11 @@
         </div>
 
 
-        <!-- WISHLIST -->
-
         <div
             class="wishlist-grid"
             id="wishlistGrid"
         ></div>
 
-
-        <!-- EMPTY -->
 
         <div
             class="empty-state"
@@ -794,22 +920,21 @@
 
         </div>
 
-
     </main>
+        <script>
 
-
-    <script>
-
-        // ======================================
-        // STATE
-        // ======================================
+        /* =====================================================
+           WISHLIST STATE
+        ===================================================== */
 
         let wishlist = [];
 
+        let usingServerWishlist = false;
 
-        // ======================================
-        // ELEMENTS
-        // ======================================
+
+        /* =====================================================
+           ELEMENTS
+        ===================================================== */
 
         const wishlistGrid =
             document.getElementById(
@@ -842,65 +967,268 @@
             );
 
 
-        // ======================================
-        // LOAD WISHLIST
-        // ======================================
+        /* =====================================================
+           LOCAL STORAGE HELPERS
+           
+           This keeps the wishlist available even if the
+           server request temporarily fails.
+        ===================================================== */
 
-        async function loadWishlist() {
+        function getLocalWishlist(){
 
             try {
 
-                loading.style.display =
-                    "block";
-
-                emptyState.style.display =
-                    "none";
-
-                wishlistGrid.innerHTML =
-                    "";
-
-
-                const response =
-                    await fetch(
-                        "/api/wishlist"
+                const saved =
+                    localStorage.getItem(
+                        "tourismoWishlist"
                     );
 
 
-                const data =
-                    await response.json();
+                if(!saved){
+
+                    return [];
+
+                }
 
 
-                if (!response.ok) {
+                const parsed =
+                    JSON.parse(saved);
+
+
+                return Array.isArray(parsed)
+                    ? parsed
+                    : [];
+
+            }
+
+            catch(error){
+
+                console.error(
+                    "Local wishlist error:",
+                    error
+                );
+
+                return [];
+
+            }
+
+        }
+
+
+        function saveLocalWishlist(items){
+
+            try {
+
+                localStorage.setItem(
+                    "tourismoWishlist",
+                    JSON.stringify(items)
+                );
+
+            }
+
+            catch(error){
+
+                console.error(
+                    "Unable to save local wishlist:",
+                    error
+                );
+
+            }
+
+        }
+
+
+        /* =====================================================
+           LOAD WISHLIST
+        ===================================================== */
+
+        async function loadWishlist(){
+
+            loading.style.display =
+                "block";
+
+            emptyState.style.display =
+                "none";
+
+            errorMessage.style.display =
+                "none";
+
+            wishlistGrid.innerHTML =
+                "";
+
+
+            /*
+             * First get the local copy.
+             */
+
+            const localWishlist =
+                getLocalWishlist();
+
+
+            try {
+
+                const response =
+                    await fetch(
+                        "/api/wishlist",
+                        {
+                            method:
+                                "GET",
+
+                            credentials:
+                                "include",
+
+                            headers: {
+                                "Accept":
+                                    "application/json"
+                            }
+                        }
+                    );
+
+
+                /*
+                 * Do not immediately assume that the
+                 * response contains valid JSON.
+                 */
+
+                const contentType =
+                    response.headers.get(
+                        "content-type"
+                    ) || "";
+
+
+                let data = {};
+
+
+                if(
+                    contentType.includes(
+                        "application/json"
+                    )
+                ){
+
+                    data =
+                        await response.json();
+
+                }
+
+
+                if(!response.ok){
 
                     throw new Error(
                         data.message ||
-                        "Unable to load wishlist."
+                        `Wishlist request failed (${response.status})`
                     );
 
                 }
 
 
+                /*
+                 * The server may return:
+                 *
+                 * { wishlist: [...] }
+                 *
+                 * or
+                 *
+                 * { data: [...] }
+                 *
+                 * or simply an array.
+                 */
+
+                let serverWishlist = [];
+
+
+                if(
+                    Array.isArray(data)
+                ){
+
+                    serverWishlist =
+                        data;
+
+                }
+
+                else if(
+                    Array.isArray(
+                        data.wishlist
+                    )
+                ){
+
+                    serverWishlist =
+                        data.wishlist;
+
+                }
+
+                else if(
+                    Array.isArray(
+                        data.data
+                    )
+                ){
+
+                    serverWishlist =
+                        data.data;
+
+                }
+
+
+                /*
+                 * Server is working.
+                 */
+
+                usingServerWishlist =
+                    true;
+
+
                 wishlist =
-                    data.wishlist || [];
+                    serverWishlist;
+
+
+                /*
+                 * Keep local storage synchronized.
+                 */
+
+                saveLocalWishlist(
+                    wishlist
+                );
+
+
+                renderWishlist();
+
+            }
+
+            catch(error){
+
+                console.error(
+                    "Server wishlist error:",
+                    error
+                );
+
+
+                /*
+                 * IMPORTANT:
+                 *
+                 * If the API fails, don't show
+                 * "Your wishlist is empty" when
+                 * the browser already has saved items.
+                 */
+
+                usingServerWishlist =
+                    false;
+
+
+                wishlist =
+                    localWishlist;
 
 
                 renderWishlist();
 
 
-            }
+                if(
+                    localWishlist.length === 0
+                ){
 
-            catch (error) {
+                    showError(
+                        "Unable to connect to the wishlist server. Try again in a moment."
+                    );
 
-                console.error(
-                    "Wishlist error:",
-                    error
-                );
-
-
-                showError(
-                    error.message ||
-                    "Unable to load wishlist."
-                );
+                }
 
             }
 
@@ -914,11 +1242,11 @@
         }
 
 
-        // ======================================
-        // RENDER WISHLIST
-        // ======================================
+        /* =====================================================
+           RENDER WISHLIST
+        ===================================================== */
 
-        function renderWishlist() {
+        function renderWishlist(){
 
             const search =
                 searchInput.value
@@ -927,44 +1255,53 @@
 
 
             const filtered =
-                wishlist.filter(item => {
+                wishlist.filter(
+                    item => {
 
-                    return (
+                        const title =
+                            String(
+                                item.title ||
+                                ""
+                            ).toLowerCase();
 
-                        String(
-                            item.title || ""
-                        )
-                            .toLowerCase()
-                            .includes(search)
 
-                        ||
+                        const location =
+                            String(
+                                item.location ||
+                                ""
+                            ).toLowerCase();
 
-                        String(
-                            item.location || ""
-                        )
-                            .toLowerCase()
-                            .includes(search)
 
-                        ||
+                        const description =
+                            String(
+                                item.description ||
+                                ""
+                            ).toLowerCase();
 
-                        String(
-                            item.country || ""
-                        )
-                            .toLowerCase()
-                            .includes(search)
 
-                        ||
+                        const category =
+                            String(
+                                item.category ||
+                                item.type ||
+                                ""
+                            ).toLowerCase();
 
-                        String(
-                            item.category || ""
-                        )
-                            .toLowerCase()
-                            .includes(search)
 
-                    );
+                        return (
+                            title.includes(search) ||
+                            location.includes(search) ||
+                            description.includes(search) ||
+                            category.includes(search)
+                        );
 
-                });
+                    }
+                );
 
+
+            /*
+             * Always show the real number saved,
+             * not just the number matching search.
+             */
 
             wishlistCount.textContent =
                 `${wishlist.length} saved`;
@@ -974,9 +1311,13 @@
                 "";
 
 
-            if (
+            /*
+             * Completely empty wishlist.
+             */
+
+            if(
                 wishlist.length === 0
-            ) {
+            ){
 
                 emptyState.style.display =
                     "block";
@@ -986,18 +1327,27 @@
             }
 
 
-            if (
+            /*
+             * Wishlist has items but search
+             * returned nothing.
+             */
+
+            if(
                 filtered.length === 0
-            ) {
+            ){
+
+                emptyState.style.display =
+                    "none";
+
 
                 wishlistGrid.innerHTML = `
 
                     <div
                         style="
-                            grid-column: 1 / -1;
-                            text-align: center;
-                            padding: 50px 20px;
-                            color: #6b7280;
+                            grid-column:1/-1;
+                            text-align:center;
+                            padding:50px 20px;
+                            color:#6b7280;
                         "
                     >
 
@@ -1008,9 +1358,6 @@
 
                 `;
 
-                emptyState.style.display =
-                    "none";
-
                 return;
 
             }
@@ -1020,151 +1367,338 @@
                 "none";
 
 
-            filtered.forEach(item => {
+            /*
+             * Build cards.
+             */
 
-                const card =
-                    document.createElement(
-                        "article"
-                    );
+            filtered.forEach(
+                item => {
 
-                card.className =
-                    "wishlist-card";
-
-
-                const image =
-                    escapeHtml(
-                        item.image ||
-                        ""
-                    );
+                    const card =
+                        document.createElement(
+                            "article"
+                        );
 
 
-                const title =
-                    escapeHtml(
-                        item.title ||
-                        "Untitled destination"
-                    );
+                    card.className =
+                        "wishlist-card";
 
 
-                const location =
-                    escapeHtml(
-                        item.location ||
-                        item.country ||
-                        "Unknown location"
-                    );
+                    const rawId =
+                        item._id ||
+                        item.id ||
+                        "";
 
 
-                const description =
-                    escapeHtml(
-                        item.description ||
-                        "A destination saved to your Tourismo wishlist."
-                    );
+                    const id =
+                        escapeHtml(
+                            rawId
+                        );
 
 
-                const category =
-                    escapeHtml(
+                    const image =
+                        escapeHtml(
+                            item.image ||
+                            item.imageUrl ||
+                            item.panoramaUrl ||
+                            ""
+                        );
+
+
+                    const title =
+                        escapeHtml(
+                            item.title ||
+                            "Untitled destination"
+                        );
+
+
+                    const location =
+                        escapeHtml(
+                            item.location ||
+                            item.country ||
+                            "Unknown location"
+                        );
+
+
+                    const description =
+                        escapeHtml(
+                            item.description ||
+                            "A destination saved to your Tourismo wishlist."
+                        );
+
+
+                    let category =
                         item.category ||
-                        "Other"
-                    );
+                        item.type ||
+                        "Other";
 
 
-                card.innerHTML = `
+                    if(
+                        category ===
+                        "virtual-tour"
+                    ){
 
-                    <div class="card-image">
+                        category =
+                            "Virtual Tour";
 
-                        <img
-                            src="${image}"
-                            alt="${title}"
-                            onerror="
-                                this.style.display='none';
-                            "
-                        >
-
-                        <button
-                            class="remove-button"
-                            type="button"
-                            title="Remove from wishlist"
-                            onclick="
-                                removeFromWishlist(
-                                    '${item._id}'
-                                )
-                            "
-                        >
-                            ♥
-                        </button>
-
-                    </div>
+                    }
 
 
-                    <div class="card-content">
-
-                        <span
-                            class="card-category"
-                        >
-                            ${category}
-                        </span>
+                    category =
+                        escapeHtml(
+                            category
+                        );
 
 
-                        <h2>
-                            ${title}
-                        </h2>
+                    /*
+                     * Use a data attribute instead of
+                     * putting the ID directly inside
+                     * onclick HTML.
+                     */
+
+                    card.innerHTML = `
+
+                        <div class="card-image">
+
+                            ${
+                                image
+                                ?
+                                `
+                                <img
+                                    src="${image}"
+                                    alt="${title}"
+                                    onerror="
+                                        this.style.display='none';
+                                    "
+                                >
+                                `
+                                :
+                                `
+                                <div
+                                    style="
+                                        width:100%;
+                                        height:100%;
+                                        display:flex;
+                                        align-items:center;
+                                        justify-content:center;
+                                        color:#9ca3af;
+                                        font-size:40px;
+                                    "
+                                >
+                                    🌍
+                                </div>
+                                `
+                            }
 
 
-                        <div class="location">
-                            📍 ${location}
+                            <button
+                                class="remove-button"
+                                type="button"
+                                title="Remove from wishlist"
+                                data-id="${id}"
+                            >
+                                ♥
+                            </button>
+
                         </div>
 
 
-                        <p class="description">
-                            ${description}
-                        </p>
+                        <div class="card-content">
+
+                            <span class="card-category">
+                                ${category}
+                            </span>
 
 
-                        <a
-                            href="virtual.html"
-                            class="view-button"
-                        >
-                            Explore
-                        </a>
-
-                    </div>
-
-                `;
+                            <h2>
+                                ${title}
+                            </h2>
 
 
-                wishlistGrid.appendChild(
-                    card
-                );
-
-            });
-
-        }
+                            <div class="location">
+                                📍 ${location}
+                            </div>
 
 
-        // ======================================
-        // REMOVE FROM WISHLIST
-        // ======================================
+                            <p class="description">
+                                ${description}
+                            </p>
 
-        async function removeFromWishlist(
-            id
-        ) {
 
-            try {
+                            <a
+                                href="${getExploreUrl(item)}"
+                                class="view-button"
+                            >
+                                Explore
+                            </a>
 
-                const response =
-                    await fetch(
-                        `/api/wishlist/${id}`,
-                        {
-                            method:
-                                "DELETE"
+                        </div>
+
+                    `;
+
+
+                    /*
+                     * Remove button event.
+                     */
+
+                    const removeButton =
+                        card.querySelector(
+                            ".remove-button"
+                        );
+
+
+                    removeButton.addEventListener(
+                        "click",
+                        () => {
+
+                            removeFromWishlist(
+                                rawId,
+                                item
+                            );
+
                         }
                     );
 
 
-                const data =
-                    await response.json();
+                    wishlistGrid.appendChild(
+                        card
+                    );
+
+                }
+            );
+
+        }
 
 
-                if (!response.ok) {
+        /* =====================================================
+           EXPLORE URL
+        ===================================================== */
+
+        function getExploreUrl(item){
+
+            /*
+             * Virtual tours can return to virtual.html
+             * with their ID.
+             */
+
+            const type =
+                String(
+                    item.type ||
+                    item.category ||
+                    ""
+                ).toLowerCase();
+
+
+            if(
+                type ===
+                "virtual-tour"
+            ){
+
+                const id =
+                    item._id ||
+                    item.id;
+
+
+                if(id){
+
+                    return (
+                        "virtual.html?id=" +
+                        encodeURIComponent(
+                            id
+                        )
+                    );
+
+                }
+
+            }
+
+
+            return "virtual.html";
+
+        }
+
+
+        /* =====================================================
+           REMOVE FROM WISHLIST
+        ===================================================== */
+
+        async function removeFromWishlist(
+            id,
+            item
+        ){
+
+            /*
+             * If there is no server ID, remove the
+             * local item instead.
+             */
+
+            if(!id){
+
+                wishlist =
+                    wishlist.filter(
+                        savedItem =>
+                            savedItem !== item
+                    );
+
+
+                saveLocalWishlist(
+                    wishlist
+                );
+
+
+                renderWishlist();
+
+                return;
+
+            }
+
+
+            try {
+
+                /*
+                 * Try the server first.
+                 */
+
+                const response =
+                    await fetch(
+                        `/api/wishlist/${encodeURIComponent(id)}`,
+                        {
+                            method:
+                                "DELETE",
+
+                            credentials:
+                                "include",
+
+                            headers: {
+                                "Accept":
+                                    "application/json"
+                            }
+                        }
+                    );
+
+
+                const contentType =
+                    response.headers.get(
+                        "content-type"
+                    ) || "";
+
+
+                let data = {};
+
+
+                if(
+                    contentType.includes(
+                        "application/json"
+                    )
+                ){
+
+                    data =
+                        await response.json();
+
+                }
+
+
+                if(!response.ok){
 
                     throw new Error(
                         data.message ||
@@ -1174,19 +1708,32 @@
                 }
 
 
+                /*
+                 * Successfully removed from server.
+                 */
+
                 wishlist =
                     wishlist.filter(
-                        item =>
-                            String(item._id) !==
+                        savedItem =>
+                            String(
+                                savedItem._id ||
+                                savedItem.id
+                            ) !==
                             String(id)
                     );
 
 
+                saveLocalWishlist(
+                    wishlist
+                );
+
+
                 renderWishlist();
+
 
             }
 
-            catch (error) {
+            catch(error){
 
                 console.error(
                     "Remove wishlist error:",
@@ -1194,9 +1741,14 @@
                 );
 
 
+                /*
+                 * If server removal fails, don't
+                 * pretend the server item is gone.
+                 */
+
                 showError(
                     error.message ||
-                    "Unable to remove item."
+                    "Unable to remove item from wishlist."
                 );
 
             }
@@ -1204,21 +1756,25 @@
         }
 
 
-        // ======================================
-        // SEARCH
-        // ======================================
+        /* =====================================================
+           SEARCH
+        ===================================================== */
 
         searchInput.addEventListener(
             "input",
-            renderWishlist
+            () => {
+
+                renderWishlist();
+
+            }
         );
 
 
-        // ======================================
-        // ERROR
-        // ======================================
+        /* =====================================================
+           ERROR MESSAGE
+        ===================================================== */
 
-        function showError(message) {
+        function showError(message){
 
             errorMessage.textContent =
                 message;
@@ -1227,21 +1783,30 @@
                 "block";
 
 
-            setTimeout(() => {
+            clearTimeout(
+                window.wishlistErrorTimer
+            );
 
-                errorMessage.style.display =
-                    "none";
 
-            }, 5000);
+            window.wishlistErrorTimer =
+                setTimeout(
+                    () => {
+
+                        errorMessage.style.display =
+                            "none";
+
+                    },
+                    5000
+                );
 
         }
 
 
-        // ======================================
-        // HTML ESCAPE
-        // ======================================
+        /* =====================================================
+           HTML ESCAPE
+        ===================================================== */
 
-        function escapeHtml(value) {
+        function escapeHtml(value){
 
             return String(value)
 
@@ -1273,9 +1838,23 @@
         }
 
 
-        // ======================================
-        // START
-        // ======================================
+        /* =====================================================
+           REFRESH
+        ===================================================== */
+
+        window.addEventListener(
+            "focus",
+            () => {
+
+                loadWishlist();
+
+            }
+        );
+
+
+        /* =====================================================
+           START
+        ===================================================== */
 
         loadWishlist();
 
@@ -1284,4 +1863,3 @@
 </body>
 
 </html>
-```
